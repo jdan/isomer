@@ -18,6 +18,11 @@ function Isometric(canvas) {
    * We'll define somewhat arbitrarily for now.
    */
   this.lightAngle = new Vector(2, -1, 3).normalize();
+
+  /**
+   * The maximum color difference from shading
+   */
+  this.colorDifference = 0.20;
 }
 
 Isometric.prototype._translatePoint = function (point) {
@@ -38,6 +43,9 @@ Isometric.prototype._translatePoint = function (point) {
 };
 
 Isometric.prototype.path = function (points, baseColor) {
+  /* Default baseColor */
+  baseColor = baseColor || new Color(120, 120, 120);
+
   /* Compute color */
   var v1 = Vector.fromTwoPoints(points[1], points[0]);
   var v2 = Vector.fromTwoPoints(points[2], points[1]);
@@ -52,9 +60,10 @@ Isometric.prototype.path = function (points, baseColor) {
 
   /* We'll inject brightness into this for now */
   /* 50 - 180 */
-  var colorComponent = (brightness / 2 + 1) * 130 + 50;
-  var color = new Color(colorComponent, colorComponent, colorComponent);
+  //var colorComponent = (brightness / 2 + 1) * 130 + 50;
+  //var color = new Color(colorComponent, colorComponent, colorComponent);
 
+  var color = baseColor.lighten(brightness * this.colorDifference);
   this.canvas.path(points.map(this._translatePoint.bind(this)), color);
 };
 
@@ -67,10 +76,10 @@ Isometric.prototype.square = function (origin, width, height, z) {
     new Point(origin.x + width, origin.y, z),
     new Point(origin.x + width, origin.y + height, z),
     new Point(origin.x, origin.y + height, z)
-  ], true);
+  ], color);
 };
 
-Isometric.prototype.prism = function (origin, dx, dy, dz) {
+Isometric.prototype.prism = function (origin, dx, dy, dz, color) {
   /* We only need to draw the front 3 squares */
 
   /* Square parallel to the x-axis */
@@ -79,7 +88,7 @@ Isometric.prototype.prism = function (origin, dx, dy, dz) {
     new Point(origin.x + dx, origin.y, origin.z),
     new Point(origin.x + dx, origin.y, origin.z + dz),
     new Point(origin.x, origin.y, origin.z + dz)
-  ], true);
+  ], color);
 
   /* Square parallel to the y-axis */
   this.path([
@@ -87,13 +96,18 @@ Isometric.prototype.prism = function (origin, dx, dy, dz) {
     new Point(origin.x, origin.y, origin.z + dz),
     new Point(origin.x, origin.y + dy, origin.z + dz),
     new Point(origin.x, origin.y + dy, origin.z)
-  ], true);
+  ], color);
 
   /* Square parallel to the xy-plane */
-  this.square(origin, dx, dy, origin.z + dz);
+  this.path([
+    new Point(origin.x, origin.y, origin.z + dz),
+    new Point(origin.x + dx, origin.y, origin.z + dz),
+    new Point(origin.x + dx, origin.y + dy, origin.z + dz),
+    new Point(origin.x, origin.y + dy, origin.z + dz)
+  ], color);
 };
 
-Isometric.prototype.pyramid = function (origin, dx, dy, dz) {
+Isometric.prototype.pyramid = function (origin, dx, dy, dz, color) {
   /* We only need to draw the two visible faces */
 
   /* Path parallel to the x-axis */
@@ -101,13 +115,13 @@ Isometric.prototype.pyramid = function (origin, dx, dy, dz) {
     origin,
     new Point(origin.x + dx, origin.y, origin.z),
     new Point(origin.x + dx / 2, origin.y + dy / 2, origin.z + dz)
-  ], true);
+  ], color);
 
   /* Path parallel to the y-axis */
   this.path([
     origin,
     new Point(origin.x + dx / 2, origin.y + dy / 2, origin.z + dz),
     new Point(origin.x, origin.y + dy, origin.z)
-  ], true);
+  ], color);
 };
 
