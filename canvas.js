@@ -8,7 +8,18 @@
     this.height = elem.getAttribute('height');
   }
 
-  Canvas.prototype.path = function (points, color) {
+  /**
+   * Draws and fills a path based on points and color. An optional
+   * baseColor can also be passed as the strokeStyle, but otherwise
+   * `color` will be used for both.
+   *
+   * The separate baseColor is set to the color before lighting effects
+   * are added to it, ensuring a consistent line color, which removes
+   * some seams that may appear between blocks
+   */
+  Canvas.prototype.path = function (points, color, baseColor) {
+    baseColor = baseColor || color;
+
     this.ctx.beginPath();
     this.ctx.moveTo(points[0].x, points[0].y);
 
@@ -19,8 +30,10 @@
     this.ctx.closePath();
 
     /* Set the strokeStyle and fillStyle */
-    this.ctx.save()
-    this.ctx.fillStyle = this.ctx.strokeStyle = color.toHex();
+    this.ctx.save();
+    this.ctx.fillStyle = color.toHex();
+    this.ctx.strokeStyle = baseColor.toHex();
+    /* Stroke and fill to remove sub-pixel gaps */
     this.ctx.stroke();
     this.ctx.fill();
     this.ctx.restore();

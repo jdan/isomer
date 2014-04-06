@@ -98,7 +98,7 @@ Isomer.prototype._addPath = function (path, baseColor) {
   //var color = new Color(colorComponent, colorComponent, colorComponent);
 
   var color = baseColor.lighten(brightness * this.colorDifference);
-  this.canvas.path(path.points.map(this._translatePoint.bind(this)), color);
+  this.canvas.path(path.points.map(this._translatePoint.bind(this)), color, baseColor);
 };
 
 /* Flat square */
