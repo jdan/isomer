@@ -21,6 +21,7 @@
     /* Set the strokeStyle and fillStyle */
     this.ctx.save()
     this.ctx.fillStyle = this.ctx.strokeStyle = color.toHex();
+    this.ctx.stroke();
     this.ctx.fill();
     this.ctx.restore();
   };
