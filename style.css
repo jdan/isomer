@@ -1,7 +1,10 @@
 #canvas {
   display: block;
-  width: 800px;
-  height: 600px;
-  margin: 80px auto;
+  width: 1400px;
+  height: 800px;
+  margin: 0 auto;
 }
 
+body {
+  overflow: hidden;
+}
