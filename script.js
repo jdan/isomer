@@ -1,36 +1,74 @@
-var canvas = new Canvas(document.getElementById("canvas"));
-var iso = new Isometric(canvas);
+/**
+ * Draws a castle!
+ */
 
-var x, y, color;
+var iso = new Isomer(document.getElementById("canvas"));
+var Point = Isomer.Point;
+var Path = Isomer.Path;
+var Shape = Isomer.Shape;
+var Color = Isomer.Color;
 
-function randomColor() {
-  return new Color(
-    Math.floor(Math.random() * 200 + 30),
-    Math.floor(Math.random() * 200 + 30),
-    Math.floor(Math.random() * 200 + 30));
-}
+function Stairs(origin) {
+  var STEP_COUNT = 10;
 
-/*
-var red = new Color(180, 40, 30);
-var blue = new Color(20, 20, 200);
+  /* Create a zig-zag */
+  var zigzag = new Path(origin);
+  var steps = [], i;
 
-iso.prism(new Point(0, 2, 0), 1, 1, 3, red);
-iso.prism(new Point(0, 1, 0), 1, 1, 2, red);
-iso.prism(new Point(0, 0, 0), 1, 1, 1, red);
+  /* Shape to return */
+  var stairs = new Shape();
 
-iso.prism(new Point(3, 0, 0), 3, 3, 1);
-iso.pyramid(new Point(3, 0, 1), 1, 1, 1.2, blue);
-iso.pyramid(new Point(5, 0, 1), 1, 1, 1.2, blue);
-iso.pyramid(new Point(5, 2, 1), 1, 1, 1.2, blue);
-iso.pyramid(new Point(3, 2, 1), 1, 1, 1.2, blue);
-*/
+  for (i = 0; i < STEP_COUNT; i++) {
+    /**
+     *  2
+     * __
+     *   | 1
+     */
 
-/*
-for (x = 8; x >= 0; x--) {
-  for (y = 8; y >= 0; y--) {
-    if (x == 8 && y == 8) continue;
-    iso.prism(new Point(x, y), 1, 1, 1 + parseInt(Math.sqrt(x*x + y*y)), randomColor());
+    var stepCorner = origin.translate(0, i / STEP_COUNT, (i + 1) / STEP_COUNT);
+    /* Draw two planes */
+    steps.push(new Path([
+      stepCorner,
+      stepCorner.translate(0, 0, -1 / STEP_COUNT),
+      stepCorner.translate(1, 0, -1 / STEP_COUNT),
+      stepCorner.translate(1, 0, 0)
+    ]));
+
+    steps.push(new Path([
+      stepCorner,
+      stepCorner.translate(1, 0, 0),
+      stepCorner.translate(1, 1 / STEP_COUNT, 0),
+      stepCorner.translate(0, 1 / STEP_COUNT, 0)
+    ]));
+
+    zigzag.push(stepCorner);
+    zigzag.push(stepCorner.translate(0, 1 / STEP_COUNT, 0));
   }
-}
-*/
 
+  zigzag.push(origin.translate(0, 1, 0));
+
+  stairs.push(zigzag);
+  stairs.push(zigzag.reverse().translate(1, 0, 0));
+
+  for (i = 0; i < steps.length; i++) {
+    stairs.push(steps[i]);
+  }
+
+  return stairs;
+}
+
+iso.add(Shape.Prism(new Point(1, 0, 0), 4, 4, 2));
+iso.add(Shape.Prism(new Point(0, 0, 0), 1, 4, 1));
+iso.add(Shape.Prism(new Point(-1, 1, 0), 1, 3, 1));
+
+iso.add(Stairs(new Point(-1, 0, 0)));
+iso.add(Stairs(new Point(0, 3, 1)).rotateZ(-Math.PI / 2, new Point(0.5, 3.5, 1)));
+
+iso.add(Shape.Prism(new Point(3, 0, 2), 2, 4, 1));
+iso.add(Shape.Prism(new Point(2, 1, 2), 1, 3, 1));
+
+iso.add(Stairs(new Point(2, 0, 2)).rotateZ(-Math.PI / 2, new Point(2.5, 0.5, 0)));
+
+iso.add(Shape.Pyramid(new Point(2, 3, 3), 1, 1, 1), new Color(180, 180, 0));
+iso.add(Shape.Pyramid(new Point(4, 3, 3), 1, 1, 1), new Color(180, 0, 180));
+iso.add(Shape.Pyramid(new Point(4, 0, 3), 1, 1, 1), new Color(0, 180, 180));;

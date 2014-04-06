@@ -1,33 +1,39 @@
-function Vector(i, j, k) {
-  this.i = i || 0;
-  this.j = j || 0;
-  this.k = k || 0;
-}
+(function (exports) {
 
-/**
- * Alternate constructor
- */
-Vector.fromTwoPoints = function (p1, p2) {
-  return new Vector(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
-};
+  function Vector(i, j, k) {
+    this.i = i || 0;
+    this.j = j || 0;
+    this.k = k || 0;
+  }
 
-Vector.crossProduct = function (v1, v2) {
-  var i = v1.j * v2.k - v2.j * v1.k;
-  var j = -1 * (v1.i * v2.k - v2.i * v1.k);
-  var k = v1.i * v2.j - v2.i * v1.j;
+  /**
+   * Alternate constructor
+   */
+  Vector.fromTwoPoints = function (p1, p2) {
+    return new Vector(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
+  };
 
-  return new Vector(i, j, k);
-};
+  Vector.crossProduct = function (v1, v2) {
+    var i = v1.j * v2.k - v2.j * v1.k;
+    var j = -1 * (v1.i * v2.k - v2.i * v1.k);
+    var k = v1.i * v2.j - v2.i * v1.j;
 
-Vector.dotProduct = function (v1, v2) {
-  return v1.i * v2.i + v1.j * v2.j + v1.k * v2.k;
-};
+    return new Vector(i, j, k);
+  };
 
-Vector.prototype.magnitude = function () {
-  return Math.sqrt(this.i*this.i + this.j*this.j + this.k*this.k);
-};
+  Vector.dotProduct = function (v1, v2) {
+    return v1.i * v2.i + v1.j * v2.j + v1.k * v2.k;
+  };
 
-Vector.prototype.normalize = function () {
-  var magnitude = this.magnitude();
-  return new Vector(this.i / magnitude, this.j / magnitude, this.k / magnitude);
-};
+  Vector.prototype.magnitude = function () {
+    return Math.sqrt(this.i*this.i + this.j*this.j + this.k*this.k);
+  };
+
+  Vector.prototype.normalize = function () {
+    var magnitude = this.magnitude();
+    return new Vector(this.i / magnitude, this.j / magnitude, this.k / magnitude);
+  };
+
+  exports.Vector = Vector;
+
+})(Isomer);

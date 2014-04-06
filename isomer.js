@@ -1,5 +1,22 @@
-function Isometric(canvas) {
-  this.canvas = canvas;
+/**
+ * The Isomer class
+ *
+ * This file contains the Isomer base definition
+ */
+
+var Point, Path, Color, Vector, Canvas;
+
+function Isomer(canvasId) {
+  /**
+   * Convenient renames
+   */
+  Point = Isomer.Point;
+  Path = Isomer.Path;
+  Color = Isomer.Color;
+  Vector = Isomer.Vector;
+  Canvas = Isomer.Canvas;
+
+  this.canvas = new Canvas(canvasId);
 
   this.angle = Math.PI / 6;
 
@@ -24,7 +41,7 @@ function Isometric(canvas) {
   this.colorDifference = 0.20;
 }
 
-Isometric.prototype._translatePoint = function (point) {
+Isomer.prototype._translatePoint = function (point) {
   /**
    * X rides along the angle extended from the origin
    * Y rides perpendicular to this angle (in isometric view: PI - angle)
@@ -41,13 +58,31 @@ Isometric.prototype._translatePoint = function (point) {
   return new Point(x, y);
 };
 
-Isometric.prototype.path = function (points, baseColor) {
+
+/**
+ * Adds a shape or path to the scene
+ */
+Isomer.prototype.add = function (item, baseColor) {
+  if (item instanceof Path) {
+    this._addPath(item, baseColor);
+  } else if (item instanceof Shape) {
+    for (var i in item.paths) {
+      this._addPath(item.paths[i], baseColor);
+    }
+  }
+};
+
+
+/**
+ * Adds a path to the scene
+ */
+Isomer.prototype._addPath = function (path, baseColor) {
   /* Default baseColor */
   baseColor = baseColor || new Color(120, 120, 120);
 
   /* Compute color */
-  var v1 = Vector.fromTwoPoints(points[1], points[0]);
-  var v2 = Vector.fromTwoPoints(points[2], points[1]);
+  var v1 = Vector.fromTwoPoints(path.points[1], path.points[0]);
+  var v2 = Vector.fromTwoPoints(path.points[2], path.points[1]);
 
   var normal = Vector.crossProduct(v1, v2).normalize();
 
@@ -63,11 +98,11 @@ Isometric.prototype.path = function (points, baseColor) {
   //var color = new Color(colorComponent, colorComponent, colorComponent);
 
   var color = baseColor.lighten(brightness * this.colorDifference);
-  this.canvas.path(points.map(this._translatePoint.bind(this)), color);
+  this.canvas.path(path.points.map(this._translatePoint.bind(this)), color);
 };
 
 /* Flat square */
-Isometric.prototype.square = function (origin, width, height, z) {
+Isomer.prototype.square = function (origin, width, height, z) {
   z = z || 0;
 
   this.path([
@@ -78,35 +113,7 @@ Isometric.prototype.square = function (origin, width, height, z) {
   ], color);
 };
 
-Isometric.prototype.prism = function (origin, dx, dy, dz, color) {
-  /* We only need to draw the front 3 squares */
-
-  /* Square parallel to the x-axis */
-  this.path([
-    origin,
-    new Point(origin.x + dx, origin.y, origin.z),
-    new Point(origin.x + dx, origin.y, origin.z + dz),
-    new Point(origin.x, origin.y, origin.z + dz)
-  ], color);
-
-  /* Square parallel to the y-axis */
-  this.path([
-    origin,
-    new Point(origin.x, origin.y, origin.z + dz),
-    new Point(origin.x, origin.y + dy, origin.z + dz),
-    new Point(origin.x, origin.y + dy, origin.z)
-  ], color);
-
-  /* Square parallel to the xy-plane */
-  this.path([
-    new Point(origin.x, origin.y, origin.z + dz),
-    new Point(origin.x + dx, origin.y, origin.z + dz),
-    new Point(origin.x + dx, origin.y + dy, origin.z + dz),
-    new Point(origin.x, origin.y + dy, origin.z + dz)
-  ], color);
-};
-
-Isometric.prototype.pyramid = function (origin, dx, dy, dz, color) {
+Isomer.prototype.pyramid = function (origin, dx, dy, dz, color) {
   /* We only need to draw the two visible faces */
 
   /* Path parallel to the x-axis */

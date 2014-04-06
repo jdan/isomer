@@ -1,25 +1,30 @@
-function Canvas(elem) {
-  this.elem = elem;
-  this.ctx = this.elem.getContext('2d');
+(function (exports) {
 
-  this.width = elem.getAttribute('width');
-  this.height = elem.getAttribute('height');
-}
+  function Canvas(elem) {
+    this.elem = elem;
+    this.ctx = this.elem.getContext('2d');
 
-Canvas.prototype.path = function (points, color) {
-  this.ctx.beginPath();
-  this.ctx.moveTo(points[0].x, points[0].y);
-
-  for (var i = 1; i < points.length; i++) {
-    this.ctx.lineTo(points[i].x, points[i].y);
+    this.width = elem.getAttribute('width');
+    this.height = elem.getAttribute('height');
   }
 
-  this.ctx.closePath();
+  Canvas.prototype.path = function (points, color) {
+    this.ctx.beginPath();
+    this.ctx.moveTo(points[0].x, points[0].y);
 
-  /* Set the strokeStyle and fillStyle */
-  this.ctx.save()
-  this.ctx.fillStyle = this.ctx.strokeStyle = color.toHex();
-  this.ctx.fill();
-  this.ctx.restore();
-};
+    for (var i = 1; i < points.length; i++) {
+      this.ctx.lineTo(points[i].x, points[i].y);
+    }
 
+    this.ctx.closePath();
+
+    /* Set the strokeStyle and fillStyle */
+    this.ctx.save()
+    this.ctx.fillStyle = this.ctx.strokeStyle = color.toHex();
+    this.ctx.fill();
+    this.ctx.restore();
+  };
+
+  exports.Canvas = Canvas;
+
+})(Isomer);
