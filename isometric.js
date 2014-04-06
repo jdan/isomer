@@ -1,15 +1,14 @@
 function Isometric(canvas) {
   this.canvas = canvas;
 
-  // Send these in too
-  this.scaleX = 70;
-  this.scaleY = 70;
-  this.scaleZ = 50;
+  this.angle = Math.PI / 6;
+
+  // send this in too
+  this.scale = 70;
 
   this.originX = this.canvas.width / 2;
   this.originY = this.canvas.height * 0.9;
 
-  this.angle = Math.PI / 7;
 
   /**
    * Light source as defined as the angle from
@@ -31,14 +30,14 @@ Isometric.prototype._translatePoint = function (point) {
    * Y rides perpendicular to this angle (in isometric view: PI - angle)
    * Z affects the y coordinate of the drawn point
    */
-  var xMap = new Point(point.x * this.scaleX * Math.cos(this.angle),
-                       point.x * this.scaleX * Math.sin(this.angle));
+  var xMap = new Point(point.x * this.scale * Math.cos(this.angle),
+                       point.x * this.scale * Math.sin(this.angle));
 
-  var yMap = new Point(point.y * this.scaleY * Math.cos(Math.PI - this.angle),
-                       point.y * this.scaleY * Math.sin(Math.PI - this.angle));
+  var yMap = new Point(point.y * this.scale * Math.cos(Math.PI - this.angle),
+                       point.y * this.scale * Math.sin(Math.PI - this.angle));
 
   var x = this.originX + xMap.x + yMap.x;
-  var y = this.originY - xMap.y - yMap.y - (point.z * this.scaleZ);
+  var y = this.originY - xMap.y - yMap.y - (point.z * this.scale);
   return new Point(x, y);
 };
 
