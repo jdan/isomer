@@ -74,6 +74,28 @@
   };
 
 
+  /**
+   * Some paths to play with
+   */
+
+  /**
+   * A circle centered at origin with a given radius and number of vertices
+   */
+  Path.Circle = function (origin, radius, vertices) {
+    vertices = vertices || 20;
+    var i, path = new Path();
+
+    for (i = 0; i < vertices; i++) {
+      path.push(new Point(
+        radius * Math.cos(i * 2 * Math.PI / vertices),
+        radius * Math.sin(i * 2 * Math.PI / vertices),
+        0));
+    }
+
+    return path.translate(origin.x, origin.y, origin.z);
+  };
+
+
   /* Expose the Path constructor */
   exports.Path = Path;
 
