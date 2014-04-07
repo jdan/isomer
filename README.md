@@ -1,3 +1,3 @@
-## Isomer
+## isomer
 
 An isometric graphics library for the HTML5 canvas
