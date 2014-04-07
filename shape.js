@@ -13,12 +13,14 @@
     }
   }
 
+
   /**
    * Pushes a path onto the end of the Shape
    */
   Shape.prototype.push = function (path) {
     this.paths.push(path);
   };
+
 
   /**
    * Translates a given shape
@@ -33,6 +35,7 @@
     }));
   };
 
+
   /**
    * Rotates a given shape along the Z axis around a given origin
    *
@@ -45,6 +48,21 @@
       return path.rotateZ.apply(path, args);
     }));
   };
+
+
+  /**
+   * Scales a path about a given origin
+   *
+   * Simply a forward to Point#scale
+   */
+  Shape.prototype.scale = function () {
+    var args = arguments;
+
+    return new Shape(this.paths.map(function (path) {
+      return path.scale.apply(path, args);
+    }));
+  };
+
 
   /**
    * Some shapes to play with

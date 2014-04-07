@@ -45,6 +45,7 @@
     }));
   };
 
+
   /**
    * Returns a new path rotated along the Z axis by a given origin
    *
@@ -57,6 +58,21 @@
       return point.rotateZ.apply(point, args);
     }));
   };
+
+
+  /**
+   * Scales a path about a given origin
+   *
+   * Simply a forward to Point#scale
+   */
+  Path.prototype.scale = function () {
+    var args = arguments;
+
+    return new Path(this.points.map(function (point) {
+      return point.scale.apply(point, args);
+    }));
+  };
+
 
   /* Expose the Path constructor */
   exports.Path = Path;
