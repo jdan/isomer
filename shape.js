@@ -140,6 +140,32 @@
 
 
   /**
+   * Utility function to create a 3D object by raising a 2D path
+   * along the z-axis
+   */
+  Shape.embossPath = function (path) {
+    var i, topPath = path.translate(0, 0, 1);
+    var shape = new Shape();
+
+    /* Push the top and bottom faces, top face must be oriented correctly */
+    shape.push(path.reverse());
+    shape.push(topPath);
+
+    /* Push each side face */
+    for (i = 0; i < path.points.length; i++) {
+      shape.push(new Path([
+        topPath.points[i],
+        path.points[i],
+        path.points[(i + 1) % path.points.length],
+        topPath.points[(i + 1) % topPath.points.length]
+      ]));
+    }
+
+    return shape;
+  };
+
+
+  /**
    * Some shapes to play with
    */
 
