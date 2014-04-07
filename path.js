@@ -96,6 +96,28 @@
   };
 
 
+  /**
+   * A star centered at origin with a given outer radius, inner
+   * radius, and number of points
+   *
+   * Buggy - concave polygons are difficult to draw with our method
+   */
+  Path.Star = function (origin, outerRadius, innerRadius, points) {
+    var i, r, path = new Path();
+
+    for (i = 0; i < points * 2; i++) {
+      r = (i % 2 === 0) ? outerRadius : innerRadius;
+
+      path.push(new Point(
+        r * Math.cos(i * Math.PI / points),
+        r * Math.sin(i * Math.PI / points),
+        0));
+    }
+
+    return path.translate(origin.x, origin.y, origin.z);
+  };
+
+
   /* Expose the Path constructor */
   exports.Path = Path;
 

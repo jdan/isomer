@@ -94,9 +94,21 @@ function drawStructure() {
 
   iso.add(Stairs(new Point(2, 0, 2)).rotateZ(new Point(2.5, 0.5, 0), -Math.PI / 2));
 
-  iso.add(Knot(new Point(2, 3, 3)), new Color(180, 180, 0));
-  iso.add(Knot(new Point(4, 3, 3)), new Color(180, 0, 180));
-  iso.add(Knot(new Point(4, 0, 3)), new Color(0, 180, 180));;
+  iso.add(Shape.Pyramid(new Point(2, 3, 3))
+    .scale(new Point(2, 4, 3), 0.5),
+    new Color(180, 180, 0));
+  iso.add(Shape.Pyramid(new Point(4, 3, 3))
+    .scale(new Point(5, 4, 3), 0.5),
+    new Color(180, 0, 180));
+  iso.add(Shape.Pyramid(new Point(4, 1, 3))
+    .scale(new Point(5, 1, 3), 0.5),
+    new Color(0, 180, 180));
+  iso.add(Shape.Pyramid(new Point(2, 1, 3))
+    .scale(new Point(2, 1, 3), 0.5),
+    new Color(40, 180, 40));
+
+  iso.add(Shape.Prism(new Point(3, 2, 3), 1, 1, 0.2), new Color(50, 50, 50));
+  iso.add(Knot(new Point(3, 2, 3.2)), new Color(0, 180, 180));;
 }
 
 function testScales() {
@@ -130,7 +142,11 @@ function testCircle() {
   iso.add(Shape.embossPath(Path.Circle(new Point(5, 5, 0), 1, 8)));
 }
 
-//drawStructure();
+function testStar() {
+  iso.add(Shape.embossPath(Path.Star(Point.ORIGIN, 1, 2, 4).rotateZ(Point.ORIGIN, Math.PI/6)));
+}
+
+drawStructure();
 //testScales();
 //testEmboss();
-testCircle();
+//testCircle();
