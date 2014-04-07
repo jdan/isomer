@@ -119,7 +119,7 @@ TestSuite.testScales = function () {
   for (var i = 0; i < 20; i++) {
     iso.add(cube
       .scale(new Point(5.5, 5.5), 10 - i/2, 10 - i/2, 1/3)
-      .translate(0, 0, i/5)
+      .translate(0, 0, i/3)
       .rotateZ(new Point(5.5, 5.5), -Math.PI/20 * i),
            new Color(parseInt(Math.random() * 256), parseInt(Math.random() * 256), parseInt(Math.random() * 256)));
   }
@@ -135,13 +135,12 @@ TestSuite.testEmboss = function () {
   ]);
 
   iso.add(Shape.emboss(basePath)
-      .rotateZ(Point.ORIGIN, 5*Math.PI/6)
       .scale(Point.ORIGIN, 4)
       .translate(6, 6, 0));
 };
 
 TestSuite.testCircle = function () {
-  iso.add(Shape.emboss(Path.Circle(new Point(5, 5, 0), 8)));
+  iso.add(Shape.emboss(Path.Circle(new Point(8, 8, 0), 8)));
 };
 
 TestSuite.testStar = function () {
