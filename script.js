@@ -47,12 +47,12 @@ function Stairs(origin) {
 
   zigzag.push(origin.translate(0, 1, 0));
 
-  stairs.push(zigzag);
-  stairs.push(zigzag.reverse().translate(1, 0, 0));
 
   for (i = 0; i < steps.length; i++) {
     stairs.push(steps[i]);
   }
+  stairs.push(zigzag);
+  stairs.push(zigzag.reverse().translate(1, 0, 0));
 
   return stairs;
 }

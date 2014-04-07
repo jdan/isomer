@@ -65,6 +65,81 @@
 
 
   /**
+   * Produces a list of the shape's paths ordered by distance to
+   * prevent overlaps when drawing
+   */
+  Shape.prototype.orderedPaths = function () {
+    var Point = Isomer.Point;
+
+    var observer = new Point(-10, -10, 10);
+
+    /**
+     * Create a list of paths combined with their point that is located
+     * furthest from the observer.
+     *
+     * This makes it so we only have to computer furthestPointInPath once
+     * for each face.
+     */
+    var paths = this.paths.slice().map(function (path) {
+      var distances = this._pathDistances(path, observer);
+
+      return {
+        path: path,
+        furthestDistance: distances.furthestDistance,
+        averageDistance: distances.averageDistance
+      };
+    }.bind(this));
+
+    /**
+     * Sort the list of faces by distance then map the entries, returning
+     * only the path and not the added "further point" from earlier.
+     */
+    return paths.sort(function (pathA, pathB) {
+      var distanceDiff = pathB.furthestDistance - pathA.furthestDistance;
+
+      if (distanceDiff === 0) {
+        return pathB.averageDistance - pathA.averageDistance;
+      } else {
+        return distanceDiff;
+      }
+    }.bind(this)).map(function (item) {
+      return item.path;
+    });
+  };
+
+
+  /**
+   * Helper method to find
+   * - furthest point in a path to an observer
+   * - distance of the furthest point to an observer
+   * - averange distance of all points to an observer
+   */
+  Shape.prototype._pathDistances = function (path, destination) {
+    var maxPoint, maxDistance, i, distance, totalDistance;
+
+    maxPoint = path.points[0];
+    maxDistance = Point.distance(maxPoint, destination);
+    totalDistance = 0;
+
+    for (i = 0; i < path.points.length; i++) {
+      distance = Point.distance(path.points[i], destination);
+      if (distance > maxDistance) {
+        maxDistance = distance;
+        maxPoint = path.points[i];
+      }
+
+      totalDistance += distance;
+    }
+
+    return {
+      furthestPoint: maxPoint,
+      furthestDistance: maxDistance,
+      averageDistance: totalDistance / path.points.length
+    }
+  };
+
+
+  /**
    * Some shapes to play with
    */
 
@@ -76,17 +151,23 @@
     dy = dy || 1;
     dz = dz || 1;
 
-    /* We only need to draw the front 3 squares */
     var Path = Isomer.Path;
     var Point = Isomer.Point;
 
-    /* Square parallel to the x-axis */
+    /* The shape we will return */
+    var prism = new Shape();
+
+    /* Squares parallel to the x-axis */
     var face1 = new Path([
       origin,
       new Point(origin.x + dx, origin.y, origin.z),
       new Point(origin.x + dx, origin.y, origin.z + dz),
       new Point(origin.x, origin.y, origin.z + dz)
     ]);
+
+    /* Push this face and its opposite */
+    prism.push(face1);
+    prism.push(face1.reverse().translate(0, dy, 0));
 
     /* Square parallel to the y-axis */
     var face2 = new Path([
@@ -95,16 +176,21 @@
       new Point(origin.x, origin.y + dy, origin.z + dz),
       new Point(origin.x, origin.y + dy, origin.z)
     ]);
+    prism.push(face2);
+    prism.push(face2.reverse().translate(dx, 0, 0));
 
     /* Square parallel to the xy-plane */
     var face3 = new Path([
-      new Point(origin.x, origin.y, origin.z + dz),
-      new Point(origin.x + dx, origin.y, origin.z + dz),
-      new Point(origin.x + dx, origin.y + dy, origin.z + dz),
-      new Point(origin.x, origin.y + dy, origin.z + dz)
+      origin,
+      new Point(origin.x + dx, origin.y, origin.z),
+      new Point(origin.x + dx, origin.y + dy, origin.z),
+      new Point(origin.x, origin.y + dy, origin.z)
     ]);
+    /* This surface is oriented backwards, so we need to reverse the points */
+    prism.push(face3.reverse());
+    prism.push(face3.translate(0, 0, dz));
 
-    return new Shape(face1, face2, face3);
+    return prism;
   };
 
   Shape.Pyramid = function (origin, dx, dy, dz) {
@@ -112,9 +198,10 @@
     dy = dy || 1;
     dz = dz || 1;
 
-    /* We only need to draw the two visible faces */
     var Path = Isomer.Path;
     var Point = Isomer.Point;
+
+    var pyramid = new Shape();
 
     /* Path parallel to the x-axis */
     var face1 = new Path([
@@ -122,6 +209,9 @@
       new Point(origin.x + dx, origin.y, origin.z),
       new Point(origin.x + dx / 2, origin.y + dy / 2, origin.z + dz)
     ]);
+    /* Push the face, and its opposite face, by rotating around the Z-axis */
+    pyramid.push(face1);
+    pyramid.push(face1.rotateZ(origin.translate(dx/2, dy/2), Math.PI));
 
     /* Path parallel to the y-axis */
     var face2 = new Path([
@@ -129,8 +219,10 @@
       new Point(origin.x + dx / 2, origin.y + dy / 2, origin.z + dz),
       new Point(origin.x, origin.y + dy, origin.z)
     ]);
+    pyramid.push(face2);
+    pyramid.push(face2.rotateZ(origin.translate(dx/2, dy/2), Math.PI));
 
-    return new Shape(face1, face2);
+    return pyramid;
   };
 
   exports.Shape = Shape;
