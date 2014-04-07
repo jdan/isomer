@@ -134,18 +134,18 @@ TestSuite.testEmboss = function () {
     new Point(0, 1, 0)
   ]);
 
-  iso.add(Shape.embossPath(basePath)
+  iso.add(Shape.emboss(basePath)
       .rotateZ(Point.ORIGIN, 5*Math.PI/6)
       .scale(Point.ORIGIN, 4)
       .translate(6, 6, 0));
 };
 
 TestSuite.testCircle = function () {
-  iso.add(Shape.embossPath(Path.Circle(new Point(5, 5, 0), 1, 8)));
+  iso.add(Shape.emboss(Path.Circle(new Point(5, 5, 0), 8)));
 };
 
 TestSuite.testStar = function () {
-  iso.add(Shape.embossPath(Path.Star(Point.ORIGIN, 1, 2, 4).rotateZ(Point.ORIGIN, Math.PI/6)));
+  iso.add(Shape.emboss(Path.Star(Point.ORIGIN, 1, 2, 4).rotateZ(Point.ORIGIN, Math.PI/6)));
 };
 
 

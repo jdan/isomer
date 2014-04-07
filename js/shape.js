@@ -95,13 +95,7 @@
      * only the path and not the added "further point" from earlier.
      */
     return paths.sort(function (pathA, pathB) {
-      var distanceDiff = pathB.furthestDistance - pathA.furthestDistance;
-
-      if (distanceDiff === 0) {
-        return pathB.averageDistance - pathA.averageDistance;
-      } else {
-        return distanceDiff;
-      }
+      return pathB.averageDistance - pathA.averageDistance;
     }.bind(this)).map(function (item) {
       return item.path;
     });
@@ -143,8 +137,10 @@
    * Utility function to create a 3D object by raising a 2D path
    * along the z-axis
    */
-  Shape.embossPath = function (path) {
-    var i, topPath = path.translate(0, 0, 1);
+  Shape.emboss = function (path, height) {
+    height = height || 1;
+
+    var i, topPath = path.translate(0, 0, height);
     var shape = new Shape();
 
     /* Push the top and bottom faces, top face must be oriented correctly */
