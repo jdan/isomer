@@ -8,6 +8,8 @@ var Path = Isomer.Path;
 var Shape = Isomer.Shape;
 var Color = Isomer.Color;
 
+function TestSuite() {}
+
 function Stairs(origin) {
   var STEP_COUNT = 10;
 
@@ -81,7 +83,7 @@ function Knot(origin) {
   return knot.scale(Point.ORIGIN, 1/5).translate(-0.1, 0.15, 0.4).translate(origin.x, origin.y, origin.z);
 }
 
-function drawStructure() {
+TestSuite.drawStructure = function () {
   iso.add(Shape.Prism(new Point(1, 0, 0), 4, 4, 2));
   iso.add(Shape.Prism(new Point(0, 0, 0), 1, 4, 1));
   iso.add(Shape.Prism(new Point(-1, 1, 0), 1, 3, 1));
@@ -109,9 +111,9 @@ function drawStructure() {
 
   iso.add(Shape.Prism(new Point(3, 2, 3), 1, 1, 0.2), new Color(50, 50, 50));
   iso.add(Knot(new Point(3, 2, 3.2)), new Color(0, 180, 180));;
-}
+};
 
-function testScales() {
+TestSuite.testScales = function () {
   var cube = Shape.Prism(new Point(5, 5), 1, 1, 1);
 
   for (var i = 0; i < 20; i++) {
@@ -121,9 +123,9 @@ function testScales() {
       .rotateZ(new Point(5.5, 5.5), -Math.PI/20 * i),
            new Color(parseInt(Math.random() * 256), parseInt(Math.random() * 256), parseInt(Math.random() * 256)));
   }
-}
+};
 
-function testEmboss() {
+TestSuite.testEmboss = function () {
   var basePath = new Path([
     new Point(0, 0, 0),
     new Point(1, 0, 0),
@@ -136,17 +138,37 @@ function testEmboss() {
       .rotateZ(Point.ORIGIN, 5*Math.PI/6)
       .scale(Point.ORIGIN, 4)
       .translate(6, 6, 0));
-}
+};
 
-function testCircle() {
+TestSuite.testCircle = function () {
   iso.add(Shape.embossPath(Path.Circle(new Point(5, 5, 0), 1, 8)));
-}
+};
 
-function testStar() {
+TestSuite.testStar = function () {
   iso.add(Shape.embossPath(Path.Star(Point.ORIGIN, 1, 2, 4).rotateZ(Point.ORIGIN, Math.PI/6)));
-}
+};
 
-drawStructure();
-//testScales();
-//testEmboss();
-//testCircle();
+
+/**
+ * Add testing buttons
+ */
+(function () {
+  var fn;
+  var panel = document.getElementById("control");
+  var button;
+
+  for (fn in TestSuite) {
+    button = document.createElement("div");
+    button.classList.add("test-btn");
+    button.innerHTML = fn;
+    button.onclick = (function (fn) {
+      return function () {
+        /* Clear the canvas and execute the test function */
+        iso.canvas.clear();
+        fn();
+      };
+    })(TestSuite[fn]);
+
+    panel.appendChild(button);
+  }
+})();

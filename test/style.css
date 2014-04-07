@@ -1,0 +1,32 @@
+#canvas {
+  display: block;
+  width: 1400px;
+  height: 800px;
+  margin: 0 auto;
+}
+
+#control {
+  position: absolute;
+  margin: 20px;
+}
+
+.test-btn {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  border: 3px solid rgb(30, 180, 100);
+  border-radius: 5px;
+  color: rgb(30, 180, 100);
+  text-transform: uppercase;
+  padding: 15px;
+  margin: 20px 0;
+}
+
+.test-btn:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: rgb(30, 180, 100);
+}
+
+body {
+  overflow: hidden;
+}
