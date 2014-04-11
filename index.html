@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>isomer</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <section class="row bg-yellow">
+    <div class="content brand">
+      <h1>Isomer</h1>
+      <p>an isometric graphics library for HTML5 canvas</p>
+      <canvas width="1000" height="800" id="logo"></canvas>
+    </div>
+  </section>
+
+  <section class="row bg-black">
+    <div class="content">
+      <p>This is another paragraph</p>
+      <a class="btn rounded">DOWNLOAD</a>
+    </div>
+  </section>
+
+  <section class="row bg-blue">
+    <div class="content">
+      <h1>About</h1>
+
+      <p>
+        Isomer allows you to draw isometric graphics with ease. Let's draw
+        a simple cube.
+      </p>
+
+      <div class="example">
+        <div class="code rounded">
+          <pre><code class="prettyprint lang-js">var Shape = Isomer.Shape;
+var Point = Isomer.Point;
+
+iso.add(Shape.Prism(new Point(0, 0, 0)));
+          </code></pre>
+        </div>
+        <canvas width="680" height="500" id="basic-example" class="rounded"></canvas>
+        <br class="clear">
+      </div>
+
+      <h3>The Grid</h3>
+
+      <p>
+        Here is the same cube overlayed with a 3D grid. This is how objects
+        look under an isometric projection.
+      </p>
+
+      <div class="example">
+        <div class="code rounded">
+          <pre><code class="prettyprint lang-js">/**
+ * This is the 3D isometric grid that
+ * we will be drawing on.
+ *
+ * The blue grid is the xy-plane.
+ * The red line is the z-axis.
+ */
+          </code></pre>
+        </div>
+        <canvas width="680" height="500" id="grid-example" class="rounded"></canvas>
+        <br class="clear">
+      </div>
+
+      <h3>What's going on here?</h3>
+      <p>
+        After a couple clever renames, we add a <code>Shape.Prism</code> to our
+        scene. The first argument is the position of our shape. In this case,
+        we use <code>new Point(0, 0, 0)</code> to place the cube at the origin.
+        (<b>Note:</b> we can also use <code>Point.ORIGIN</code>)
+      </p>
+      <p>
+        We can also specify a width, length, and height of our prism, but
+        these all default to 1.
+      </p>
+
+      <div class="example">
+        <div class="code rounded">
+          <pre><code class="prettyprint lang-js">var Shape = Isomer.Shape;
+var Point = Isomer.Point;
+
+iso.add(Shape.Prism(Point.ORIGIN, 2, 1, 3));
+          </code></pre>
+        </div>
+        <canvas width="680" height="500" id="basic-example-2" class="rounded"></canvas>
+        <br class="clear">
+      </div>
+    </div>
+  </section>
+
+  <section class="row bg-black">
+    <div class="content">
+      <h1><em>Hey! Listen!</em></h1>
+      <p>
+        Isomer contains a number of smaller classes, including Shape, Point,
+        and Color. Instead of writing out "Isomer.Point" many times, I will
+        often use the pattern "var Point = Isomer.Point" (for example)
+      </p>
+      <p>
+        This is just for convenience.
+      </p>
+    </div>
+  </section>
+
+  <section class="row bg-red">
+    <div class="content">
+      <h1>Getting Started</h1>
+
+      <p>
+        To start using Isomer, you first need to include a small (7kb minified)
+        script wherever you see fit:
+      </p>
+
+      <div class="code full rounded">
+        <pre><code class="prettyprint lang-html">&lt;script src="/path/to/isomer.min.js">&lt;/script></code></pre>
+      </div>
+
+      <p>
+        After which you'll need to place a canvas in your document that we
+        can later refer to. <b>Be sure to give it a width and height!</b>
+      </p>
+
+      <div class="code full rounded">
+        <pre><code class="prettyprint lang-html">&lt;canvas width="800" height="600" id="art">&lt;/canvas></code></pre>
+      </div>
+
+      <p>
+        <b>Note:</b> To improve the look of your canvas on retina displays, declare
+        the width and height of your canvas element as <i>double</i> how you
+        want it to appear. Then style your canvas with CSS to include the
+        original dimensions.
+      <p>
+
+      <div class="code full rounded">
+        <pre><code class="prettyprint lang-css">#art {
+  width: 400px;
+  height: 300px;
+}</code></pre>
+      </div>
+
+      <p>
+        At this point we can finally instantiate an Isomer object. Pass it
+        a reference to your canvas like so:
+      </p>
+
+      <div class="code full rounded">
+        <pre><code class="prettyprint lang-js">var iso = new Isomer(document.getElementById("art"));</code></pre>
+      </div>
+
+      <p>
+        And you're ready to start drawing!
+      </p>
+    </div>
+  </section>
+
+  <section class="row bg-green">
+    <div class="content">
+      <h1>Basic Shapes</h1>
+      <p>
+        Isomer is divided into 3 basic components: <b>points, paths, and
+        shapes</b>. A path consists of many points, and a shape consists of
+        many paths. To get up and running, we can play with some of the
+        built-ins.
+      </p>
+
+      <p>
+        These shapes take an origin point, followed by 3 measurements along
+        the x, y, and z axes respectively. These measurements default to 1.
+      </p>
+
+      <h2>Prism</h2>
+      <p>
+        Prisms have six rectangular faces, a width, length, and height.
+      </p>
+
+      <div class="example">
+        <div class="code rounded">
+          <pre><code class="prettyprint lang-js">var Shape = Isomer.Shape;
+var Point = Isomer.Point;
+
+/* add() also accepts arrays */
+iso.add([
+  Shape.Prism(Point.ORIGIN, 4, 4, 2)),
+  Shape.Prism(new Point(-1, 1, 0), 1, 2, 1)),
+  Shape.Prism(new Point(1, -1, 0), 2, 1, 1))
+]);
+          </code></pre>
+        </div>
+        <canvas width="680" height="500" id="prism-example" class="rounded"></canvas>
+        <br class="clear">
+      </div>
+
+      <h2>Pyramid</h2>
+      <p>
+        Pyramids have a rectangular base and four triangles extending to the
+        top.
+      </p>
+
+      <div class="example">
+        <div class="code rounded">
+          <pre><code class="prettyprint lang-js">var Shape = Isomer.Shape;
+var Point = Isomer.Point;
+
+iso.add([
+  Shape.Prism(Point.ORIGIN, 3, 3, 1),
+  Shape.Pyramid(new Point(0, 0, 1)),
+  Shape.Pyramid(new Point(0, 2, 1)),
+  Shape.Pyramid(new Point(2, 0, 1)),
+  Shape.Pyramid(new Point(2, 2, 1))
+]);
+          </code></pre>
+        </div>
+        <canvas width="680" height="500" id="pyramid-example" class="rounded"></canvas>
+        <br class="clear">
+      </div>
+    </div>
+  </section>
+
+  <section class="row bg-pink">
+    <div class="content">
+      <h1>Colors</h1>
+
+      <p>
+        Isomer makes it easy to add colors to your shapes: simply specify a
+        color as the second argument to <code>add()</code>. Colors are built
+        using three arguments: a red, green, and blue component respectively –
+        the RGB representation of the color.
+      </p>
+
+      <div class="example">
+        <div class="code rounded">
+          <pre><code class="prettyprint lang-js">var Shape = Isomer.Shape;
+var Point = Isomer.Point;
+var Color = Isomer.Color;
+var red = new Color(160, 60, 50);
+var blue = new Color(50, 60, 160);
+
+iso.add(Shape.Prism(Point.ORIGIN, 3, 3, 1));
+
+/* You can leave out the `new` keyword
+   for most Isomer classes */
+iso.add(Shape.Pyramid(Point(0, 2, 1)), red);
+iso.add(Shape.Prism(Point(2, 0, 1)), blue);
+          </code></pre>
+        </div>
+        <canvas width="680" height="500" id="color-example" class="rounded"></canvas>
+        <br class="clear">
+      </div>
+    </div>
+  </section>
+
+  <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+  <script src="js/isomer.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

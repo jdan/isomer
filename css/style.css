@@ -1,0 +1,160 @@
+body {
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Verdana, Tahoma, sans-serif;
+  color: #222;
+  margin: 0; padding: 0;
+}
+
+.row {
+  position: relative;
+}
+
+.content {
+  width: 860px;
+  margin: 0 auto;
+  padding: 20px 40px 40px;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Varela Round', sans-serif;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+.content p {
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.brand {
+  /*background-color: rgb(74, 201, 95);*/
+  padding: 40px 60px 60px;
+  overflow: hidden;
+  position: relative;
+}
+
+.brand h1 {
+  font-size: 40px;
+}
+
+.brand p {
+  font-size: 20px;
+  font-family: 'Varela Round', sans-serif;
+}
+
+#logo {
+  width: 500px;
+  height: 400px;
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+}
+
+.example {
+  margin: 30px 0;
+}
+
+.code {
+  height: 250px;
+  width: 480px;
+
+  background-color: #f6f6f6;
+  margin-right: 20px;
+  float: left;
+  padding: 15px;
+  font-size: 16px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.code.full {
+  float: none;
+  width: auto; height: auto;
+}
+
+.example canvas {
+  height: 250px;
+  width: 340px;
+  float: left;
+  background-color: #f6f6f6;
+}
+
+.btn {
+  color: #ffc40d;
+  border: 2px solid #ffc40d;
+  padding: 15px;
+  font-weight: bold;
+  font-size: 22px;
+  margin: 10px 10px 10px 0;
+
+  -webkit-transition: none;
+  -moz-transition: none;
+}
+
+.btn:hover {
+  cursor: pointer;
+  color: #000;
+  background-color: #ffc40d;
+  opacity: 1;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid #000;
+
+  -webkit-transition: opacity 0.15s linear;
+  -moz-transition: opacity 0.15s linear;
+}
+
+a:hover {
+  opacity: 0.4;
+}
+
+pre {
+  margin: 0;
+  padding: 0;
+}
+
+pre code {
+  background-color: inherit;
+  font-size: inherit;
+  padding: 0;
+
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+
+code {
+  background-color: #f6f6f6;
+  font-size: 90%;
+  padding: 2px 5px;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.rounded {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.clear {
+  clear: both;
+}
+
+.bg-blue    { background-color: lightblue; }
+.bg-green   { background-color: lightgreen; }
+.bg-red     { background-color: rgb(240, 130, 120); }
+.bg-yellow  { background-color: #ffc40d; }
+.bg-orange  { background-color: orange; }
+.bg-pink    { background-color: pink; }
+.bg-purple  { background-color: mediumpurple; }
+.bg-black   {
+  background-color: #222;
+  color: #eee;
+}
