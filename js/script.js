@@ -182,6 +182,62 @@ Example.color1 = function () {
   iso.add(Shape.Prism(Point(2, 0, 1)), blue);
 };
 
+Example.path = function () {
+  var iso = new Isomer(document.getElementById("path-example"));
+
+  iso.add(Shape.Prism(Point.ORIGIN, 3, 3, 1));
+  iso.add(new Path([
+    Point(1, 1, 1),
+    Point(2, 1, 1),
+    Point(2, 2, 1),
+    Point(1, 2, 1)
+  ]), new Color(50, 160, 60));
+};
+
+Example.embossPath = function () {
+  var iso = new Isomer(document.getElementById("emboss-example"));
+
+  iso.add(Shape.Prism(Point.ORIGIN, 3, 3, 1));
+  iso.add(Shape.emboss(new Path([
+    Point(1, 1, 1),
+    Point(2, 1, 1),
+    Point(2, 3, 1)
+  ]), 0.3), new Color(50, 160, 60));
+};
+
+Example.translateExample = function () {
+  var iso = new Isomer(document.getElementById("translate-example"));
+  var blue = new Color(50, 60, 160);
+  var red = new Color(160, 50, 60);
+  var cube = Shape.Prism(Point.ORIGIN);
+
+  iso.add(cube);
+  iso.add(cube.translate(0, 0, 1.1), blue);
+  iso.add(cube.translate(0, 0, 2.2), red);
+};
+
+Example.scaleExample = function () {
+  var iso = new Isomer(document.getElementById("scale-example"));
+  var blue = new Color(50, 60, 160);
+  var cube = Shape.Prism(Point.ORIGIN);
+  iso.add(cube.scale(Point.ORIGIN, 3, 3, 0.5));
+  iso.add(cube
+    .scale(Point.ORIGIN, 3, 3, 0.5)
+    .translate(0, 0, 0.6)
+  , blue);
+};
+
+Example.rotateExample = function () {
+  var iso = new Isomer(document.getElementById("rotatez-example"));
+  var blue = new Color(50, 60, 160);
+  var cube = Shape.Prism(Point.ORIGIN, 3, 3, 1);
+  iso.add(cube);
+  iso.add(cube
+    .rotateZ(Point(1.5, 1.5, 0), Math.PI / 12)
+    .translate(0, 0, 1.1)
+  , blue);
+};
+
 (function () {
   var i;
   for (i in Example) {

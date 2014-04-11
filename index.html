@@ -54,7 +54,7 @@ iso.add(Shape.Prism(new Point(0, 0, 0)));
         <br class="clear">
       </div>
 
-      <h3>The Grid</h3>
+      <h2>The Grid</h2>
 
       <p>
         Here is the same cube overlayed with a 3D grid. This is how objects
@@ -76,7 +76,7 @@ iso.add(Shape.Prism(new Point(0, 0, 0)));
         <br class="clear">
       </div>
 
-      <h3>What's going on here?</h3>
+      <h2>What's going on here?</h2>
       <p>
         After a couple clever renames, we add a <code>Shape.Prism</code> to our
         scene. The first argument is the position of our shape. In this case,
@@ -230,7 +230,7 @@ iso.add([
     </div>
   </section>
 
-  <section class="row bg-pink">
+  <section class="row bg-yellow">
     <div class="content">
       <h1>Colors</h1>
 
@@ -260,6 +260,176 @@ iso.add(Shape.Prism(Point(2, 0, 1)), blue);
         <canvas width="680" height="500" id="color-example" class="rounded"></canvas>
         <br class="clear">
       </div>
+    </div>
+  </section>
+
+  <section class="row bg-blue">
+    <div class="content">
+      <h1>Paths</h1>
+
+      <p>
+        Paths are two-dimensional and are commonly used as the faces for shapes.
+        You can draw and color paths just like you would shapes.
+      </p>
+
+      <p>
+        Creating a path involves specifying a list of points. The path will
+        connect the last point to the starting point.
+      </p>
+
+      <div class="example">
+        <div class="code rounded">
+          <pre><code class="prettyprint lang-js">var Shape = Isomer.Shape;
+var Path = Isomer.Path;
+var Point = Isomer.Point;
+var Color = Isomer.Color;
+
+iso.add(Shape.Prism(Point.ORIGIN, 3, 3, 1));
+iso.add(new Path([
+  Point(1, 1, 1),
+  Point(2, 1, 1),
+  Point(2, 2, 1),
+  Point(1, 2, 1)
+]), new Color(50, 160, 60));
+          </code></pre>
+        </div>
+        <canvas width="680" height="500" id="path-example" class="rounded"></canvas>
+        <br class="clear">
+      </div>
+
+      <h2>Shapes from Paths</h2>
+
+      <p>
+        The method <code>Shape.emboss</code> accepts a path and a height
+        (default 1), and allows you to create a 3D model by popping out a 2D
+        path along the z-axis.
+      </p>
+
+      <div class="example">
+        <div class="code rounded">
+          <pre><code class="prettyprint lang-js">var Shape = Isomer.Shape;
+var Path = Isomer.Path;
+var Point = Isomer.Point;
+var Color = Isomer.Color;
+
+iso.add(Shape.Prism(Point.ORIGIN, 3, 3, 1));
+iso.add(Shape.emboss(new Path([
+  Point(1, 1, 1),
+  Point(2, 1, 1),
+  Point(2, 3, 1)
+]), 0.3), new Color(50, 160, 60));
+          </code></pre>
+        </div>
+        <canvas width="680" height="500" id="emboss-example" class="rounded"></canvas>
+        <br class="clear">
+      </div>
+
+    </div>
+  </section>
+
+  <section class="row bg-green">
+    <div class="content">
+      <h1>Translate, Scale, Rotate</h1>
+
+      <p>
+        All of the Isomer base classes (Point, Path, and Shape) support
+        the following methods. They each return a <b>new</b> object from the
+        one they were originally called on.
+      </p>
+
+      <h2>Translate</h2>
+
+      <p>
+        Translate accepts a distance in the x, y, and z directions. Translating
+        does not modify the original shape.
+      </p>
+
+      <div class="example">
+        <div class="code rounded">
+          <pre><code class="prettyprint lang-js">var Shape = Isomer.Shape;
+var Point = Isomer.Point;
+
+var blue = new Isomer.Color(50, 60, 160);
+var red = new Isomer.Color(160, 50, 60);
+var cube = Shape.Prism(Point.ORIGIN);
+
+iso.add(cube);
+/* These methods do not modify the
+   original shape/path/point */
+iso.add(cube.translate(0, 0, 1.1), blue);
+iso.add(cube.translate(0, 0, 2.2), red);
+
+          </code></pre>
+        </div>
+        <canvas width="680" height="500" id="translate-example" class="rounded"></canvas>
+        <br class="clear">
+      </div>
+
+      <h2>Scale</h2>
+
+      <p>
+        Scale accepts a reference point, and 3 scaling factors in the x, y, and
+        z directions respectively.
+
+        <ul>
+          <li>If only one scaling factor is specified, the object scales in
+            all three directions by this amount.</li>
+          <li>If only two scaling factors are specified, the scaling factor
+            for the z-direction is assumed to be 1.</li>
+        </ul>
+      </p>
+
+      <div class="example">
+        <div class="code rounded">
+          <pre><code class="prettyprint lang-js">var Shape = Isomer.Shape;
+var Point = Isomer.Point;
+
+var blue = new Isomer.Color(50, 60, 160);
+var cube = Shape.Prism(Point.ORIGIN);
+iso.add(cube.scale(Point.ORIGIN, 3, 3, 0.5));
+iso.add(cube
+  /* Grow outward from the origin */
+  .scale(Point.ORIGIN, 3, 3, 0.5)
+  /* We can chain these transformations */
+  .translate(0, 0, 0.6)
+, blue);
+          </code></pre>
+        </div>
+        <canvas width="680" height="500" id="scale-example" class="rounded"></canvas>
+        <br class="clear">
+      </div>
+
+      <h2>RotateZ</h2>
+
+      <p>
+        RotateZ accepts an reference point, and an angle in radians on the
+        xy-plane (where an angle of 0 runs along the position x-axis).
+      </p>
+
+      <p>
+        <b>Note:</b> To rotate an object about its center, you will need to
+        specify the midpoint of the object as the reference point.
+      </p>
+
+      <div class="example">
+        <div class="code rounded">
+          <pre><code class="prettyprint lang-js">var Shape = Isomer.Shape;
+var Point = Isomer.Point;
+
+var blue = new Isomer.Color(50, 60, 160);
+var cube = Shape.Prism(Point.ORIGIN, 3, 3, 1);
+iso.add(cube);
+iso.add(cube
+  /* (1.5, 1.5) is the center of the prism */
+  .rotateZ(Point(1.5, 1.5, 0), Math.PI / 12)
+  .translate(0, 0, 1.1)
+, blue);
+          </code></pre>
+        </div>
+        <canvas width="680" height="500" id="rotatez-example" class="rounded"></canvas>
+        <br class="clear">
+      </div>
+
     </div>
   </section>
 
