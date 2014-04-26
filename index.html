@@ -337,7 +337,7 @@ iso.add(new Path([
       <h2>Shapes from Paths</h2>
 
       <p>
-        The method <code>Shape.emboss</code> accepts a path and a height
+        The method <code>Shape.extrude</code> accepts a path and a height
         (default 1), and allows you to create a 3D model by popping out a 2D
         path along the z-axis.
       </p>
@@ -350,14 +350,14 @@ var Point = Isomer.Point;
 var Color = Isomer.Color;
 
 iso.add(Shape.Prism(Point.ORIGIN, 3, 3, 1));
-iso.add(Shape.emboss(new Path([
+iso.add(Shape.extrude(new Path([
   Point(1, 1, 1),
   Point(2, 1, 1),
   Point(2, 3, 1)
 ]), 0.3), new Color(50, 160, 60));
           </code></pre>
         </div>
-        <canvas width="680" height="500" id="emboss-example" class="rounded"></canvas>
+        <canvas width="680" height="500" id="extrude-example" class="rounded"></canvas>
         <br class="clear">
       </div>
 

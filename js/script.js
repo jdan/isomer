@@ -194,11 +194,11 @@ Example.path = function () {
   ]), new Color(50, 160, 60));
 };
 
-Example.embossPath = function () {
-  var iso = new Isomer(document.getElementById("emboss-example"));
+Example.extrudePath = function () {
+  var iso = new Isomer(document.getElementById("extrude-example"));
 
   iso.add(Shape.Prism(Point.ORIGIN, 3, 3, 1));
-  iso.add(Shape.emboss(new Path([
+  iso.add(Shape.extrude(new Path([
     Point(1, 1, 1),
     Point(2, 1, 1),
     Point(2, 3, 1)
