@@ -3,18 +3,16 @@
  *
  * This file contains the Isomer base definition
  */
-function Isomer(canvasId) {
+function Isomer(canvasId, options) {
+  options = options || {};
 
   this.canvas = new Isomer.Canvas(canvasId);
-
   this.angle = Math.PI / 6;
 
-  // send this in too
-  this.scale = 70;
+  this.scale = options.scale || 70;
 
-  this.originX = this.canvas.width / 2;
-  this.originY = this.canvas.height * 0.9;
-
+  this.originX = options.originX || this.canvas.width / 2;
+  this.originY = options.originY || this.canvas.height * 0.9;
 
   /**
    * Light source as defined as the angle from
@@ -52,9 +50,18 @@ Isomer.prototype._translatePoint = function (point) {
 
 /**
  * Adds a shape or path to the scene
+ *
+ * This method also accepts arrays
  */
 Isomer.prototype.add = function (item, baseColor) {
-  if (item instanceof Path) {
+  var Path = Isomer.Path;
+  var Shape = Isomer.Shape;
+
+  if (Object.prototype.toString.call(item) == '[object Array]') {
+    for (var i = 0; i < item.length; i++) {
+      this.add(item[i], baseColor);
+    }
+  } else if (item instanceof Path) {
     this._addPath(item, baseColor);
   } else if (item instanceof Shape) {
     /* Fetch paths ordered by distance to prevent overlaps */

@@ -4,8 +4,8 @@
     this.elem = elem;
     this.ctx = this.elem.getContext('2d');
 
-    this.width = elem.getAttribute('width');
-    this.height = elem.getAttribute('height');
+    this.width = elem.width;
+    this.height = elem.height;
   }
 
   Canvas.prototype.clear = function () {
