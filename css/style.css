@@ -43,6 +43,35 @@ h1 {
   font-family: 'Varela Round', sans-serif;
 }
 
+.links {
+  text-align: center;
+}
+
+.social-links {
+  margin-top: 80px;
+}
+
+.social {
+  display: inline-block;
+  list-style: none;
+  margin: 10px 0 10px;
+  padding: 0;
+}
+
+.social li {
+  display: inline-block;
+  line-height: 1;
+}
+
+.credit {
+  text-align: center;
+  font-size: 20px;
+}
+
+.credit a {
+  color: #66b5ff;
+}
+
 #logo {
   width: 500px;
   height: 400px;
@@ -86,7 +115,10 @@ h1 {
   padding: 15px;
   font-weight: bold;
   font-size: 22px;
-  margin: 10px 10px 10px 0;
+  margin: 20px 10px 0;
+  display: inline-block;
+
+  width: 170px;
 
   -webkit-transition: none;
   -moz-transition: none;
