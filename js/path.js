@@ -6,7 +6,7 @@
 (function (exports) {
 
   function Path(points) {
-    if (Object.prototype.toString.call(points) === '[object Array]') {
+    if (Array.prototype.isArray.call(points)) {
       this.points = points;
     } else {
       this.points = Array.prototype.slice.call(arguments);

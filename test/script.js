@@ -125,7 +125,7 @@ TestSuite.testScales = function () {
   }
 };
 
-TestSuite.testEmboss = function () {
+TestSuite.testExtrude = function () {
   var basePath = new Path([
     new Point(0, 0, 0),
     new Point(1, 0, 0),
@@ -134,17 +134,17 @@ TestSuite.testEmboss = function () {
     new Point(0, 1, 0)
   ]);
 
-  iso.add(Shape.emboss(basePath)
+  iso.add(Shape.extrude(basePath)
       .scale(Point.ORIGIN, 4)
       .translate(6, 6, 0));
 };
 
 TestSuite.testCircle = function () {
-  iso.add(Shape.emboss(Path.Circle(new Point(8, 8, 0), 8)));
+  iso.add(Shape.extrude(Path.Circle(new Point(8, 8, 0), 8)));
 };
 
 TestSuite.testStar = function () {
-  iso.add(Shape.emboss(Path.Star(Point.ORIGIN, 1, 2, 4).rotateZ(Point.ORIGIN, Math.PI/6)));
+  iso.add(Shape.extrude(Path.Star(Point.ORIGIN, 1, 2, 4).rotateZ(Point.ORIGIN, Math.PI/6)));
 };
 
 
