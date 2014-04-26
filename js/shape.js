@@ -137,7 +137,7 @@
    * Utility function to create a 3D object by raising a 2D path
    * along the z-axis
    */
-  Shape.emboss = function (path, height) {
+  Shape.extrude = function (path, height) {
     height = height || 1;
 
     var i, topPath = path.translate(0, 0, height);
