@@ -6,7 +6,7 @@
 (function (exports) {
 
   function Shape(paths) {
-    if (Object.prototype.toString.call(paths) === '[object Array]') {
+    if (Array.prototype.isArray.call(paths)) {
       this.paths = paths;
     } else {
       this.paths = Array.prototype.slice.call(arguments);
