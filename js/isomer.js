@@ -27,6 +27,7 @@ function Isomer(canvasId, options) {
    * The maximum color difference from shading
    */
   this.colorDifference = 0.20;
+  this.lightColor = options.lightColor || new Isomer.Color(255, 255, 255);
 }
 
 /**
@@ -104,6 +105,8 @@ Isomer.prototype._addPath = function (path, baseColor) {
    */
   var brightness = Vector.dotProduct(normal, this.lightAngle);
 
-  var color = baseColor.lighten(brightness * this.colorDifference);
+  var color = baseColor.lightWith(this.lightColor);
+  color = color.lighten(brightness * this.colorDifference);
+  
   this.canvas.path(path.points.map(this._translatePoint.bind(this)), color);
 };

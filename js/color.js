@@ -25,6 +25,20 @@
     return '#' + hex;
   };
 
+  /**
+  * Returns a the color when lit with a certain color light
+  */
+  Color.prototype.lightWith = function (lightColor) {
+    var newColor = new Color();
+
+    newColor.r = (lightColor.r / 255) * this.r;
+    newColor.g = (lightColor.g / 255) * this.g;
+    newColor.b = (lightColor.b / 255) * this.b;
+
+    newColor.loadHSL();
+    return newColor;
+  };
+
 
   /**
    * Returns a lightened color based on a given percentage
