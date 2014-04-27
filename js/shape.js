@@ -247,6 +247,13 @@
     return pyramid;
   };
 
+  Shape.Cylinder = function (origin, radius, vertices, height) {
+    radius = radius || 1;
+    var Path = Isomer.Path;
+    var circle = new Path.Circle(origin, radius, vertices);
+    var cylinder = Shape.extrude(circle,height);
+    return cylinder;
+  };
   exports.Shape = Shape;
 
 })(Isomer);
