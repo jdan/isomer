@@ -55,9 +55,10 @@ And you're ready to start drawing!
 
 ## Build
 
-To build the project, first install [gulp](http://gulpjs.com/).
+To build the project, first install the dependencies.
 
 ```
+$ npm install
 $ npm install -g gulp
 ```
 
