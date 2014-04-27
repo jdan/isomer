@@ -20,12 +20,21 @@ function Isomer(canvasId, options) {
    *
    * We'll define somewhat arbitrarily for now.
    */
-  this.lightAngle = new Isomer.Vector(2, -1, 3).normalize();
+  this.lightPosition = options.lightPosition || new Isomer.Vector(2, -1, 3);
+  this.lightAngle = this.lightPosition.normalize();
 
   /**
    * The maximum color difference from shading
    */
   this.colorDifference = 0.20;
+}
+
+/**
+ * Sets the light position for drawing.
+ */
+Isomer.prototype.setLightPosition = function (x, y, z) {
+  this.lightPosition = new Isomer.Vector(x, y, z);
+  this.lightAngle = this.lightPosition.normalize();
 }
 
 Isomer.prototype._translatePoint = function (point) {
