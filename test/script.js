@@ -83,7 +83,11 @@ function Knot(origin) {
   return knot.scale(Point.ORIGIN, 1/5).translate(-0.1, 0.15, 0.4).translate(origin.x, origin.y, origin.z);
 }
 
-TestSuite.drawStructure = function () {
+function randomColor(){
+  return new Color(parseInt(Math.random() * 256), parseInt(Math.random() * 256), parseInt(Math.random() * 256));
+}
+
+TestSuite['draw structure'] = function () {
   iso.add(Shape.Prism(new Point(1, 0, 0), 4, 4, 2));
   iso.add(Shape.Prism(new Point(0, 0, 0), 1, 4, 1));
   iso.add(Shape.Prism(new Point(-1, 1, 0), 1, 3, 1));
@@ -113,7 +117,7 @@ TestSuite.drawStructure = function () {
   iso.add(Knot(new Point(3, 2, 3.2)), new Color(0, 180, 180));;
 };
 
-TestSuite.testScales = function () {
+TestSuite['test scales'] = function () {
   var cube = Shape.Prism(new Point(5, 5), 1, 1, 1);
 
   for (var i = 0; i < 20; i++) {
@@ -121,11 +125,11 @@ TestSuite.testScales = function () {
       .scale(new Point(5.5, 5.5), 10 - i/2, 10 - i/2, 1/3)
       .translate(0, 0, i/3)
       .rotateZ(new Point(5.5, 5.5), -Math.PI/20 * i),
-           new Color(parseInt(Math.random() * 256), parseInt(Math.random() * 256), parseInt(Math.random() * 256)));
+           randomColor());
   }
 };
 
-TestSuite.testExtrude = function () {
+TestSuite['test extrude'] = function () {
   var basePath = new Path([
     new Point(0, 0, 0),
     new Point(1, 0, 0),
@@ -139,15 +143,21 @@ TestSuite.testExtrude = function () {
       .translate(6, 6, 0));
 };
 
-TestSuite.testCircle = function () {
-  iso.add(Shape.extrude(Path.Circle(new Point(8, 8, 0), 8)));
+TestSuite['test cylinder'] = function () {
+  //iso.add(Shape.extrude(Path.Circle(new Point(8, 8, 0), 2)));
+  iso.add(Shape.Cylinder(new Point(8, 8, 0), 6));
+  iso.add(Shape.Cylinder(new Point(11, 11, 1), 2.5, 20, 6), randomColor());
+  iso.add(Shape.Cylinder(new Point(5, 9, 1), 0.75, 20, 12), randomColor());
+  iso.add(Shape.Cylinder(new Point(4.5, 8, 1), 1.5, 20, 3), randomColor());
+  iso.add(Shape.Cylinder(new Point(10, 6, 1), 2.5, 20, 5), randomColor());
+  iso.add(Shape.Cylinder(new Point(6, 5, 1), 2, 20, 4), randomColor());
 };
 
-TestSuite.testStar = function () {
+TestSuite['test star'] = function () {
   iso.add(Shape.extrude(Path.Star(Point.ORIGIN, 1, 2, 4).rotateZ(Point.ORIGIN, Math.PI/6)));
 };
 
-TestSuite.drawLogo = function () {
+TestSuite['draw logo'] = function () {
   iso.add(Shape.Prism(new Point(1, 1), 1, 1, 2), new Color(0, 180, 180));
   iso.add(Shape.Prism(new Point(0, 1), 1, 1, 1.5), new Color(50, 60, 180));
   iso.add(Shape.Prism(new Point(1, 0), 1, 1, 1), new Color(50, 180, 60));
