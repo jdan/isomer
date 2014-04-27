@@ -20,7 +20,7 @@ function Isomer(canvasId, options) {
    *
    * We'll define somewhat arbitrarily for now.
    */
-  this.lightPosition = new Isomer.Vector(2, -1, 3);
+  this.lightPosition = options.lightPosition || new Isomer.Vector(2, -1, 3);
   this.lightAngle = this.lightPosition.normalize();
 
   /**
