@@ -166,9 +166,9 @@
    */
 
   /**
-   * A prism located at origin with dimensions dx, dy, dz and color
+   * A prism located at origin with dimensions dx, dy, dz
    */
-  Shape.Prism = function (origin, dx, dy, dz, color) {
+  Shape.Prism = function (origin, dx, dy, dz) {
     dx = dx || 1;
     dy = dy || 1;
     dz = dz || 1;
