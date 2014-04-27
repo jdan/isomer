@@ -154,6 +154,15 @@ TestSuite.drawLogo = function () {
   iso.add(Shape.Prism(new Point(0, 0), 1, 1, 0.5), new Color(180, 50, 60));
 };
 
+TestSuite.testRedLight = function () {
+  iso.lightColor = new Color(160, 50, 60);
+  iso.add(Shape.Prism(new Point(1, 1), 1, 1, 2), new Color(0, 180, 180));
+  iso.add(Shape.Prism(new Point(0, 1), 1, 1, 1.5), new Color(50, 60, 180));
+  iso.add(Shape.Prism(new Point(1, 0), 1, 1, 1), new Color(50, 180, 60));
+  iso.add(Shape.Prism(new Point(0, 0), 1, 1, 0.5), new Color(180, 50, 60));
+  iso.lightColor = new Color(255, 255, 255);
+};
+
 
 /**
  * Add testing buttons

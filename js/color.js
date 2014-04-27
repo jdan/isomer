@@ -27,14 +27,20 @@
 
 
   /**
-   * Returns a lightened color based on a given percentage
+   * Returns a lightened color based on a given percentage and an optional
+   * light color
    */
-  Color.prototype.lighten = function (percentage) {
-    var newColor = new Color();
-    newColor.h = this.h;
-    newColor.s = this.s;
+  Color.prototype.lighten = function (percentage, lightColor) {
+    lightColor = lightColor || new Color(255, 255, 255);
 
-    newColor.l = Math.min(this.l + percentage, 1);
+    var newColor = new Color(
+      (lightColor.r / 255) * this.r,
+      (lightColor.g / 255) * this.g,
+      (lightColor.b / 255) * this.b
+    );
+
+    newColor.l = Math.min(newColor.l + percentage, 1);
+
     newColor.loadRGB();
     return newColor;
   };
