@@ -26,7 +26,7 @@ function Isomer(canvasId, options) {
    * The maximum color difference from shading
    */
   this.colorDifference = 0.20;
-  this.lightColor = new Isomer.Color(255, 255, 255);
+  this.lightColor = options.lightColor || new Isomer.Color(255, 255, 255);
 }
 
 Isomer.prototype._translatePoint = function (point) {
