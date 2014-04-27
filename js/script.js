@@ -76,8 +76,41 @@ function Knot(origin) {
   return knot.scale(Point.ORIGIN, 1/5).translate(-0.1, 0.15, 0.4).translate(origin.x, origin.y, origin.z);
 }
 
+/**
+ * Draws an octohedron contained in a 1x1 cube location at origin
+ */
+function Octohedron(origin) {
+  /* Declare the center of the shape to make rotations easy */
+  var center = origin.translate(0.5, 0.5, 0.5);
+  var faces = [];
+
+  /* Draw the upper triangle /\ and rotate it */
+  var upperTriangle = new Path([
+    origin.translate(0, 0, 0.5),
+    origin.translate(0.5, 0.5, 1),
+    origin.translate(0, 1, 0.5)
+  ]);
+
+  var lowerTriangle = new Path([
+    origin.translate(0, 0, 0.5),
+    origin.translate(0, 1, 0.5),
+    origin.translate(0.5, 0.5, 0)
+  ]);
+
+  for (var i = 0; i < 4; i++) {
+    faces.push(upperTriangle.rotateZ(center, i * Math.PI / 2));
+    faces.push(lowerTriangle.rotateZ(center, i * Math.PI / 2));
+  }
+
+  /* We need to scale the shape along the x & y directions to make the
+   * sides equilateral triangles */
+  return new Shape(faces).scale(center, Math.sqrt(2)/2, Math.sqrt(2)/2, 1);
+}
+
 var Example = {};
 
+/* Rotation angle for our centerpiece */
+var angle = 0;
 Example.brand = function () {
   var iso = new Isomer(document.getElementById("logo"), {
     originX: 470,
@@ -110,7 +143,13 @@ Example.brand = function () {
     new Color(40, 180, 40));
 
   iso.add(Shape.Prism(new Point(3, 2, 3), 1, 1, 0.2), new Color(50, 50, 50));
-  iso.add(Knot(new Point(3, 2, 3.2)), new Color(0, 180, 180));;
+  //iso.add(Knot(new Point(3, 2, 3.2)), new Color(0, 180, 180));
+
+  /* Draw a spinning Octohedron as our centerpiece */
+  iso.add(Octohedron(new Point(3, 2, 3.2))
+    .rotateZ(new Point(3.5, 2.5, 0), angle)
+    , new Color(0, 180, 180));
+  angle += 2 * Math.PI / 60;
 }
 
 Example.basic = function () {
@@ -244,3 +283,6 @@ Example.rotateExample = function () {
     Example[i]();
   }
 })();
+
+/* Animate brand */
+setInterval(Example.brand, 1000 / 30);
