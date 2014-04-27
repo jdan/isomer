@@ -166,9 +166,9 @@
    */
 
   /**
-   * A prism located at origin with dimensions dx, dy, dz and color
+   * A prism located at origin with dimensions dx, dy, dz
    */
-  Shape.Prism = function (origin, dx, dy, dz, color) {
+  Shape.Prism = function (origin, dx, dy, dz) {
     dx = dx || 1;
     dy = dy || 1;
     dz = dz || 1;
@@ -215,6 +215,7 @@
     return prism;
   };
 
+
   Shape.Pyramid = function (origin, dx, dy, dz) {
     dx = dx || 1;
     dy = dy || 1;
@@ -246,6 +247,19 @@
 
     return pyramid;
   };
+
+
+  Shape.Cylinder = function (origin, radius, vertices, height) {
+    radius = radius || 1;
+
+    var Path = Isomer.Path;
+
+    var circle = Path.Circle(origin, radius, vertices);
+    var cylinder = Shape.extrude(circle, height);
+
+    return cylinder;
+  };
+
 
   exports.Shape = Shape;
 
