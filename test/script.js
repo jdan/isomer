@@ -175,6 +175,17 @@ TestSuite['red light'] = function () {
   iso.lightColor = new Color(255, 255, 255);
 };
 
+TestSuite['test cone'] = function () {
+  iso.add(Shape.Prism(new Point(8, 8, 0), 2, 2, 3));
+  iso.add(Shape.Cylinder(new Point(8, 8, 4), 0.75, 40, 1.5));
+  iso.add(Shape.Cone(new Point(8, 8, 5.5), 0.8, 40, 1), randomColor());
+  iso.add(Shape.Cylinder(new Point(8, 8, 2), 0.5, 40, 1));
+  iso.add(Shape.Cone(new Point(8, 8, 3), 0.55, 40, 1), randomColor());
+  iso.add(Shape.Cylinder(new Point(10, 8, 2), 0.5, 40, 1));
+  iso.add(Shape.Cone(new Point(10, 8, 3), 0.55, 40, 1), randomColor());
+  iso.add(Shape.Cylinder(new Point(8, 10, 2), 0.5, 40, 1));
+  iso.add(Shape.Cone(new Point(8, 10, 3), 0.55, 40, 1), randomColor());
+};
 
 /**
  * Add testing buttons
