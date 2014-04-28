@@ -153,6 +153,18 @@ TestSuite['test cylinder'] = function () {
   iso.add(Shape.Cylinder(new Point(6, 5, 1), 2, 20, 4), randomColor());
 };
 
+TestSuite['test cone'] = function () {
+  iso.add(Shape.Prism(new Point(8, 8, 0), 2, 2, 3));
+  iso.add(Shape.Cylinder(new Point(8, 8, 4), 0.75, 40, 1.5));
+  iso.add(Shape.Cone(new Point(8, 8, 5.5), 0.8, 40, 1), randomColor());
+  iso.add(Shape.Cylinder(new Point(8, 8, 2), 0.5, 40, 1));
+  iso.add(Shape.Cone(new Point(8, 8, 3), 0.55, 40, 1), randomColor());
+  iso.add(Shape.Cylinder(new Point(10, 8, 2), 0.5, 40, 1));
+  iso.add(Shape.Cone(new Point(10, 8, 3), 0.55, 40, 1), randomColor());
+  iso.add(Shape.Cylinder(new Point(8, 10, 2), 0.5, 40, 1));
+  iso.add(Shape.Cone(new Point(8, 10, 3), 0.55, 40, 1), randomColor());
+};
+
 TestSuite['test star'] = function () {
   iso.add(Shape.extrude(Path.Star(Point.ORIGIN, 1, 2, 4).rotateZ(Point.ORIGIN, Math.PI/6)));
 };
