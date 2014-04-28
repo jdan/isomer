@@ -260,6 +260,26 @@
 
     return cylinder;
   };
+  
+  Shape.Cone = function (origin, radius, vertices, height) {
+    radius = radius || 1;
+    var Path = Isomer.Path;
+    
+    var cone = new Shape();
+    var topPoint = new Point(origin.x,origin.y,origin.z+height),
+        circle = new Path.Circle(origin, radius, vertices),
+        i;
+    cone.push(circle);
+     // Push each side face
+    for (i = 0; i < vertices; i++) {
+      cone.push(new Path([
+        circle.points[i],
+        circle.points[(i + 1) % vertices],
+        topPoint
+      ]));
+    }
+    return cone;
+  };
 
 
   exports.Shape = Shape;
