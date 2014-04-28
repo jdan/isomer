@@ -109,6 +109,7 @@
    * - averange distance of all points to an observer
    */
   Shape.prototype._pathDistances = function (path, destination) {
+    var Point = Isomer.Point;
     var maxPoint, maxDistance, i, distance, totalDistance;
 
     maxPoint = path.points[0];
