@@ -13,7 +13,7 @@ gulp.task('build', function () {
 /* Task for testing purposes - concat without minifying */
 gulp.task('concat', function () {
   gulp.src(['./js/isomer.js', './js/!(isomer)*.js'])
-    .pipe(concat('isomer.min.js'))
+    .pipe(concat('isomer.js'))
     .pipe(gulp.dest('./build'));
 });
 
