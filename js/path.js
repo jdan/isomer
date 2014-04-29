@@ -75,6 +75,20 @@
 
 
   /**
+   * The estimated depth of a path as defined by the average depth
+   * of its points
+   */
+  Path.prototype.depth = function () {
+    var i, total = 0;
+    for (i = 0; i < this.points.length; i++) {
+      total += this.points[i].depth();
+    }
+
+    return total / (this.points.length || 1);
+  };
+
+
+  /**
    * Some paths to play with
    */
 

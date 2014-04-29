@@ -63,6 +63,14 @@
 
 
   /**
+   * The depth of a point in the isometric plane
+   */
+  Point.prototype.depth = function () {
+    return this.x + this.y - this.z;
+  };
+
+
+  /**
    * Distance between two points
    */
   Point.distance = function (p1, p2) {

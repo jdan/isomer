@@ -69,68 +69,15 @@
    * prevent overlaps when drawing
    */
   Shape.prototype.orderedPaths = function () {
-    var Point = Isomer.Point;
-
-    var observer = new Point(-10, -10, 10);
-
-    /**
-     * Create a list of paths combined with their point that is located
-     * furthest from the observer.
-     *
-     * This makes it so we only have to computer furthestPointInPath once
-     * for each face.
-     */
-    var paths = this.paths.slice().map(function (path) {
-      var distances = this._pathDistances(path, observer);
-
-      return {
-        path: path,
-        furthestDistance: distances.furthestDistance,
-        averageDistance: distances.averageDistance
-      };
-    }.bind(this));
+    var paths = this.paths.slice();
 
     /**
      * Sort the list of faces by distance then map the entries, returning
      * only the path and not the added "further point" from earlier.
      */
     return paths.sort(function (pathA, pathB) {
-      return pathB.averageDistance - pathA.averageDistance;
-    }.bind(this)).map(function (item) {
-      return item.path;
+      return pathB.depth() - pathA.depth();
     });
-  };
-
-
-  /**
-   * Helper method to find
-   * - furthest point in a path to an observer
-   * - distance of the furthest point to an observer
-   * - averange distance of all points to an observer
-   */
-  Shape.prototype._pathDistances = function (path, destination) {
-    var Point = Isomer.Point;
-    var maxPoint, maxDistance, i, distance, totalDistance;
-
-    maxPoint = path.points[0];
-    maxDistance = Point.distance(maxPoint, destination);
-    totalDistance = 0;
-
-    for (i = 0; i < path.points.length; i++) {
-      distance = Point.distance(path.points[i], destination);
-      if (distance > maxDistance) {
-        maxDistance = distance;
-        maxPoint = path.points[i];
-      }
-
-      totalDistance += distance;
-    }
-
-    return {
-      furthestPoint: maxPoint,
-      furthestDistance: maxDistance,
-      averageDistance: totalDistance / path.points.length
-    }
   };
 
 
