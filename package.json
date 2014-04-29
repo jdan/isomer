@@ -1,6 +1,6 @@
 {
   "name": "isomer",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A simple isometric graphics library for HTML5 canvas",
   "directories": {
     "test": "test"
