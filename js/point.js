@@ -66,7 +66,8 @@
    * The depth of a point in the isometric plane
    */
   Point.prototype.depth = function () {
-    return this.x + this.y - this.z;
+    /* z is weighted slightly to accomodate |_ arrangements */
+    return this.x + this.y - 2*this.z;
   };
 
 

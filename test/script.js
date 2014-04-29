@@ -133,17 +133,13 @@ TestSuite['test scales'] = function () {
 };
 
 TestSuite['test extrude'] = function () {
-  var basePath = new Path([
-    new Point(0, 0, 0),
-    new Point(1, 0, 0),
-    new Point(1.5, 0.5, 0),
-    new Point(1, 1, 0),
-    new Point(0, 1, 0)
-  ]);
+  var s = Shape.extrude(new Path([
+    Point(1, 1, 1),
+    Point(2, 1, 1),
+    Point(2, 3, 1)
+  ]), 0.3).scale(Point.ORIGIN, 5);
 
-  iso.add(Shape.extrude(basePath)
-      .scale(Point.ORIGIN, 4)
-      .translate(6, 6, 0));
+  iso.add(s, new Color(50, 160, 60));
 };
 
 TestSuite['test cylinder'] = function () {
