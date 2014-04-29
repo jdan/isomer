@@ -77,9 +77,9 @@ function Knot(origin) {
 }
 
 /**
- * Draws an octohedron contained in a 1x1 cube location at origin
+ * Draws an octahedron contained in a 1x1 cube location at origin
  */
-function Octohedron(origin) {
+function Octahedron(origin) {
   /* Declare the center of the shape to make rotations easy */
   var center = origin.translate(0.5, 0.5, 0.5);
   var faces = [];
@@ -145,8 +145,8 @@ Example.brand = function () {
   iso.add(Shape.Prism(new Point(3, 2, 3), 1, 1, 0.2), new Color(50, 50, 50));
   //iso.add(Knot(new Point(3, 2, 3.2)), new Color(0, 180, 180));
 
-  /* Draw a spinning Octohedron as our centerpiece */
-  iso.add(Octohedron(new Point(3, 2, 3.2))
+  /* Draw a spinning Octahedron as our centerpiece */
+  iso.add(Octahedron(new Point(3, 2, 3.2))
     .rotateZ(new Point(3.5, 2.5, 0), angle)
     , new Color(0, 180, 180));
   angle += 2 * Math.PI / 60;
