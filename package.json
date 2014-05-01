@@ -15,11 +15,16 @@
     "canvas",
     "3D"
   ],
+  "main": "build/isomer.js",
+  "scripts": {
+    "postinstall": "./node_modules/.bin/gulp node"
+  },
   "author": "Jordan Scales <scalesjordan@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "gulp-concat": "~2.2.0",
     "gulp": "~3.6.0",
-    "gulp-uglify": "~0.2.1"
+    "gulp-uglify": "~0.2.1",
+    "gulp-insert": "^0.3.0"
   }
 }
