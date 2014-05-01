@@ -209,6 +209,27 @@
   };
 
 
+  Shape.Plane = function (origin, dx, dy) {
+        dx = dx || 1;
+        dy = dy || 1;
+
+        var Path = Isomer.Path;
+
+        var plane = new Shape();
+
+        var face = new Path([
+            origin,
+            new Point(origin.x + dx, origin.y, origin.z),
+            new Point(origin.x + dx, origin.y + dy, origin.z),
+            new Point(origin.x, origin.y + dy, origin.z)
+        ]);
+
+        plane.push(face);
+
+        return plane;
+    }
+
+
   exports.Shape = Shape;
 
 })(Isomer);
