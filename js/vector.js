@@ -1,9 +1,9 @@
 (function (exports) {
 
   function Vector(i, j, k) {
-    this.i = i || 0;
-    this.j = j || 0;
-    this.k = k || 0;
+    this.i = (typeof i === 'number') ? i : 0;
+    this.j = (typeof j === 'number') ? j : 0;
+    this.k = (typeof k === 'number') ? k : 0;
   }
 
   /**
