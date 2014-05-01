@@ -2,9 +2,9 @@
 
   function Point(x, y, z) {
     if (this instanceof Point) {
-      this.x = x || 0;
-      this.y = y || 0;
-      this.z = z || 0;
+      this.x = (typeof x === 'number') ? x : 0;
+      this.y = (typeof y === 'number') ? y : 0;
+      this.z = (typeof z === 'number') ? z : 0;
     } else {
       return new Point(x, y, z);
     }
@@ -36,7 +36,7 @@
       dy = dz = dx;
       /* If just dz is missing, set it equal to 1 */
     } else {
-      dz = (dz || 1);
+      dz = (typeof dz === 'number') ? dz : 1;
     }
 
     p.x *= dx;
