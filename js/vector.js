@@ -1,9 +1,13 @@
 (function (exports) {
 
   function Vector(i, j, k) {
-    this.i = i || 0;
-    this.j = j || 0;
-    this.k = k || 0;
+    if (i === undefined) i = 0;
+    if (j === undefined) j = 0;
+    if (k === undefined) k = 0;
+
+    this.i = i;
+    this.j = j;
+    this.k = k;
   }
 
   /**

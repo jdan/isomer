@@ -96,7 +96,7 @@
    * A circle centered at origin with a given radius and number of vertices
    */
   Path.Circle = function (origin, radius, vertices) {
-    vertices = vertices || 20;
+    if (vertices === undefined) vertices = 20;
     var i, path = new Path();
 
     for (i = 0; i < vertices; i++) {

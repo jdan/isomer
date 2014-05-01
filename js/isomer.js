@@ -4,7 +4,7 @@
  * This file contains the Isomer base definition
  */
 function Isomer(canvasId, options) {
-  options = options || {};
+  if (options === undefined) options = {};
 
   this.canvas = new Isomer.Canvas(canvasId);
   this.angle = Math.PI / 6;
