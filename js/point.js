@@ -2,9 +2,12 @@
 
   function Point(x, y, z) {
     if (this instanceof Point) {
-      this.x = x || 0;
-      this.y = y || 0;
-      this.z = z || 0;
+      if (x === undefined) x = 0;
+      if (y === undefined) y = 0;
+      if (z === undefined) z = 0;
+      this.x = x;
+      this.y = y;
+      this.z = z;
     } else {
       return new Point(x, y, z);
     }

@@ -6,9 +6,13 @@
   * Also holds HSL values
   */
   function Color(r, g, b) {
-    this.r = parseInt(r || 0);
-    this.g = parseInt(g || 0);
-    this.b = parseInt(b || 0);
+    if (r === undefined) r = 0;
+    if (g === undefined) g = 0;
+    if (b === undefined) b = 0;
+
+    this.r = parseInt(r);
+    this.g = parseInt(g);
+    this.b = parseInt(b);
 
     this.loadHSL();
   };
@@ -31,7 +35,7 @@
    * light color
    */
   Color.prototype.lighten = function (percentage, lightColor) {
-    lightColor = lightColor || new Color(255, 255, 255);
+    if (lightColor === undefined) lightColor = Color(255, 255, 255);
 
     var newColor = new Color(
       (lightColor.r / 255) * this.r,

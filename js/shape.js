@@ -86,7 +86,7 @@
    * along the z-axis
    */
   Shape.extrude = function (path, height) {
-    height = height || 1;
+    if (height === undefined) height = 1;
 
     var i, topPath = path.translate(0, 0, height);
     var shape = new Shape();
@@ -117,9 +117,9 @@
    * A prism located at origin with dimensions dx, dy, dz
    */
   Shape.Prism = function (origin, dx, dy, dz) {
-    dx = dx || 1;
-    dy = dy || 1;
-    dz = dz || 1;
+    if (dx === undefined) dx = 1;
+    if (dy === undefined) dy = 1;
+    if (dz === undefined) dz = 1;
 
     var Path = Isomer.Path;
     var Point = Isomer.Point;
@@ -165,9 +165,9 @@
 
 
   Shape.Pyramid = function (origin, dx, dy, dz) {
-    dx = dx || 1;
-    dy = dy || 1;
-    dz = dz || 1;
+    if (dx === undefined) dx = 1;
+    if (dy === undefined) dy = 1;
+    if (dz === undefined) dz = 1;
 
     var Path = Isomer.Path;
     var Point = Isomer.Point;
@@ -198,7 +198,7 @@
 
 
   Shape.Cylinder = function (origin, radius, vertices, height) {
-    radius = radius || 1;
+    if (radius === undefined) radius = 1;
 
     var Path = Isomer.Path;
 
