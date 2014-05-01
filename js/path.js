@@ -93,6 +93,24 @@
    */
 
   /**
+   * A rectangle with the bottom-left corner in the origin
+   */
+  Path.Rectangle = function (origin, width, height) {
+    if (width === undefined) width = 1;
+    if (height === undefined) height = 1;
+
+    var path = new Path([
+      origin,
+      new Point(origin.x + width, origin.y, origin.z),
+      new Point(origin.x + width, origin.y + height, origin.z),
+      new Point(origin.x, origin.y + height, origin.z)
+    ]);
+
+    return path;
+  };
+
+
+  /**
    * A circle centered at origin with a given radius and number of vertices
    */
   Path.Circle = function (origin, radius, vertices) {
