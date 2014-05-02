@@ -82,35 +82,6 @@ Isomer.prototype.add = function (item, baseColor) {
   }
 };
 
-/**
- * Adds an array of shapes to the scene, sorting their faces globally
- * so that they are displayed in the right order
- *
- * Input is given as an array of {shape: yourShape, color: yourColor}
- */
-
-Isomer.prototype.addOrdered = function (item) {
-    var Point = Isomer.Point;
-    var observer = new Point(-10, -10, 10);
-    var pathList = [];
-    var index = 0;
-   
-    for (var i = 0; i < item.length; i++) {
-        for(var j = 0 ; j < item[i].shape.paths.length ; j++){
-            pathList[index] = {
-                path: item[i].shape.paths[j],
-                color: item[i].color,
-                distance: item[i].shape._pathDistances(item[i].shape.paths[j], observer)
-            };
-            index++;
-        }
-    }
-    pathList.sort(function(pathA, pathB){return (pathB.distance.averageDistance - pathA.distance.averageDistance)});
-   
-    for (var i = 0 ; i < pathList.length ; i++) {
-        this._addPath(pathList[i].path, pathList[i].color);
-    }
-};
 
 /**
  * Adds a path to the scene
