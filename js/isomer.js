@@ -82,6 +82,32 @@ Isomer.prototype.add = function (item, baseColor) {
   }
 };
 
+/**
+ * Adds an array of {shape: yourShape, color: yourColor} to the scene,
+ * ordered so that distant faces are displayed first
+ *  */
+Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
+  var Point = Isomer.Point;
+  var observer = new Point(-10, -10, 10);
+  var pathList = [];
+  var index = 0;
+
+  for (var i = 0; i < item.length; i++) {
+    for(var j = 0 ; j < item[i].shape.paths.length ; j++){
+      pathList[index] = {
+        path: item[i].shape.paths[j],
+        color: item[i].color
+      };
+      index++;
+    }
+  }
+  pathList.sort(function(pathA, pathB){return (pathA.closerThan(pathB, observer))?1:-1;});
+
+  for (var i = 0 ; i < pathList.length ; i++) {
+    this._addPath(pathList[i].path, pathList[i].color);
+  }
+};
+
 
 /**
  * Adds a path to the scene

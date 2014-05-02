@@ -89,6 +89,39 @@
 
 
   /**
+   * If pathB ("this") is closer from the observer than pathA, it must be drawn after.
+   * It is closer if one of its vertices and the observer are on the same side of the plane defined by pathA.
+   */
+  Path.prototype.closerThan = function(pathA, observer) {
+    var i = 0;
+    // the plane containing pathA is defined by the three points A, B, C
+    var AB = Vector.fromTwoPoints(pathA.points[0], pathA.points[1]);
+    var AC = Vector.fromTwoPoints(pathA.points[0], pathA.points[2]);
+    var n = Vector.crossProduct(AB, AC);
+
+    var OA = Vector.fromTwoPoints(Point.ORIGIN, pathA.points[0]);
+    var OU = Vector.fromTwoPoints(Point.ORIGIN, observer); //U = user = observer
+
+    // Plane defined by pathA such as ax + by + zc = d
+    // Here d = nx*x + ny*y + nz*z = n.OA
+    var d = Vector.dotProduct(n, OA);
+
+    var observerPosition = Vector.dotProduct(n, OU) - d;
+
+    for (i = 0; i < this.points.length; i++) {
+      var OP = Vector.fromTwoPoints(Point.ORIGIN, this.points[i]);
+      var pPosition = Vector.dotProduct(n, OP) - d;
+      if(observerPosition * pPosition > 0){ //same sign = same side
+        return 1;
+      }
+    }
+
+    return 0; 
+
+  };
+
+
+  /**
    * Some paths to play with
    */
 
