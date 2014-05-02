@@ -91,17 +91,29 @@ Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
   var observer = new Point(-10, -10, 10);
   var pathList = [];
   var index = 0;
-
   for (var i = 0; i < item.length; i++) {
     for(var j = 0 ; j < item[i].shape.paths.length ; j++){
       pathList[index] = {
         path: item[i].shape.paths[j],
-        color: item[i].color
+        color: item[i].color,
+		nbCloser: 0
       };
       index++;
     }
   }
-  pathList.sort(function(pathA, pathB){return (pathA.closerThan(pathB, observer))?1:-1;});
+  
+  for (var i = 0 ; i < pathList.length ; i++) {
+    for (var j = 0 ; j < i ; j++) {
+	  var cmpPath = pathList[i].path.closerThan(pathList[j].path, observer);
+	  var cmpPath2 = pathList[i].path.depth() - pathList[j].path.depth();
+      if(cmpPath > 0 || (cmpPath == 0 && cmpPath2 > 0)){
+	    pathList[i].nbCloser++;
+	  } else {
+	    pathList[j].nbCloser++;
+	  }
+    }
+  }
+  pathList.sort(function(pathA, pathB){return (pathB.nbCloser - pathA.nbCloser);});
 
   for (var i = 0 ; i < pathList.length ; i++) {
     this._addPath(pathList[i].path, pathList[i].color);
