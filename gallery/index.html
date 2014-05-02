@@ -5,10 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <meta property="og:image" content="https://i.cloudup.com/6XcAKnZq1w-3000x3000.png">
-  <meta property="og:title" content="Isomer – an isometric graphics library for HTML5 canvas">
+  <meta property="og:title" content="Isomer – Gallery">
   <meta property="og:site_name" content="Isomer">
 
-  <title>Isomer – an isometric graphics library for HTML5 canvas</title>
+  <title>Isomer – Gallery</title>
 
   <link rel="stylesheet" href="/css/style.css">
   <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
@@ -26,6 +26,7 @@
     <div class="content brand">
       <h1>Made with Isomer</h1>
       <p>a collection of awesome isometric toys</p>
+      <canvas width="1000" height="800" id="logo"></canvas>
     </div>
   </section>
 
@@ -45,8 +46,58 @@
 
   <section class="row bg-red">
     <div class="content">
+      <h2>Have something to show off?</h2>
+      <p>
+        This is a temporary hub to show off the cool stuff everyone's building
+        using Isomer. If you want your creation listed, please share it
+        <a href="https://github.com/jdan/isomer/issues/31">here</a>!
+      </p>
+      <p>&nbsp;</p>
+
+      <h2>The Parthenon (by <a href="http://codepen.io/jdan">@jdan</a>)</h2>
+      <p data-height="400" data-theme-id="0" data-slug-hash="oGHDE" data-default-tab="result" class='codepen'></p>
+
+      <h2>Flappy Bird (by <a href="http://codepen.io/wouwi/">@wouwi</a>)</h2>
+      <p data-height="400" data-theme-id="0" data-slug-hash="fAuco" data-default-tab="result" class='codepen'></p>
+
+      <h2>Jenga Tower (by <a href="http://codepen.io/jaka_dirnbek/">@jaka_dirnbek</a>)</h2>
+      <p data-height="400" data-theme-id="0" data-slug-hash="LnDwz" data-default-tab="result" class='codepen'></p>
+
+      <h2>Checkerboard (by <a href="http://codepen.io/WaynePincence/">@WaynePincence</a>)</h2>
+      <p data-height="400" data-theme-id="0" data-slug-hash="ueAvn" data-default-tab="result" class='codepen'></p>
+
+      <h2>An animated structure (by <a href="http://codepen.io/jdan">@jdan</a>)</h2>
       <p data-height="400" data-theme-id="0" data-slug-hash="HmGCz" data-default-tab="result" class='codepen'></p>
-      <script async src="//codepen.io/assets/embed/ei.js"></script>
+    </div>
+  </section>
+
+  <section class="row bg-yellow">
+    <div class="content">
+      <div class="links social-links">
+        <p>
+          <h2>Stay in the know</h2>
+        </p>
+        <ul class="social">
+          <li>
+            <iframe src="http://ghbtns.com/github-btn.html?user=jdan&repo=isomer&type=watch&count=true"
+  allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+          </li>
+          <li>
+            <iframe src="http://ghbtns.com/github-btn.html?user=jdan&repo=isomer&type=fork&count=true"
+  allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+          </li>
+
+          <li>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-text="Isomer – an isometric graphics library for HTML5 canvas by @jdan">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+          </li>
+
+          <li>
+            <a href="https://twitter.com/jdan" class="twitter-follow-button">Follow @jdan</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -59,6 +110,10 @@
       </div>
     </div>
   </section>
+
+  <script src="/js/isomer.min.js"></script>
+  <script src="/js/gallery.js"></script>
+  <script async src="//codepen.io/assets/embed/ei.js"></script>
 
   <!-- Google Analytics -->
   <script>
