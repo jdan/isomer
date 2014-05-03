@@ -1,3 +1,11 @@
+var Canvas = require('./canvas');
+var Color = require('./color');
+var Path = require('./path');
+var Point = require('./point');
+var Shape = require('./shape');
+var Vector = require('./vector');
+
+
 /**
  * The Isomer class
  *
@@ -6,7 +14,7 @@
 function Isomer(canvasId, options) {
   options = options || {};
 
-  this.canvas = new Isomer.Canvas(canvasId);
+  this.canvas = new Canvas(canvasId);
   this.angle = Math.PI / 6;
 
   this.scale = options.scale || 70;
@@ -20,27 +28,25 @@ function Isomer(canvasId, options) {
    *
    * We'll define somewhat arbitrarily for now.
    */
-  this.lightPosition = options.lightPosition || new Isomer.Vector(2, -1, 3);
+  this.lightPosition = options.lightPosition || new Vector(2, -1, 3);
   this.lightAngle = this.lightPosition.normalize();
 
   /**
    * The maximum color difference from shading
    */
   this.colorDifference = 0.20;
-  this.lightColor = options.lightColor || new Isomer.Color(255, 255, 255);
+  this.lightColor = options.lightColor || new Color(255, 255, 255);
 }
 
 /**
  * Sets the light position for drawing.
  */
 Isomer.prototype.setLightPosition = function (x, y, z) {
-  this.lightPosition = new Isomer.Vector(x, y, z);
+  this.lightPosition = new Vector(x, y, z);
   this.lightAngle = this.lightPosition.normalize();
 }
 
 Isomer.prototype._translatePoint = function (point) {
-  var Point = Isomer.Point;
-
   /**
    * X rides along the angle extended from the origin
    * Y rides perpendicular to this angle (in isometric view: PI - angle)
@@ -64,9 +70,6 @@ Isomer.prototype._translatePoint = function (point) {
  * This method also accepts arrays
  */
 Isomer.prototype.add = function (item, baseColor) {
-  var Path = Isomer.Path;
-  var Shape = Isomer.Shape;
-
   if (Object.prototype.toString.call(item) == '[object Array]') {
     for (var i = 0; i < item.length; i++) {
       this.add(item[i], baseColor);
@@ -87,9 +90,6 @@ Isomer.prototype.add = function (item, baseColor) {
  * Adds a path to the scene
  */
 Isomer.prototype._addPath = function (path, baseColor) {
-  var Color = Isomer.Color;
-  var Vector = Isomer.Vector;
-
   /* Default baseColor */
   baseColor = baseColor || new Color(120, 120, 120);
 
@@ -108,3 +108,14 @@ Isomer.prototype._addPath = function (path, baseColor) {
 
   this.canvas.path(path.points.map(this._translatePoint.bind(this)), color);
 };
+
+/* Namespace our primitives */
+Isomer.Canvas = Canvas;
+Isomer.Color = Color;
+Isomer.Path = Path;
+Isomer.Point = Point;
+Isomer.Shape = Shape;
+Isomer.Vector = Vector;
+
+/* Expose Isomer API */
+module.exports = Isomer;
