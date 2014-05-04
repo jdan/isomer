@@ -21,6 +21,8 @@
   "devDependencies": {
     "browserify": "^3.46.0",
     "gulp": "^3.6.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^0.2.1",
     "vinyl-source-stream": "^0.1.1"
   }
 }

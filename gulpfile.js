@@ -1,4 +1,6 @@
 var gulp = require('gulp');
+var rename = require('gulp-rename');
+var uglify = require('gulp-uglify');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 
@@ -8,6 +10,14 @@ gulp.task('build', function () {
 
   bundleStream
     .pipe(source('isomer.js'))
+    .pipe(gulp.dest('./build'));
+});
+
+/* Task to create a release by minifying the build */
+gulp.task('release', ['build'], function () {
+  gulp.src('./build/isomer.js')
+    .pipe(uglify())
+    .pipe(rename('isomer.min.js'))
     .pipe(gulp.dest('./build'));
 });
 
