@@ -1,6 +1,6 @@
 {
   "name": "isomer",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A simple isometric graphics library for HTML5 canvas",
   "directories": {
     "test": "test"
@@ -21,8 +21,10 @@
   "devDependencies": {
     "browserify": "^3.46.0",
     "gulp": "^3.6.0",
+    "gulp-header": "^1.0.2",
     "gulp-rename": "^1.2.0",
     "gulp-uglify": "^0.2.1",
+    "strftime": "^0.8.0",
     "vinyl-source-stream": "^0.1.1"
   }
 }
