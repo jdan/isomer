@@ -229,8 +229,8 @@ Isomer.prototype._hasIntersection = function(pathA, pathB) {
 	polyB.push(pointsB[0]);
 	//console.log(polyA);
 	//console.log(polyB);
-	for(i = Math.min(Math.floor(AminX), Math.floor(BminX)) ; i < Math.max(Math.ceil(AmaxX), Math.ceil(BmaxX)) ; i++){
-	  for(j = Math.min(Math.floor(AminY), Math.floor(BminY)) ; j < Math.max(Math.ceil(AmaxY), Math.ceil(BmaxY)) ; j++){
+	for(i = Math.max(Math.floor(AminX), Math.floor(BminX)) ; i < Math.min(Math.ceil(AmaxX), Math.ceil(BmaxX)) ; i++){
+	  for(j = Math.max(Math.floor(AminY), Math.floor(BminY)) ; j < Math.min(Math.ceil(AmaxY), Math.ceil(BmaxY)) ; j++){
 	    if(isPointInPoly(polyA, {x:i, y:j}) && isPointInPoly(polyB, {x:i, y:j})){
 		  //console.log("return 1");
 		  return 1;
