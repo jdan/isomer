@@ -96,7 +96,8 @@ Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
     for(var j = 0 ; j < item[i].shape.paths.length ; j++){
       pathList[index] = {
         path: item[i].shape.paths[j],
-        color: item[i].color
+        color: item[i].color,
+		drawn: 0
       };
       index++;
     }
@@ -104,27 +105,46 @@ Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
 
   
   
-   //pathList = [pathList[0], pathList[8], ];
+ /* pathList = [
+    //pathList[0],
+	pathList[1],
+	//pathList[2],
+	//pathList[3],
+	//pathList[4],
+    // pathList[5],pathList[6],pathList[7],pathList[8],pathList[9],
+    //pathList[10],pathList[11],
+	//pathList[12],
+	//pathList[13],
+	pathList[14],
+    //pathList[15],
+	//pathList[16],pathList[17],pathList[18],pathList[19],
+   // pathList[20],pathList[21],pathList[22],pathList[23],pathList[24],
+    //pathList[25],
+	//pathList[26],
+	//pathList[27]
+
+  ];*/
   //pathList = [pathList[5],pathList[29]];
   //pathList[7],pathList[8],pathList[9],pathList[10],pathList[11]];
 
   //pathList = [pathList[1], pathList[2],];
   //pathList[10],pathList[11]];
-  console.log(pathList[0].path.points);
-  console.log(pathList[1].path.points);
+  //console.log(pathList[0].path.points);
+  //console.log(pathList[2].path.points);
   
     
-  console.log("0->1 " + pathList[0].path._countCloserThan(pathList[1].path, observer));
-  console.log("1->0 " + pathList[1].path._countCloserThan(pathList[0].path, observer));
-  console.log("conclude " + pathList[0].path.closerThan(pathList[1].path, observer));
+  //console.log("0->2 " + pathList[0].path._countCloserThan(pathList[2].path, observer));
+  //console.log("2->0 " + pathList[2].path._countCloserThan(pathList[0].path, observer));
+  //console.log("conclude " + pathList[0].path.closerThan(pathList[2].path, observer));
   
+  // console.log("0->1 " + pathList[0].path._countCloserThan(pathList[1].path, observer));
+  // console.log("1->0 " + pathList[1].path._countCloserThan(pathList[0].path, observer));
+  // console.log("conclude " + pathList[0].path.closerThan(pathList[1].path, observer));
+ 
+ // topological sort
   
-  // topological sort
-  
-  var drawnPath = [];
   var drawBefore = [];
   for (var i = 0 ; i < pathList.length ; i++){
-	drawnPath[i] = 0;
 	drawBefore[i] = [];
   }
   for (var i = 0 ; i < pathList.length ; i++){
@@ -154,21 +174,29 @@ Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
 	index++;
 	drawThisTurn = 0;
 	for (var i = 0 ; i < pathList.length ; i++){
-	  if(drawnPath[i] == 0){
+	  if(pathList[i].drawn == 0){
 	    var canDraw = 1;
 		for (var j = 0 ; j < drawBefore[i].length ; j++){
-		  if(drawnPath[drawBefore[i][j]] == 0){canDraw = 0;}
+		  if(pathList[drawBefore[i][j]].drawn == 0){canDraw = 0;}
 		}
 		if(canDraw == 1){
 		   this._addPath(pathList[i].path, pathList[i].color);
 		   drawThisTurn = 1;
-		   drawnPath[i] = 1;
+		   pathList[i].drawn = 1;
 		}
 	  }
 	}
   
   }
-  console.log(drawnPath);
+  //purge 
+  //could be done more in a smarter order, that's why drawn is is an element of pathList[] and not a separate array
+  for (var i = 0 ; i < pathList.length ; i++){
+    if(pathList[i].drawn == 0){
+	  console.log("purging : "+i);
+	  this._addPath(pathList[i].path, pathList[i].color);
+	}
+  }
+  
   
 };
 
@@ -193,7 +221,7 @@ Isomer.prototype._hasIntersection = function(pathA, pathB) {
   var pointsA = pathA.points.map(this._translatePoint.bind(this));
   var pointsB = pathB.points.map(this._translatePoint.bind(this));
   var i, j;
-  
+  //console.log("_hasIntersection");
   var AminX = pointsA[0].x;
   var AminY = pointsA[0].y;
   var AmaxX = AminX;
@@ -229,8 +257,9 @@ Isomer.prototype._hasIntersection = function(pathA, pathB) {
 	polyB.push(pointsB[0]);
 	//console.log(polyA);
 	//console.log(polyB);
-	for(i = Math.max(Math.floor(AminX), Math.floor(BminX)) ; i < Math.min(Math.ceil(AmaxX), Math.ceil(BmaxX)) ; i++){
-	  for(j = Math.max(Math.floor(AminY), Math.floor(BminY)) ; j < Math.min(Math.ceil(AmaxY), Math.ceil(BmaxY)) ; j++){
+	// Parse common rectangle to find intersection. For better performance, we can monte-carlo this.
+	for(i = Math.floor(Math.max(AminX, BminX)) + 1 ; i <= Math.ceil(Math.min(AmaxX, BmaxX)) - 1 ; i++){
+	  for(j = Math.floor(Math.max(AminY, BminY)) + 1 ; j <= Math.ceil(Math.min(AmaxY, BmaxY)) - 1 ; j++){
 	    if(isPointInPoly(polyA, {x:i, y:j}) && isPointInPoly(polyB, {x:i, y:j})){
 		  //console.log("return 1");
 		  return 1;

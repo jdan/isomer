@@ -109,11 +109,11 @@
     var AB = Vector.fromTwoPoints(pathA.points[0], pathA.points[1]);
     var AC = Vector.fromTwoPoints(pathA.points[0], pathA.points[2]);
     var n = Vector.crossProduct(AB, AC);
-	// console.log("AB AC n A d n.OU :");
-	// console.log(AB);
-	// console.log(AC);
-	// console.log(n);
-	// console.log(pathA.points[0]);
+	//console.log("AB AC n A d n.OU :");
+	//console.log(AB);
+	//console.log(AC);
+	//console.log(n);
+	//console.log(pathA.points[0]);
    
     var OA = Vector.fromTwoPoints(Point.ORIGIN, pathA.points[0]);
     var OU = Vector.fromTwoPoints(Point.ORIGIN, observer); //U = user = observer
@@ -121,24 +121,31 @@
     // Plane defined by pathA such as ax + by + zc = d
     // Here d = nx*x + ny*y + nz*z = n.OA
     var d = Vector.dotProduct(n, OA);
-	// console.log(d);
+	//console.log(d);
     var observerPosition = Vector.dotProduct(n, OU) - d;
-	// console.log(Vector.dotProduct(n, OU));
+	//console.log(Vector.dotProduct(n, OU));
 	var result = 0;
+	var result0 = 0;
     for (i = 0; i < this.points.length; i++) {
       var OP = Vector.fromTwoPoints(Point.ORIGIN, this.points[i]);
-	  // console.log("OP");
-	  // console.log(OP);
+	  //console.log("OP");
+	  //console.log(OP);
       var pPosition = Vector.dotProduct(n, OP) - d;
-	  // console.log(Vector.dotProduct(n, OP));
-	  // console.log(i+" prod = "+(observerPosition * pPosition));
-      if(observerPosition * pPosition >= -0.01){
+	  //console.log(Vector.dotProduct(n, OP));
+	  //console.log(i+" prod = "+(observerPosition * pPosition));
+      if(observerPosition * pPosition > 0){
         result++;
+      }
+	  if(observerPosition * pPosition >= -0.000000001 && observerPosition * pPosition <= 0){
+        result0++;
       }
     }
 	//console.log("__" + (result / this.points.length));
-    return (result / this.points.length); 
-
+	if(result == 0){
+	  return 0;
+	} else {
+      return ((result + result0) / this.points.length); 
+    }
   };
   
 
