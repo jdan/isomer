@@ -117,7 +117,7 @@ script.
 ## With node-canvas
 
 Isomer also accepts the canvas provided by [node-canvas](https://github.com/learnboost/node-canvas),
-meaning you can generated isometric graphics on the command line.
+meaning you can generate isometric graphics on the command line.
 
 ```javascript
 var Canvas = require('canvas');
