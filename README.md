@@ -24,19 +24,19 @@ iso.add(Shape.Prism(Point(2, 0, 1)), blue);
 
 ## Getting Started
 
-To start using Isomer, you first need to include a small (7kb minified) script wherever you see fit:
+First, grab a copy of Isomer [here](https://github.com/jdan/isomer/releases/latest). You can also [pay for it](https://gumroad.com/l/Xzlg). Then, include the script wherever you see fit:
 
 ```html
 <script src="/path/to/isomer.min.js"></script>
 ```
 
-After which you'll need to place a canvas in your document that we can later refer to. Be sure to give it a width and height!
+After which you'll need to place a canvas in your document that we can later refer to. Be sure to give it a width and height.
 
 ```html
 <canvas width="800" height="600" id="art"></canvas>
 ```
 
-**Note:** To improve the look of your canvas on retina displays, declare the width and height of your canvas element as double how you want it to appear. Then style your canvas with CSS to include the original dimensions.
+**Note (Optional):** To improve the look of your canvas on retina displays, declare the width and height of your canvas element as double how you want it to appear. Then style your canvas with CSS to include the original dimensions.
 
 ```css
 #art {
@@ -51,18 +51,19 @@ At this point we can finally instantiate an Isomer object. Pass it a reference t
 var iso = new Isomer(document.getElementById("art"));
 ```
 
-And you're ready to start drawing!
+Now you're ready to start drawing!
 
 ## Build
 
-To build the project, first install the dependencies.
+Isomer uses [Gulp](http://gulpjs.com/) as a build tool. To build the project,
+first install the dependencies.
 
 ```
 $ npm install
 $ npm install -g gulp
 ```
 
-And then simply run:
+Then run:
 
 ```
 $ gulp
@@ -73,17 +74,44 @@ $ gulp
 [gulp] Finished 'default' after 17 μs
 ```
 
-To generate `isomer.min.js` in the `build/` directory.
+To generate `isomer.js` in the `build/` directory. For a minified build:
+
+```
+$ gulp release
+[gulp] Using gulpfile /Users/jordan/Projects/isomer/gulpfile.js
+[gulp] Starting 'build'...
+[gulp] Finished 'build' after 4.13 ms
+[gulp] Starting 'release'...
+[gulp] Finished 'release' after 4.41 ms
+```
+
+This will generate `build/isomer.min.js`.
 
 ## Develop
 
-Install dependencies with:
+Isomer is developed using [Browserify](http://browserify.org/). Install
+dependencies and build the project like so:
 
 ```
 $ npm install
+$ npm install -g gulp
+$ gulp
 ```
 
-[test/index.html](https://github.com/jdan/isomer/blob/master/test/index.html) contains a basic testing page that draws various shapes. This page will load the unminified scripts.
+[test/index.html](https://github.com/jdan/isomer/blob/master/test/index.html) contains a basic testing page that draws various shapes. This page will load the unminified bundle.
+
+You will need to rebuild the project with `gulp build` to see your
+changes, **or** you can use [beefy](https://github.com/chrisdickinson/beefy) like so:
+
+```
+$ npm install -g beefy
+$ beefy index.js --live
+```
+
+Navigate to `http://localhost:9966/test` to load the testing page.
+Beefy will rebuild the project automatically when you make a change, and as a
+bonus, the testing page will reload thanks to an included livereload
+script.
 
 ## More Info
 
