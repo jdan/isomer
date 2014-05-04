@@ -88,38 +88,163 @@ Isomer.prototype.add = function (item, baseColor) {
  *  */
 Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
   var Point = Isomer.Point;
-  var observer = new Point(-10, -10, 10);
+  //var observer = new Point(-10, -10, 10);
+  var observer = new Point(-10, -10, 10000);
   var pathList = [];
   var index = 0;
   for (var i = 0; i < item.length; i++) {
     for(var j = 0 ; j < item[i].shape.paths.length ; j++){
       pathList[index] = {
         path: item[i].shape.paths[j],
-        color: item[i].color,
-		nbCloser: 0
+        color: item[i].color
       };
       index++;
     }
   }
-  
-  for (var i = 0 ; i < pathList.length ; i++) {
-    for (var j = 0 ; j < i ; j++) {
-	  var cmpPath = pathList[i].path.closerThan(pathList[j].path, observer);
-	  var cmpPath2 = pathList[i].path.depth() - pathList[j].path.depth();
-      if(cmpPath > 0 || (cmpPath == 0 && cmpPath2 > 0)){
-	    pathList[i].nbCloser++;
-	  } else {
-	    pathList[j].nbCloser++;
-	  }
-    }
-  }
-  pathList.sort(function(pathA, pathB){return (pathB.nbCloser - pathA.nbCloser);});
 
-  for (var i = 0 ; i < pathList.length ; i++) {
-    this._addPath(pathList[i].path, pathList[i].color);
+  
+  
+   //pathList = [pathList[0], pathList[8], ];
+  //pathList = [pathList[5],pathList[29]];
+  //pathList[7],pathList[8],pathList[9],pathList[10],pathList[11]];
+
+  //pathList = [pathList[1], pathList[2],];
+  //pathList[10],pathList[11]];
+  console.log(pathList[0].path.points);
+  console.log(pathList[1].path.points);
+  
+    
+  console.log("0->1 " + pathList[0].path._countCloserThan(pathList[1].path, observer));
+  console.log("1->0 " + pathList[1].path._countCloserThan(pathList[0].path, observer));
+  console.log("conclude " + pathList[0].path.closerThan(pathList[1].path, observer));
+  
+  
+  // topological sort
+  
+  var drawnPath = [];
+  var drawBefore = [];
+  for (var i = 0 ; i < pathList.length ; i++){
+	drawnPath[i] = 0;
+	drawBefore[i] = [];
   }
+  for (var i = 0 ; i < pathList.length ; i++){
+    for (var j = 0 ; j < i ; j++){
+	  if(this._hasIntersection(pathList[i].path, pathList[j].path)){
+	    var cmpPath = pathList[i].path.closerThan(pathList[j].path, observer);
+	    if(cmpPath < 0){
+	      drawBefore[i][drawBefore[i].length] = j;
+	    }
+	    if(cmpPath > 0){
+	      drawBefore[j][drawBefore[j].length] = i;
+	    }
+	  } else {
+	    //console.log("no intesect : " + i + " " + j);
+	  }
+	}
+  }
+  for (var i = 0 ; i < pathList.length ; i++){
+    console.log(i);
+    console.log(drawBefore[i]);
+  }
+
+  var drawThisTurn = 1;
+  var index = 0;
+  while(drawThisTurn == 1){
+    console.log("turn " + index);
+	index++;
+	drawThisTurn = 0;
+	for (var i = 0 ; i < pathList.length ; i++){
+	  if(drawnPath[i] == 0){
+	    var canDraw = 1;
+		for (var j = 0 ; j < drawBefore[i].length ; j++){
+		  if(drawnPath[drawBefore[i][j]] == 0){canDraw = 0;}
+		}
+		if(canDraw == 1){
+		   this._addPath(pathList[i].path, pathList[i].color);
+		   drawThisTurn = 1;
+		   drawnPath[i] = 1;
+		}
+	  }
+	}
+  
+  }
+  console.log(drawnPath);
+  
 };
 
+
+//+ Jonas Raoni Soares Silva
+//@ http://jsfromhell.com/math/is-point-in-poly [rev. #0]
+function isPointInPoly(poly, pt){
+    for(var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
+        ((poly[i].y <= pt.y && pt.y < poly[j].y) || (poly[j].y <= pt.y && pt.y < poly[i].y))
+        && (pt.x < (poly[j].x - poly[i].x) * (pt.y - poly[i].y) / (poly[j].y - poly[i].y) + poly[i].x)
+        && (c = !c);
+    return c;
+}
+
+
+/**
+ * Does pathA has intersection with pathB ?
+ * Naïve approach done first : approximate the paths with a rectangle
+ * Then more complex method
+ */
+Isomer.prototype._hasIntersection = function(pathA, pathB) {
+  var pointsA = pathA.points.map(this._translatePoint.bind(this));
+  var pointsB = pathB.points.map(this._translatePoint.bind(this));
+  var i, j;
+  
+  var AminX = pointsA[0].x;
+  var AminY = pointsA[0].y;
+  var AmaxX = AminX;
+  var AmaxY = AminY;
+  var BminX = pointsB[0].x;
+  var BminY = pointsB[0].y;
+  var BmaxX = BminX;
+  var BmaxY = BminY;
+  for(i = 0 ; i < pointsA.length ; i++){
+    AminX = Math.min(AminX, pointsA[i].x);
+    AminY = Math.min(AminY, pointsA[i].y);
+	AmaxX = Math.max(AmaxX, pointsA[i].x);
+    AmaxY = Math.max(AmaxY, pointsA[i].y);
+  }
+  for(i = 0 ; i < pointsB.length ; i++){
+    BminX = Math.min(BminX, pointsB[i].x);
+    BminY = Math.min(BminY, pointsB[i].y);
+	BmaxX = Math.max(BmaxX, pointsB[i].x);
+    BmaxY = Math.max(BmaxY, pointsB[i].y);
+  }
+  
+  //console.log([AminX, AmaxX, BminX, BmaxX, AminY, AmaxY, BminY, BmaxY]);
+  
+  if(((AminX <= BminX && BminX <= AmaxX) || (BminX <= AminX && AminX <= BmaxX)) && 
+     ((AminY <= BminY && BminY <= AmaxY) || (BminY <= AminY && AminY <= BmaxY))) {
+    // now let's be more specific
+   // console.log("points A pointsB polyA polyB");
+	//console.log(pointsA);
+	//console.log(pointsB);
+	var polyA = pointsA.slice();
+	var polyB = pointsB.slice();
+	polyA.push(pointsA[0]);
+	polyB.push(pointsB[0]);
+	//console.log(polyA);
+	//console.log(polyB);
+	for(i = Math.min(Math.floor(AminX), Math.floor(BminX)) ; i < Math.max(Math.ceil(AmaxX), Math.ceil(BmaxX)) ; i++){
+	  for(j = Math.min(Math.floor(AminY), Math.floor(BminY)) ; j < Math.max(Math.ceil(AmaxY), Math.ceil(BmaxY)) ; j++){
+	    if(isPointInPoly(polyA, {x:i, y:j}) && isPointInPoly(polyB, {x:i, y:j})){
+		  //console.log("return 1");
+		  return 1;
+		}
+	  }
+	}
+	//console.log("return 00");
+	return 0;
+  } else {
+    //console.log("return 0");
+    return 0;
+  }
+
+};
 
 /**
  * Adds a path to the scene

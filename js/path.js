@@ -94,16 +94,26 @@
    */
   Path.prototype.closerThan = function(pathA, observer) {
     var result = pathA._countCloserThan(this, observer) - this._countCloserThan(pathA, observer);
+	//console.log(result);
 	return result;
   }
   
   Path.prototype._countCloserThan = function(pathA, observer) {
+    //console.log("counting");
     var Vector = Isomer.Vector;
 	var i = 0;
+	
+	//console.log("pathA");
+	//console.log(pathA);
     // the plane containing pathA is defined by the three points A, B, C
     var AB = Vector.fromTwoPoints(pathA.points[0], pathA.points[1]);
     var AC = Vector.fromTwoPoints(pathA.points[0], pathA.points[2]);
     var n = Vector.crossProduct(AB, AC);
+	// console.log("AB AC n A d n.OU :");
+	// console.log(AB);
+	// console.log(AC);
+	// console.log(n);
+	// console.log(pathA.points[0]);
    
     var OA = Vector.fromTwoPoints(Point.ORIGIN, pathA.points[0]);
     var OU = Vector.fromTwoPoints(Point.ORIGIN, observer); //U = user = observer
@@ -111,18 +121,27 @@
     // Plane defined by pathA such as ax + by + zc = d
     // Here d = nx*x + ny*y + nz*z = n.OA
     var d = Vector.dotProduct(n, OA);
+	// console.log(d);
     var observerPosition = Vector.dotProduct(n, OU) - d;
+	// console.log(Vector.dotProduct(n, OU));
 	var result = 0;
     for (i = 0; i < this.points.length; i++) {
       var OP = Vector.fromTwoPoints(Point.ORIGIN, this.points[i]);
+	  // console.log("OP");
+	  // console.log(OP);
       var pPosition = Vector.dotProduct(n, OP) - d;
-      if(observerPosition * pPosition >= 0){
+	  // console.log(Vector.dotProduct(n, OP));
+	  // console.log(i+" prod = "+(observerPosition * pPosition));
+      if(observerPosition * pPosition >= -0.01){
         result++;
       }
     }
+	//console.log("__" + (result / this.points.length));
     return (result / this.points.length); 
 
   };
+  
+
 
 
   /**
