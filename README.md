@@ -105,13 +105,32 @@ changes, **or** you can use [beefy](https://github.com/chrisdickinson/beefy) lik
 
 ```
 $ npm install -g beefy
-$ beefy index.js --live
+$ beefy index.js:build/isomer.js --live
+listening on http://localhost:9966/
 ```
 
 Navigate to `http://localhost:9966/test` to load the testing page.
 Beefy will rebuild the project automatically when you make a change, and as a
 bonus, the testing page will reload thanks to an included livereload
 script.
+
+## With node-canvas
+
+Isomer also accepts the canvas provided by [node-canvas](https://github.com/learnboost/node-canvas),
+meaning you can generated isometric graphics on the command line.
+
+```javascript
+var Canvas = require('canvas');
+var canvas = new Canvas(400, 400);
+var Isomer = require('isomer');   // npm install isomer
+var fs = require('fs');
+var out = fs.createWriteStream('output.png');
+
+var iso = new Isomer(canvas);
+iso.add(Isomer.Shape.Prism(Isomer.Point.ORIGIN));
+
+canvas.pngStream().pipe(out);
+```
 
 ## More Info
 
