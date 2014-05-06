@@ -84,7 +84,7 @@ Shape.prototype.orderedPaths = function () {
 
 /**
  * Utility function to create a 3D object by raising a 2D path
- * along the z-axis
+ * along the specified axis.
  */
 Shape.extrude = function (path, height, axis) {
   height = (typeof height === 'number') ? height : 1;

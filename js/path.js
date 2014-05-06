@@ -123,10 +123,12 @@ Path.Circle = function (origin, radius, vertices, axis) {
     function(i){return radius * Math.sin(i * 2 * Math.PI / vertices);}
     ];
 
+/*Assign calculation method according to given axis.*/
     if(axis === 'x'){
       x = trig[0];
       y = trig[1];
       z = trig[2];
+/*Order changes for Y-axis or the lighting is backwards.*/
     } else if(axis === 'y'){
       x = trig[2];
       y = trig[0];
