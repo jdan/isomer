@@ -133,10 +133,10 @@
       var pPosition = Vector.dotProduct(n, OP) - d;
 	  //console.log(Vector.dotProduct(n, OP));
 	  //console.log(i+" prod = "+(observerPosition * pPosition));
-      if(observerPosition * pPosition > 0){
+      if(observerPosition * pPosition >= 0.000000001){ //careful with rounding approximations
         result++;
       }
-	  if(observerPosition * pPosition >= -0.000000001 && observerPosition * pPosition <= 0){
+	  if(observerPosition * pPosition >= -0.000000001 && observerPosition * pPosition < 0.000000001){
         result0++;
       }
     }

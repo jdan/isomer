@@ -89,7 +89,7 @@ Isomer.prototype.add = function (item, baseColor) {
 Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
   var Point = Isomer.Point;
   //var observer = new Point(-10, -10, 10);
-  var observer = new Point(-10, -10, 10000);
+  var observer = new Point(-10, -10, 20);
   var pathList = [];
   var index = 0;
   for (var i = 0; i < item.length; i++) {
@@ -124,8 +124,7 @@ Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
 	//pathList[27]
 
   ];*/
-  //pathList = [pathList[5],pathList[29]];
-  //pathList[7],pathList[8],pathList[9],pathList[10],pathList[11]];
+  //pathList = [pathList[1],pathList[3]];
 
   //pathList = [pathList[1], pathList[2],];
   //pathList[10],pathList[11]];
