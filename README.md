@@ -60,29 +60,37 @@ first install the dependencies.
 
 ```
 $ npm install
-$ npm install -g gulp
 ```
 
-Then run:
+Then run `npm run build`:
 
 ```
-$ gulp
-[gulp] Using gulpfile /Users/jordan/Projects/isomer/gulpfile.js
+$ npm run build
+
+> isomer@0.2.2 build /Users/jordan/Projects/isomer
+> gulp
+
+[gulp] Using gulpfile ~/Projects/isomer/gulpfile.js
 [gulp] Starting 'build'...
-[gulp] Finished 'build' after 6.47 ms
+[gulp] Finished 'build' after 7.24 ms
 [gulp] Starting 'default'...
-[gulp] Finished 'default' after 17 μs
+[gulp] Finished 'default' after 7.04 μs
 ```
 
-To generate `isomer.js` in the `build/` directory. For a minified build:
+To generate `isomer.js` in the `build/` directory. For a minified build,
+run `npm run release`:
 
 ```
-$ gulp release
-[gulp] Using gulpfile /Users/jordan/Projects/isomer/gulpfile.js
+$ npm run release
+
+> isomer@0.2.2 release /Users/jordan/Projects/isomer
+> gulp release
+
+[gulp] Using gulpfile ~/Projects/isomer/gulpfile.js
 [gulp] Starting 'build'...
-[gulp] Finished 'build' after 4.13 ms
+[gulp] Finished 'build' after 7.11 ms
 [gulp] Starting 'release'...
-[gulp] Finished 'release' after 4.41 ms
+[gulp] Finished 'release' after 6.77 ms
 ```
 
 This will generate `build/isomer.min.js`.
@@ -94,25 +102,25 @@ dependencies and build the project like so:
 
 ```
 $ npm install
-$ npm install -g gulp
-$ gulp
+$ npm run build
 ```
 
 [test/index.html](https://github.com/jdan/isomer/blob/master/test/index.html) contains a basic testing page that draws various shapes. This page will load the unminified bundle.
 
-You will need to rebuild the project with `gulp build` to see your
-changes, **or** you can use [beefy](https://github.com/chrisdickinson/beefy) like so:
+The `test` script (accessible via `npm test`) uses [beefy](https://github.com/chrisdickinson/beefy) to automatically rebuild Isomer on any file changes. This script also opens the testing page (located at `http://localhost:9966/test/`) in your default browser. The testing page includes a live reload script to refresh when Isomer is rebuilt.
 
 ```
-$ npm install -g beefy
-$ beefy index.js:build/isomer.js --live
+$ npm test
+
+> isomer@0.2.2 test /Users/jordan/Projects/isomer
+> open http://localhost:9966/test/ && ./node_modules/.bin/beefy index.js:build/isomer.js --live -- --standalone Isomer
+
 listening on http://localhost:9966/
+200   62ms    1.18KB /test/
+200   11ms      508B /test/style.css
+200    2ms    5.48KB /test/test.js
+200  625ms    48.5KB /build/isomer.js -> ./node_modules/.bin/browserify ./index.js --standalone Isomer -d
 ```
-
-Navigate to `http://localhost:9966/test` to load the testing page.
-Beefy will rebuild the project automatically when you make a change, and as a
-bonus, the testing page will reload thanks to an included livereload
-script.
 
 ## With node-canvas
 
