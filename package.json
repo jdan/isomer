@@ -2,6 +2,8 @@
   "name": "isomer",
   "version": "0.2.2",
   "description": "A simple isometric graphics library for HTML5 canvas",
+  "author": "Jordan Scales <scalesjordan@gmail.com>",
+  "license": "MIT",
   "directories": {
     "test": "test"
   },
@@ -16,9 +18,12 @@
     "3D"
   ],
   "main": "index.js",
-  "author": "Jordan Scales <scalesjordan@gmail.com>",
-  "license": "MIT",
+  "scripts": {
+    "build": "./node_modules/.bin/gulp",
+    "test": "open http://localhost:9966/test/ && ./node_modules/.bin/beefy index.js:build/isomer.js --live -- --standalone Isomer"
+  },
   "devDependencies": {
+    "beefy": "^1.1.0",
     "browserify": "^3.46.0",
     "gulp": "^3.6.0",
     "gulp-buffer": "^0.0.2",
