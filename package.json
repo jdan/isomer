@@ -20,6 +20,7 @@
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/gulp",
+    "release": "./node_modules/.bin/gulp release",
     "test": "open http://localhost:9966/test/ && ./node_modules/.bin/beefy index.js:build/isomer.js --live -- --standalone Isomer"
   },
   "devDependencies": {
