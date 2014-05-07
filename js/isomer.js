@@ -148,6 +148,7 @@ Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
   }
   for (var i = 0 ; i < pathList.length ; i++){
     for (var j = 0 ; j < i ; j++){
+	  //console.log("i:"+i+",j:"+j+"hasIntesect:"+this._hasIntersection(pathList[i].path, pathList[j].path));
 	  if(this._hasIntersection(pathList[i].path, pathList[j].path)){
 	    var cmpPath = pathList[i].path.closerThan(pathList[j].path, observer);
 	    if(cmpPath < 0){
@@ -202,6 +203,7 @@ Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
 
 //+ Jonas Raoni Soares Silva
 //@ http://jsfromhell.com/math/is-point-in-poly [rev. #0]
+//see also http://jsperf.com/ispointinpath-boundary-test-speed/2
 function isPointInPoly(poly, pt){
     for(var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
         ((poly[i].y <= pt.y && pt.y < poly[j].y) || (poly[j].y <= pt.y && pt.y < poly[i].y))
@@ -213,8 +215,8 @@ function isPointInPoly(poly, pt){
 
 /**
  * Does pathA has intersection with pathB ?
- * Naïve approach done first : approximate the paths with a rectangle
- * Then more complex method
+ * Naïve approach done first : approximate the polygons with a rectangle
+ * Then more complex method : see if edges cross, or one contained in the other
  */
 Isomer.prototype._hasIntersection = function(pathA, pathB) {
   var pointsA = pathA.points.map(this._translatePoint.bind(this));
@@ -247,28 +249,63 @@ Isomer.prototype._hasIntersection = function(pathA, pathB) {
   if(((AminX <= BminX && BminX <= AmaxX) || (BminX <= AminX && AminX <= BmaxX)) && 
      ((AminY <= BminY && BminY <= AmaxY) || (BminY <= AminY && AminY <= BmaxY))) {
     // now let's be more specific
-   // console.log("points A pointsB polyA polyB");
-	//console.log(pointsA);
-	//console.log(pointsB);
 	var polyA = pointsA.slice();
 	var polyB = pointsB.slice();
 	polyA.push(pointsA[0]);
 	polyB.push(pointsB[0]);
 	//console.log(polyA);
 	//console.log(polyB);
-	// Parse common rectangle to find intersection. For better performance, we can monte-carlo this.
-	for(i = Math.floor(Math.max(AminX, BminX)) + 1 ; i <= Math.ceil(Math.min(AmaxX, BmaxX)) - 1 ; i++){
-	  for(j = Math.floor(Math.max(AminY, BminY)) + 1 ; j <= Math.ceil(Math.min(AmaxY, BmaxY)) - 1 ; j++){
-	    if(isPointInPoly(polyA, {x:i, y:j}) && isPointInPoly(polyB, {x:i, y:j})){
-		  //console.log("return 1");
-		  return 1;
+	// see if edges cross, or one contained in the other
+	var crossing = 0;
+	
+	
+	var deltaAX = [];
+	var deltaAY = [];
+	var deltaBX = [];
+	var deltaBY = [];
+	var rA = [];
+	var rB = [];
+	for(i = 0 ; i <= polyA.length - 2 ; i++){
+	  deltaAX[i] = polyA[i+1].x - polyA[i].x;
+	  deltaAY[i] = polyA[i+1].y - polyA[i].y;
+	  //equation written as deltaY.x - deltaX.y + r = 0
+	  rA[i] = deltaAX[i] * polyA[i].y - deltaAY[i] * polyA[i].x;
+	}
+	for(i = 0 ; i <= polyB.length - 2 ; i++){
+	  deltaBX[i] = polyB[i+1].x - polyB[i].x;
+	  deltaBY[i] = polyB[i+1].y - polyB[i].y;
+	  rB[i] = deltaBX[i] * polyB[i].y - deltaBY[i] * polyB[i].x;
+	}
+	
+	
+	crossExam:
+	for(i = 0 ; i <= polyA.length - 2 ; i++){
+	  for(j = 0 ; j <= polyB.length - 2 ; j++){
+	    if( deltaAX[i] * deltaBY[j] != deltaAY[i] * deltaBX[j]){
+		  //case when vectors are colinear, or one polygon included in the other, is covered after
+		  //two segments cross each other if and only if the points of the first are on each side of the line defined by the second and vice-versa
+		  if((deltaAY[i] * polyB[j].x - deltaAX[i] * polyB[j].y + rA[i]) * (deltaAY[i] * polyB[j+1].x - deltaAX[i] * polyB[j+1].y + rA[i]) < -0.000000001 &&  
+		     (deltaBY[j] * polyA[i].x - deltaBX[j] * polyA[i].y + rB[j]) * (deltaBY[j] * polyA[i+1].x - deltaBX[j] * polyA[i+1].y + rB[j]) < -0.000000001){
+			   crossing = 1;
+			   break crossExam;
+		  }
 		}
 	  }
 	}
-	//console.log("return 00");
-	return 0;
+	
+	for(i = 0 ; i <= polyA.length - 2 ; i++){
+	  if(isPointInPoly(polyB, {x:polyA[i].x, y:polyA[i].y})){
+	    crossing = 1;
+	  }
+	}
+	for(i = 0 ; i <= polyB.length - 2 ; i++){
+	  if(isPointInPoly(polyA, {x:polyB[i].x, y:polyB[i].y})){
+	    crossing = 1;
+	  }
+	}
+	
+	return crossing;
   } else {
-    //console.log("return 0");
     return 0;
   }
 
