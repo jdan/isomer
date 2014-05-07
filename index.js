@@ -1,7 +1,4 @@
-var Isomer = require('./js/isomer');
-
-if (typeof window !== "undefined") {
-  window.Isomer = Isomer;
-} else {
-  module.exports = Isomer;
-}
+/**
+ * Entry point for the Isomer API
+ */
+module.exports = require('./js/isomer');
