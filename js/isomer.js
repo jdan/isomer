@@ -86,9 +86,8 @@ Isomer.prototype.add = function (item, baseColor) {
  * Adds an array of {shape: yourShape, color: yourColor} to the scene,
  * ordered so that distant faces are displayed first
  *  */
-Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
+Isomer.prototype.addOrdered = function (item) {
   var Point = Isomer.Point;
-  //var observer = new Point(-10, -10, 10);
   var observer = new Point(-10, -10, 20);
   var pathList = [];
   var index = 0;
@@ -96,49 +95,13 @@ Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
     for(var j = 0 ; j < item[i].shape.paths.length ; j++){
       pathList[index] = {
         path: item[i].shape.paths[j],
+		polygon: item[i].shape.paths[j].points.map(this._translatePoint.bind(this)),
         color: item[i].color,
 		drawn: 0
       };
       index++;
     }
   }
-
-  
-  
- /* pathList = [
-    //pathList[0],
-	pathList[1],
-	//pathList[2],
-	//pathList[3],
-	//pathList[4],
-    // pathList[5],pathList[6],pathList[7],pathList[8],pathList[9],
-    //pathList[10],pathList[11],
-	//pathList[12],
-	//pathList[13],
-	pathList[14],
-    //pathList[15],
-	//pathList[16],pathList[17],pathList[18],pathList[19],
-   // pathList[20],pathList[21],pathList[22],pathList[23],pathList[24],
-    //pathList[25],
-	//pathList[26],
-	//pathList[27]
-
-  ];*/
-  //pathList = [pathList[1],pathList[3]];
-
-  //pathList = [pathList[1], pathList[2],];
-  //pathList[10],pathList[11]];
-  //console.log(pathList[0].path.points);
-  //console.log(pathList[2].path.points);
-  
-    
-  //console.log("0->2 " + pathList[0].path._countCloserThan(pathList[2].path, observer));
-  //console.log("2->0 " + pathList[2].path._countCloserThan(pathList[0].path, observer));
-  //console.log("conclude " + pathList[0].path.closerThan(pathList[2].path, observer));
-  
-  // console.log("0->1 " + pathList[0].path._countCloserThan(pathList[1].path, observer));
-  // console.log("1->0 " + pathList[1].path._countCloserThan(pathList[0].path, observer));
-  // console.log("conclude " + pathList[0].path.closerThan(pathList[1].path, observer));
  
  // topological sort
   
@@ -148,8 +111,7 @@ Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
   }
   for (var i = 0 ; i < pathList.length ; i++){
     for (var j = 0 ; j < i ; j++){
-	  //console.log("i:"+i+",j:"+j+"hasIntesect:"+this._hasIntersection(pathList[i].path, pathList[j].path));
-	  if(this._hasIntersection(pathList[i].path, pathList[j].path)){
+	  if(this._hasIntersection(pathList[i].polygon, pathList[j].polygon)){
 	    var cmpPath = pathList[i].path.closerThan(pathList[j].path, observer);
 	    if(cmpPath < 0){
 	      drawBefore[i][drawBefore[i].length] = j;
@@ -157,20 +119,12 @@ Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
 	    if(cmpPath > 0){
 	      drawBefore[j][drawBefore[j].length] = i;
 	    }
-	  } else {
-	    //console.log("no intesect : " + i + " " + j);
 	  }
 	}
   }
-  for (var i = 0 ; i < pathList.length ; i++){
-    console.log(i);
-    console.log(drawBefore[i]);
-  }
-
   var drawThisTurn = 1;
   var index = 0;
   while(drawThisTurn == 1){
-    console.log("turn " + index);
 	index++;
 	drawThisTurn = 0;
 	for (var i = 0 ; i < pathList.length ; i++){
@@ -186,18 +140,14 @@ Isomer.prototype.addOrdered = function (item) { // array of {shape:, color:}
 		}
 	  }
 	}
-  
   }
   //purge 
   //could be done more in a smarter order, that's why drawn is is an element of pathList[] and not a separate array
   for (var i = 0 ; i < pathList.length ; i++){
     if(pathList[i].drawn == 0){
-	  console.log("purging : "+i);
 	  this._addPath(pathList[i].path, pathList[i].color);
 	}
   }
-  
-  
 };
 
 
@@ -214,13 +164,11 @@ function isPointInPoly(poly, pt){
 
 
 /**
- * Does pathA has intersection with pathB ?
+ * Does polygonA has intersection with polygonB ?
  * Naïve approach done first : approximate the polygons with a rectangle
  * Then more complex method : see if edges cross, or one contained in the other
  */
-Isomer.prototype._hasIntersection = function(pathA, pathB) {
-  var pointsA = pathA.points.map(this._translatePoint.bind(this));
-  var pointsB = pathB.points.map(this._translatePoint.bind(this));
+Isomer.prototype._hasIntersection = function(pointsA, pointsB) {
   var i, j;
   //console.log("_hasIntersection");
   var AminX = pointsA[0].x;
@@ -244,8 +192,6 @@ Isomer.prototype._hasIntersection = function(pathA, pathB) {
     BmaxY = Math.max(BmaxY, pointsB[i].y);
   }
   
-  //console.log([AminX, AmaxX, BminX, BmaxX, AminY, AmaxY, BminY, BmaxY]);
-  
   if(((AminX <= BminX && BminX <= AmaxX) || (BminX <= AminX && AminX <= BmaxX)) && 
      ((AminY <= BminY && BminY <= AmaxY) || (BminY <= AminY && AminY <= BmaxY))) {
     // now let's be more specific
@@ -253,12 +199,8 @@ Isomer.prototype._hasIntersection = function(pathA, pathB) {
 	var polyB = pointsB.slice();
 	polyA.push(pointsA[0]);
 	polyB.push(pointsB[0]);
-	//console.log(polyA);
-	//console.log(polyB);
-	// see if edges cross, or one contained in the other
-	var crossing = 0;
-	
-	
+
+	// see if edges cross, or one contained in the other	
 	var deltaAX = [];
 	var deltaAY = [];
 	var deltaBX = [];
@@ -281,13 +223,12 @@ Isomer.prototype._hasIntersection = function(pathA, pathB) {
 	crossExam:
 	for(i = 0 ; i <= polyA.length - 2 ; i++){
 	  for(j = 0 ; j <= polyB.length - 2 ; j++){
-	    if( deltaAX[i] * deltaBY[j] != deltaAY[i] * deltaBX[j]){
+	    if(deltaAX[i] * deltaBY[j] != deltaAY[i] * deltaBX[j]){
 		  //case when vectors are colinear, or one polygon included in the other, is covered after
 		  //two segments cross each other if and only if the points of the first are on each side of the line defined by the second and vice-versa
 		  if((deltaAY[i] * polyB[j].x - deltaAX[i] * polyB[j].y + rA[i]) * (deltaAY[i] * polyB[j+1].x - deltaAX[i] * polyB[j+1].y + rA[i]) < -0.000000001 &&  
 		     (deltaBY[j] * polyA[i].x - deltaBX[j] * polyA[i].y + rB[j]) * (deltaBY[j] * polyA[i+1].x - deltaBX[j] * polyA[i+1].y + rB[j]) < -0.000000001){
-			   crossing = 1;
-			   break crossExam;
+			   return 1;
 		  }
 		}
 	  }
@@ -295,16 +236,16 @@ Isomer.prototype._hasIntersection = function(pathA, pathB) {
 	
 	for(i = 0 ; i <= polyA.length - 2 ; i++){
 	  if(isPointInPoly(polyB, {x:polyA[i].x, y:polyA[i].y})){
-	    crossing = 1;
+	    return 1;
 	  }
 	}
 	for(i = 0 ; i <= polyB.length - 2 ; i++){
 	  if(isPointInPoly(polyA, {x:polyB[i].x, y:polyB[i].y})){
-	    crossing = 1;
+	    return 1;
 	  }
 	}
 	
-	return crossing;
+	return 0;
   } else {
     return 0;
   }
