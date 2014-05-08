@@ -24,19 +24,19 @@ iso.add(Shape.Prism(Point(2, 0, 1)), blue);
 
 ## Getting Started
 
-To start using Isomer, you first need to include a small (7kb minified) script wherever you see fit:
+First, grab a copy of Isomer [here](https://github.com/jdan/isomer/releases/latest). You can also [pay for it](https://gumroad.com/l/Xzlg). Then, include the script wherever you see fit:
 
 ```html
 <script src="/path/to/isomer.min.js"></script>
 ```
 
-After which you'll need to place a canvas in your document that we can later refer to. Be sure to give it a width and height!
+After which you'll need to place a canvas in your document that we can later refer to. Be sure to give it a width and height.
 
 ```html
 <canvas width="800" height="600" id="art"></canvas>
 ```
 
-**Note:** To improve the look of your canvas on retina displays, declare the width and height of your canvas element as double how you want it to appear. Then style your canvas with CSS to include the original dimensions.
+**Note (Optional):** To improve the look of your canvas on retina displays, declare the width and height of your canvas element as double how you want it to appear. Then style your canvas with CSS to include the original dimensions.
 
 ```css
 #art {
@@ -51,39 +51,94 @@ At this point we can finally instantiate an Isomer object. Pass it a reference t
 var iso = new Isomer(document.getElementById("art"));
 ```
 
-And you're ready to start drawing!
+Now you're ready to start drawing!
 
 ## Build
 
-To build the project, first install the dependencies.
+Isomer uses [Gulp](http://gulpjs.com/) as a build tool. To build the project,
+first install the dependencies.
 
 ```
 $ npm install
-$ npm install -g gulp
 ```
 
-And then simply run:
+Then run `npm run build`:
 
 ```
-$ gulp
-[gulp] Using gulpfile /Users/jordan/Projects/isomer/gulpfile.js
+$ npm run build
+
+> isomer@0.2.2 build /Users/jordan/Projects/isomer
+> gulp
+
+[gulp] Using gulpfile ~/Projects/isomer/gulpfile.js
 [gulp] Starting 'build'...
-[gulp] Finished 'build' after 6.47 ms
+[gulp] Finished 'build' after 7.24 ms
 [gulp] Starting 'default'...
-[gulp] Finished 'default' after 17 μs
+[gulp] Finished 'default' after 7.04 μs
 ```
 
-To generate `isomer.min.js` in the `build/` directory.
+To generate `isomer.js` in the `build/` directory. For a minified build,
+run `npm run release`:
+
+```
+$ npm run release
+
+> isomer@0.2.2 release /Users/jordan/Projects/isomer
+> gulp release
+
+[gulp] Using gulpfile ~/Projects/isomer/gulpfile.js
+[gulp] Starting 'build'...
+[gulp] Finished 'build' after 7.11 ms
+[gulp] Starting 'release'...
+[gulp] Finished 'release' after 6.77 ms
+```
+
+This will generate `build/isomer.min.js`.
 
 ## Develop
 
-Install dependencies with:
+Isomer is developed using [Browserify](http://browserify.org/). Install
+dependencies and build the project like so:
 
 ```
 $ npm install
+$ npm run build
 ```
 
-[test/index.html](https://github.com/jdan/isomer/blob/master/test/index.html) contains a basic testing page that draws various shapes. This page will load the unminified scripts.
+[test/index.html](https://github.com/jdan/isomer/blob/master/test/index.html) contains a basic testing page that draws various shapes. This page will load the unminified bundle.
+
+The `test` script (accessible via `npm test`) uses [beefy](https://github.com/chrisdickinson/beefy) to automatically rebuild Isomer on any file changes. This script also opens the testing page (located at `http://localhost:9966/test/`) in your default browser. The testing page includes a live reload script to refresh when Isomer is rebuilt.
+
+```
+$ npm test
+
+> isomer@0.2.2 test /Users/jordan/Projects/isomer
+> open http://localhost:9966/test/ && ./node_modules/.bin/beefy index.js:build/isomer.js --live -- --standalone Isomer
+
+listening on http://localhost:9966/
+200   62ms    1.18KB /test/
+200   11ms      508B /test/style.css
+200    2ms    5.48KB /test/test.js
+200  625ms    48.5KB /build/isomer.js -> ./node_modules/.bin/browserify ./index.js --standalone Isomer -d
+```
+
+## With node-canvas
+
+Isomer also accepts the canvas provided by [node-canvas](https://github.com/learnboost/node-canvas),
+meaning you can generate isometric graphics on the command line.
+
+```javascript
+var Canvas = require('canvas');
+var canvas = new Canvas(400, 400);
+var Isomer = require('isomer');   // npm install isomer
+var fs = require('fs');
+var out = fs.createWriteStream('output.png');
+
+var iso = new Isomer(canvas);
+iso.add(Isomer.Shape.Prism(Isomer.Point.ORIGIN));
+
+canvas.pngStream().pipe(out);
+```
 
 ## More Info
 

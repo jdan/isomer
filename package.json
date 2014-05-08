@@ -1,7 +1,9 @@
 {
   "name": "isomer",
-  "version": "0.1.4",
+  "version": "0.2.3",
   "description": "A simple isometric graphics library for HTML5 canvas",
+  "author": "Jordan Scales <scalesjordan@gmail.com>",
+  "license": "MIT",
   "directories": {
     "test": "test"
   },
@@ -15,16 +17,21 @@
     "canvas",
     "3D"
   ],
-  "main": "build/isomer.js",
+  "main": "index.js",
   "scripts": {
-    "postinstall": "./node_modules/.bin/gulp node"
+    "build": "./node_modules/.bin/gulp",
+    "release": "./node_modules/.bin/gulp release",
+    "test": "open http://localhost:9966/test/ && ./node_modules/.bin/beefy index.js:build/isomer.js --live -- --standalone Isomer"
   },
-  "author": "Jordan Scales <scalesjordan@gmail.com>",
-  "license": "MIT",
   "devDependencies": {
-    "gulp-concat": "^2.2.0",
+    "beefy": "^1.1.0",
+    "browserify": "^3.46.0",
     "gulp": "^3.6.0",
+    "gulp-buffer": "^0.0.2",
+    "gulp-header": "^1.0.2",
+    "gulp-rename": "^1.2.0",
     "gulp-uglify": "^0.2.1",
-    "gulp-insert": "^0.3.0"
+    "strftime": "^0.8.0",
+    "vinyl-source-stream": "^0.1.1"
   }
 }
