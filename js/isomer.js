@@ -96,9 +96,7 @@ Isomer.prototype.add = function (item, baseColor, name) {
 Isomer.prototype.draw = function(sortPath){
   var sortValid = (typeof sortPath === 'number') ? sortPath : 0;
   if(sortValid == 1){
-    console.log(this.paths);
     this.sortPaths();
-    console.log(this.paths);
   }
   for (var i in this.paths){
     this._addPath(this.paths[i].path, this.paths[i].color);
