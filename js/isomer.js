@@ -80,23 +80,25 @@ Isomer.prototype.add = function (item, baseColor, name) {
       this.add(item[i], baseColor);
     }
   } else if (item instanceof Path) {
-    this.paths[this.paths.length] = {shape:item, color:baseColor, shapeName:(name||'')};
+    this.paths[this.paths.length] = {path:item, color:baseColor, shapeName:(name||'')};
   } else if (item instanceof Shape) {
     var paths = item.orderedPaths();
     for (var i in paths) {
-      this.paths[this.paths.length] = {shape:paths[i], color:baseColor, shapeName:(name||'')};
+      this.paths[this.paths.length] = {path:paths[i], color:baseColor, shapeName:(name||'')};
     }
   }
 };
 
 /**
  * Draws the content of this.paths
- * By default, sorts all the paths
+ * By default, does not sort the paths between shapes
  */
 Isomer.prototype.draw = function(sortPath){
-  var sort = (typeof sortPath === 'number') ? sortPath : 1;
-  if(sortPath == 1){
+  var sortValid = (typeof sortPath === 'number') ? sortPath : 0;
+  if(sortValid == 1){
+    console.log(this.paths);
     this.sortPaths();
+    console.log(this.paths);
   }
   for (var i in this.paths){
     this._addPath(this.paths[i].path, this.paths[i].color);
@@ -114,7 +116,7 @@ Isomer.prototype.sortPaths = function () {
   var pathList = [];
   for (var i = 0; i < this.paths.length; i++) {
     var currentPath = this.paths[i];
-    pathList[index] = {
+    pathList[i] = {
       path: currentPath.path,
       polygon: currentPath.path.points.map(this._translatePoint.bind(this)),
       color: currentPath.color,
