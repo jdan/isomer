@@ -36,6 +36,11 @@ function Isomer(canvasId, options) {
    */
   this.colorDifference = 0.20;
   this.lightColor = options.lightColor || new Color(255, 255, 255);
+
+  /**
+   * List of {path, color, shapeName} to draw
+   */
+  this.paths = [];
 }
 
 /**
@@ -69,43 +74,57 @@ Isomer.prototype._translatePoint = function (point) {
  *
  * This method also accepts arrays
  */
-Isomer.prototype.add = function (item, baseColor) {
+Isomer.prototype.add = function (item, baseColor, name) {
   if (Object.prototype.toString.call(item) == '[object Array]') {
     for (var i = 0; i < item.length; i++) {
       this.add(item[i], baseColor);
     }
   } else if (item instanceof Path) {
-    this._addPath(item, baseColor);
+    this.paths[this.paths.length] = {shape:item, color:baseColor, shapeName:(name||'')};
   } else if (item instanceof Shape) {
-    /* Fetch paths ordered by distance to prevent overlaps */
     var paths = item.orderedPaths();
     for (var i in paths) {
-      this._addPath(paths[i], baseColor);
+      this.paths[this.paths.length] = {shape:paths[i], color:baseColor, shapeName:(name||'')};
     }
   }
 };
 
 /**
- * Adds an array of {shape: yourShape, color: yourColor} to the scene,
+ * Draws the content of this.paths
+ * By default, sorts all the paths
+ */
+Isomer.prototype.draw = function(sortPath){
+  var sort = (typeof sortPath === 'number') ? sortPath : 1;
+  if(sortPath == 1){
+    this.sortPaths();
+  }
+  for (var i in this.paths){
+    this._addPath(this.paths[i].path, this.paths[i].color);
+  }
+}
+
+
+/**
+ * Sorts the paths contained in this.paths,
  * ordered so that distant faces are displayed first
  *  */
-Isomer.prototype.addOrdered = function (item) {
+Isomer.prototype.sortPaths = function () {
   var Point = Isomer.Point;
   var observer = new Point(-10, -10, 20);
   var pathList = [];
-  var index = 0;
-  for (var i = 0; i < item.length; i++) {
-    for(var j = 0 ; j < item[i].shape.paths.length ; j++){
-      pathList[index] = {
-        path: item[i].shape.paths[j],
-		polygon: item[i].shape.paths[j].points.map(this._translatePoint.bind(this)),
-        color: item[i].color,
-		drawn: 0
-      };
-      index++;
-    }
+  for (var i = 0; i < this.paths.length; i++) {
+    var currentPath = this.paths[i];
+    pathList[index] = {
+      path: currentPath.path,
+      polygon: currentPath.path.points.map(this._translatePoint.bind(this)),
+      color: currentPath.color,
+      drawn: 0,
+      shapeName: currentPath.shapeName
+
+    };
   }
- 
+ this.paths.length = 0;
+
  // topological sort
   
   var drawBefore = [];
@@ -137,7 +156,7 @@ Isomer.prototype.addOrdered = function (item) {
 		  if(pathList[drawBefore[i][j]].drawn == 0){canDraw = 0;}
 		}
 		if(canDraw == 1){
-		   this._addPath(pathList[i].path, pathList[i].color);
+		   this.add(pathList[i].path, pathList[i].color, pathList[i].shapeName);
 		   drawThisTurn = 1;
 		   pathList[i].drawn = 1;
 		}
@@ -148,8 +167,8 @@ Isomer.prototype.addOrdered = function (item) {
   //could be done more in a smarter order, that's why drawn is is an element of pathList[] and not a separate array
   for (var i = 0 ; i < pathList.length ; i++){
     if(pathList[i].drawn == 0){
-	  this._addPath(pathList[i].path, pathList[i].color);
-	}
+      this.add(pathList[i].path, pathList[i].color, pathList[i].shapeName);
+    }
   }
 };
 
