@@ -197,7 +197,7 @@ function isPointInPoly(poly, pt){
 
 /**
  * Does polygonA has intersection with polygonB ?
- * Naïve approach done first : approximate the polygons with a rectangle
+ * Naive approach done first : approximate the polygons with a rectangle
  * Then more complex method : see if edges cross, or one contained in the other
  */
 Isomer.prototype._hasIntersection = function(pointsA, pointsB) {
