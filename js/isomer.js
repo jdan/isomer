@@ -72,19 +72,29 @@ Isomer.prototype._translatePoint = function (point) {
 /**
  * Adds a shape or path to the scene
  *
- * This method also accepts arrays
+ * This method also accepts arrays.
+ * By default or if expertMode=0, shapes are drawn
  */
-Isomer.prototype.add = function (item, baseColor, name) {
+Isomer.prototype.add = function (item, baseColor, expertMode, name) {
+  var expertModeValid = (typeof expertMode === 'number') ? expertMode : 0;
   if (Object.prototype.toString.call(item) == '[object Array]') {
     for (var i = 0; i < item.length; i++) {
-      this.add(item[i], baseColor);
+      this.add(item[i], baseColor, expertModeValid, name);
     }
   } else if (item instanceof Path) {
-    this.paths[this.paths.length] = {path:item, color:baseColor, shapeName:(name||'')};
+    if(expertModeValid == 1){
+      this.paths[this.paths.length] = {path:item, color:baseColor, shapeName:(name||'')};
+    } else {
+      this._addPath(item, baseColor);
+    }
   } else if (item instanceof Shape) {
     var paths = item.orderedPaths();
     for (var i in paths) {
-      this.paths[this.paths.length] = {path:paths[i], color:baseColor, shapeName:(name||'')};
+      if(expertModeValid == 1){
+        this.paths[this.paths.length] = {path:paths[i], color:baseColor, shapeName:(name||'')};
+      } else {
+	this._addPath(paths[i], baseColor);
+      }
     }
   }
 };
@@ -156,7 +166,7 @@ Isomer.prototype.sortPaths = function () {
 		  if(pathList[drawBefore[i][j]].drawn == 0){canDraw = 0;}
 		}
 		if(canDraw == 1){
-		   this.add(pathList[i].path, pathList[i].color, pathList[i].shapeName);
+		   this.add(pathList[i].path, pathList[i].color, 1, pathList[i].shapeName);
 		   drawThisTurn = 1;
 		   pathList[i].drawn = 1;
 		}
@@ -167,7 +177,7 @@ Isomer.prototype.sortPaths = function () {
   //could be done more in a smarter order, that's why drawn is is an element of pathList[] and not a separate array
   for (var i = 0 ; i < pathList.length ; i++){
     if(pathList[i].drawn == 0){
-      this.add(pathList[i].path, pathList[i].color, pathList[i].shapeName);
+      this.add(pathList[i].path, pathList[i].color, 1, pathList[i].shapeName);
     }
   }
 };
