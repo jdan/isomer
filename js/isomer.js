@@ -76,13 +76,13 @@ Isomer.prototype._translatePoint = function (point) {
  * By default or if expertMode=0, shapes are drawn
  */
 Isomer.prototype.add = function (item, baseColor, expertMode, name) {
-  var expertModeValid = (typeof expertMode === 'number') ? expertMode : 0;
+  var expertModeValid = !!expertMode;
   if (Object.prototype.toString.call(item) == '[object Array]') {
     for (var i = 0; i < item.length; i++) {
       this.add(item[i], baseColor, expertModeValid, name);
     }
   } else if (item instanceof Path) {
-    if(expertModeValid == 1){
+    if(expertModeValid){
       this.paths[this.paths.length] = {path:item, color:baseColor, shapeName:(name||'')};
     } else {
       this._addPath(item, baseColor);
@@ -90,7 +90,7 @@ Isomer.prototype.add = function (item, baseColor, expertMode, name) {
   } else if (item instanceof Shape) {
     var paths = item.orderedPaths();
     for (var i in paths) {
-      if(expertModeValid == 1){
+      if(expertModeValid){
         this.paths[this.paths.length] = {path:paths[i], color:baseColor, shapeName:(name||'')};
       } else {
 	this._addPath(paths[i], baseColor);
@@ -104,8 +104,8 @@ Isomer.prototype.add = function (item, baseColor, expertMode, name) {
  * By default, does not sort the paths between shapes
  */
 Isomer.prototype.draw = function(sortPath){
-  var sortValid = (typeof sortPath === 'number') ? sortPath : 0;
-  if(sortValid == 1){
+  var sortValid = !!sortPath;
+  if(sortValid){
     this.sortPaths();
   }
   for (var i in this.paths){
@@ -166,7 +166,7 @@ Isomer.prototype.sortPaths = function () {
 		  if(pathList[drawBefore[i][j]].drawn == 0){canDraw = 0;}
 		}
 		if(canDraw == 1){
-		   this.add(pathList[i].path, pathList[i].color, 1, pathList[i].shapeName);
+		   this.add(pathList[i].path, pathList[i].color, true, pathList[i].shapeName);
 		   drawThisTurn = 1;
 		   pathList[i].drawn = 1;
 		}
@@ -177,7 +177,7 @@ Isomer.prototype.sortPaths = function () {
   //could be done more in a smarter order, that's why drawn is is an element of pathList[] and not a separate array
   for (var i = 0 ; i < pathList.length ; i++){
     if(pathList[i].drawn == 0){
-      this.add(pathList[i].path, pathList[i].color, 1, pathList[i].shapeName);
+      this.add(pathList[i].path, pathList[i].color, true, pathList[i].shapeName);
     }
   }
 };
@@ -202,7 +202,6 @@ function isPointInPoly(poly, pt){
  */
 Isomer.prototype._hasIntersection = function(pointsA, pointsB) {
   var i, j;
-  //console.log("_hasIntersection");
   var AminX = pointsA[0].x;
   var AminY = pointsA[0].y;
   var AmaxX = AminX;
@@ -251,8 +250,6 @@ Isomer.prototype._hasIntersection = function(pointsA, pointsB) {
 	  rB[i] = deltaBX[i] * polyB[i].y - deltaBY[i] * polyB[i].x;
 	}
 	
-	
-	crossExam:
 	for(i = 0 ; i <= polyA.length - 2 ; i++){
 	  for(j = 0 ; j <= polyB.length - 2 ; j++){
 	    if(deltaAX[i] * deltaBY[j] != deltaAY[i] * deltaBX[j]){
@@ -260,7 +257,7 @@ Isomer.prototype._hasIntersection = function(pointsA, pointsB) {
 		  //two segments cross each other if and only if the points of the first are on each side of the line defined by the second and vice-versa
 		  if((deltaAY[i] * polyB[j].x - deltaAX[i] * polyB[j].y + rA[i]) * (deltaAY[i] * polyB[j+1].x - deltaAX[i] * polyB[j+1].y + rA[i]) < -0.000000001 &&  
 		     (deltaBY[j] * polyA[i].x - deltaBX[j] * polyA[i].y + rB[j]) * (deltaBY[j] * polyA[i+1].x - deltaBX[j] * polyA[i+1].y + rB[j]) < -0.000000001){
-			   return 1;
+			   return true;
 		  }
 		}
 	  }
@@ -268,18 +265,18 @@ Isomer.prototype._hasIntersection = function(pointsA, pointsB) {
 	
 	for(i = 0 ; i <= polyA.length - 2 ; i++){
 	  if(isPointInPoly(polyB, {x:polyA[i].x, y:polyA[i].y})){
-	    return 1;
+	    return true;
 	  }
 	}
 	for(i = 0 ; i <= polyB.length - 2 ; i++){
 	  if(isPointInPoly(polyA, {x:polyB[i].x, y:polyB[i].y})){
-	    return 1;
+	    return true;
 	  }
 	}
 	
-	return 0;
+	return false;
   } else {
-    return 0;
+    return false;
   }
 
 };
