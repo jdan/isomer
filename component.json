@@ -1,0 +1,15 @@
+{
+  "name": "isomer",
+  "version": "0.2.3",
+  "main": "index.js",
+  "scripts": [
+    "index.js",
+    "js/canvas.js",
+    "js/color.js",
+    "js/isomer.js",
+    "js/path.js",
+    "js/point.js",
+    "js/shape.js",
+    "js/vector.js"
+  ]
+}
