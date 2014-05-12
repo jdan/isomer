@@ -12,28 +12,31 @@ var version = require('./package.json').version;
 var date = strftime('%F');
 
 /* Main gulp task to minify and concat assets */
-gulp.task('build', function () {
+gulp.task('dist', function () {
   var bundleStream = browserify('./index.js').bundle({
     standalone: 'Isomer'
   });
+
   var banner = fs.readFileSync('./js/banner/copyright.js');
+  var bannerMin = fs.readFileSync('./js/banner/copyright.min.js');
+  var opts = {
+    date: date,
+    version: version
+  };
 
   bundleStream
+    /* isomer.js */
     .pipe(source('isomer.js'))
     .pipe(buffer())
-    .pipe(header(banner, { date: date, version: version }))
-    .pipe(gulp.dest('./build'));
-});
+    .pipe(header(banner, opts))
+    .pipe(gulp.dest('./dist'))
 
-/* Task to create a release by minifying the build */
-gulp.task('release', ['build'], function () {
-  var banner = fs.readFileSync('./js/banner/copyright.min.js');
-
-  gulp.src('./build/isomer.js')
+    /* isomer.min.js */
     .pipe(uglify())
-    .pipe(header(banner, { version: version }))
+    .pipe(header(bannerMin, opts))
     .pipe(rename('isomer.min.js'))
-    .pipe(gulp.dest('./build'));
+    .pipe(gulp.dest('./dist'))
+
 });
 
-gulp.task('default', ['build']);
+gulp.task('default', ['dist']);

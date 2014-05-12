@@ -62,38 +62,22 @@ first install the dependencies.
 $ npm install
 ```
 
-Then run `npm run build`:
+Then run `npm run dist`:
 
 ```
-$ npm run build
+$ npm run dist    # or, alternatively, `gulp dist`
 
-> isomer@0.2.2 build /Users/jordan/Projects/isomer
+> isomer@0.2.4 dist /Users/jordan/Projects/isomer
 > gulp
 
 [gulp] Using gulpfile ~/Projects/isomer/gulpfile.js
-[gulp] Starting 'build'...
-[gulp] Finished 'build' after 7.24 ms
+[gulp] Starting 'dist'...
+[gulp] Finished 'dist' after 8.35 ms
 [gulp] Starting 'default'...
-[gulp] Finished 'default' after 7.04 μs
+[gulp] Finished 'default' after 6.52 μs
 ```
 
-To generate `isomer.js` in the `build/` directory. For a minified build,
-run `npm run release`:
-
-```
-$ npm run release
-
-> isomer@0.2.2 release /Users/jordan/Projects/isomer
-> gulp release
-
-[gulp] Using gulpfile ~/Projects/isomer/gulpfile.js
-[gulp] Starting 'build'...
-[gulp] Finished 'build' after 7.11 ms
-[gulp] Starting 'release'...
-[gulp] Finished 'release' after 6.77 ms
-```
-
-This will generate `build/isomer.min.js`.
+To generate `isomer.js` and `isomer.min.js` in the `dist/` directory.
 
 ## Develop
 
@@ -102,7 +86,7 @@ dependencies and build the project like so:
 
 ```
 $ npm install
-$ npm run build
+$ npm run dist
 ```
 
 [test/index.html](https://github.com/jdan/isomer/blob/master/test/index.html) contains a basic testing page that draws various shapes. This page will load the unminified bundle.
@@ -112,14 +96,14 @@ The `test` script (accessible via `npm test`) uses [beefy](https://github.com/ch
 ```
 $ npm test
 
-> isomer@0.2.2 test /Users/jordan/Projects/isomer
-> open http://localhost:9966/test/ && ./node_modules/.bin/beefy index.js:build/isomer.js --live -- --standalone Isomer
+> isomer@0.2.4 test /Users/jordan/Projects/isomer
+> open http://localhost:9966/test/ && ./node_modules/.bin/beefy index.js:dist/isomer.js --live -- --standalone Isomer
 
 listening on http://localhost:9966/
-200   62ms    1.18KB /test/
-200   11ms      508B /test/style.css
-200    2ms    5.48KB /test/test.js
-200  625ms    48.5KB /build/isomer.js -> ./node_modules/.bin/browserify ./index.js --standalone Isomer -d
+200   30ms    1.18KB /test/
+200    8ms      508B /test/style.css
+200    1ms    5.48KB /test/test.js
+200  704ms    48.5KB /dist/isomer.js -> ./node_modules/.bin/browserify ./index.js --standalone Isomer -d
 ```
 
 ## With node-canvas
