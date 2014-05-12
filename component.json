@@ -1,6 +1,20 @@
 {
   "name": "isomer",
   "version": "0.2.4",
-  "main": "index.js",
-  "scripts": [ "dist/isomer.js" ]
+  "main": "dist/isomer.js",
+  "scripts": [
+    "dist/isomer.js"
+  ],
+  "homepage": "https://github.com/jdan/isomer",
+  "authors": [
+    "Jordan Scales <scalesjordan@gmail.com>"
+  ],
+  "description": "A simple isometric graphics library for HTML5 canvas",
+  "keywords": [
+    "graphics",
+    "isometric",
+    "canvas",
+    "3D"
+  ],
+  "license": "MIT"
 }
