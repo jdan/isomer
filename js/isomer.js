@@ -19,6 +19,8 @@ function Isomer(canvasId, options) {
 
   this.scale = options.scale || 70;
 
+  this._calculateTransformation();
+
   this.originX = options.originX || this.canvas.width / 2;
   this.originY = options.originY || this.canvas.height * 0.9;
 
@@ -52,11 +54,11 @@ Isomer.prototype._translatePoint = function (point) {
    * Y rides perpendicular to this angle (in isometric view: PI - angle)
    * Z affects the y coordinate of the drawn point
    */
-  var xMap = new Point(point.x * this.scale * Math.cos(this.angle),
-                       point.x * this.scale * Math.sin(this.angle));
+  var xMap = new Point(point.x * this.transformation[0][0]
+                       point.x * this.transformation[0][1]);
 
-  var yMap = new Point(point.y * this.scale * Math.cos(Math.PI - this.angle),
-                       point.y * this.scale * Math.sin(Math.PI - this.angle));
+  var yMap = new Point(point.y * this.transformation[1][0],
+                       point.y * this.transformation[1][1]);
 
   var x = this.originX + xMap.x + yMap.x;
   var y = this.originY - xMap.y - yMap.y - (point.z * this.scale);
@@ -108,6 +110,23 @@ Isomer.prototype._addPath = function (path, baseColor) {
 
   this.canvas.path(path.points.map(this._translatePoint.bind(this)), color);
 };
+
+/**
+ * Precalculates transformation values based on the current angle and scale
+ * which in theory reduces costly cos and sin calls.
+*/
+Isomer.prototype._calculateTransformation = function () {
+    this.transformation = [
+        [
+            this.scale * Math.cos(this.angle),
+            this.scale * Math.sin(this.angle)
+        ],
+        [
+            this.scale * Math.cos(Math.PI - this.angle),
+            this.scale * Math.sin(Math.PI - this.angle)
+        ]
+    ];
+}
 
 /* Namespace our primitives */
 Isomer.Canvas = Canvas;
