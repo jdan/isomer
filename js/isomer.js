@@ -54,7 +54,7 @@ Isomer.prototype._translatePoint = function (point) {
    * Y rides perpendicular to this angle (in isometric view: PI - angle)
    * Z affects the y coordinate of the drawn point
    */
-  var xMap = new Point(point.x * this.transformation[0][0]
+  var xMap = new Point(point.x * this.transformation[0][0],
                        point.x * this.transformation[0][1]);
 
   var yMap = new Point(point.y * this.transformation[1][0],
