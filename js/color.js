@@ -3,10 +3,11 @@
  *
  * Also holds HSL values
  */
-function Color(r, g, b) {
+function Color(r, g, b, a) {
   this.r = parseInt(r || 0);
   this.g = parseInt(g || 0);
   this.b = parseInt(b || 0);
+  this.a = parseFloat((Math.round(a * 100) / 100 || 1));
 
   this.loadHSL();
 };
@@ -33,7 +34,8 @@ Color.prototype.lighten = function (percentage, lightColor) {
   var newColor = new Color(
     (lightColor.r / 255) * this.r,
     (lightColor.g / 255) * this.g,
-    (lightColor.b / 255) * this.b
+    (lightColor.b / 255) * this.b,
+    this.a
   );
 
   newColor.l = Math.min(newColor.l + percentage, 1);

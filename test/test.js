@@ -171,6 +171,25 @@ TestSuite['red light'] = function () {
   iso.lightColor = new Color(255, 255, 255);
 };
 
+TestSuite['draw logo transparent'] = function () {
+  var transparency = Math.random();
+
+  iso.add(Shape.Prism(new Point(1, 1), 1, 1, 2), new Color(0, 180, 180, transparency));
+  iso.add(Shape.Prism(new Point(0, 1), 1, 1, 1.5), new Color(50, 60, 180, transparency));
+  iso.add(Shape.Prism(new Point(1, 0), 1, 1, 1), new Color(50, 180, 60, transparency));
+  iso.add(Shape.Prism(new Point(0, 0), 1, 1, 0.5), new Color(180, 50, 60, transparency));
+};
+
+TestSuite['red light transparent'] = function () {
+  var transparency = Math.random();
+
+  iso.lightColor = new Color(160, 50, 60);
+  iso.add(Shape.Prism(new Point(1, 1), 1, 1, 2), new Color(0, 180, 180, transparency));
+  iso.add(Shape.Prism(new Point(0, 1), 1, 1, 1.5), new Color(50, 60, 180, transparency));
+  iso.add(Shape.Prism(new Point(1, 0), 1, 1, 1), new Color(50, 180, 60, transparency));
+  iso.add(Shape.Prism(new Point(0, 0), 1, 1, 0.5), new Color(180, 50, 60, transparency));
+  iso.lightColor = new Color(255, 255, 255);
+};
 
 /**
  * Add testing buttons
