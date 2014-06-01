@@ -14,7 +14,7 @@ var Vector = require('./vector');
 function Isomer(canvasId, options) {
   options = options || {};
 
-  this.canvas = new Canvas(canvasId);
+  this.canvas = options.customPathDrawer || new Canvas(canvasId);
   this.angle = Math.PI / 6;
 
   this.scale = options.scale || 70;
