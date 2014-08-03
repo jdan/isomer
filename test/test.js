@@ -191,6 +191,37 @@ TestSuite['red light transparent'] = function () {
   iso.lightColor = new Color(255, 255, 255);
 };
 
+TestSuite['test rotation'] = function() {
+  var cube = Shape.Prism(new Point(5, 5), 1, 1, 1);
+  var angle = 0;
+
+  return function() {
+    // Plane, so we don't smear the background
+    iso.add(Shape.Prism(new Point(4, 4, -0.1), 12, 12, 0.1), new Color(195, 195, 195));
+
+    // Build X & Y inwards so they aren't occluded
+    for (var i = 6; i > 0; i--) {
+      iso.add(cube
+        .translate(i + 1, 0, 0)
+        .rotateX(new Point(5.5, 5.5, 0.5), -Math.PI/10 * (i+4) - angle),
+          new Color(100 + i * 15, 0, 0, 0.5));
+    }
+    for (var i = 6; i > 0; i--) {
+      iso.add(cube
+        .translate(0, i + 1, 0)
+        .rotateY(new Point(5.5, 5.5, 0.5), -Math.PI/5 * (i+4) - angle),
+          new Color(0, 100 + i * 20, 0, 0.5));
+    }
+    for (var i = 0; i < 6; i++) {
+      iso.add(cube
+        .translate(0, 0, i + 1)
+        .rotateZ(new Point(5.5, 5.5), -Math.PI/5 * i - angle),
+          new Color(0, 0, 100 + i * 20, 0.5));
+    }
+    angle += 2 * Math.PI / 60;
+  }
+};
+
 /**
  * Add testing buttons
  */
@@ -198,6 +229,7 @@ TestSuite['red light transparent'] = function () {
   var fn;
   var panel = document.getElementById("control");
   var button;
+  var animationTimer;
 
   for (fn in TestSuite) {
     button = document.createElement("div");
@@ -205,9 +237,13 @@ TestSuite['red light transparent'] = function () {
     button.innerHTML = fn;
     button.onclick = (function (fn) {
       return function () {
-        /* Clear the canvas and execute the test function */
+        /* Clear the canvas, animation callback and execute the test function */
         iso.canvas.clear();
-        fn();
+        clearInterval(animationTimer);
+        var f = fn();
+
+        // If the test function returns a function, animate this
+        animationTimer = setInterval(f, 1000/30);
       };
     })(TestSuite[fn]);
 
