@@ -45,6 +45,31 @@ Path.prototype.translate = function () {
   }));
 };
 
+/**
+ * Returns a new path rotated along the X axis by a given origin
+ *
+ * Simply a forward to Point#rotateX
+ */
+Path.prototype.rotateX = function () {
+  var args = arguments;
+
+  return new Path(this.points.map(function (point) {
+    return point.rotateX.apply(point, args);
+  }));
+};
+
+/**
+ * Returns a new path rotated along the Y axis by a given origin
+ *
+ * Simply a forward to Point#rotateY
+ */
+Path.prototype.rotateY = function () {
+  var args = arguments;
+
+  return new Path(this.points.map(function (point) {
+    return point.rotateY.apply(point, args);
+  }));
+};
 
 /**
  * Returns a new path rotated along the Z axis by a given origin

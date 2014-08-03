@@ -36,6 +36,31 @@ Shape.prototype.translate = function () {
   }));
 };
 
+/**
+ * Rotates a given shape along the X axis around a given origin
+ *
+ * Simply a forward to Path#rotateX
+ */
+Shape.prototype.rotateX = function () {
+  var args = arguments;
+
+  return new Shape(this.paths.map(function (path) {
+    return path.rotateX.apply(path, args);
+  }));
+};
+
+/**
+ * Rotates a given shape along the Y axis around a given origin
+ *
+ * Simply a forward to Path#rotateY
+ */
+Shape.prototype.rotateY = function () {
+  var args = arguments;
+
+  return new Shape(this.paths.map(function (path) {
+    return path.rotateY.apply(path, args);
+  }));
+};
 
 /**
  * Rotates a given shape along the Z axis around a given origin
@@ -49,7 +74,6 @@ Shape.prototype.rotateZ = function () {
     return path.rotateZ.apply(path, args);
   }));
 };
-
 
 /**
  * Scales a path about a given origin
