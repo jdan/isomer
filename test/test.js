@@ -198,6 +198,7 @@ TestSuite['red light transparent'] = function () {
   var fn;
   var panel = document.getElementById("control");
   var button;
+  var animationTimer;
 
   for (fn in TestSuite) {
     button = document.createElement("div");
@@ -205,9 +206,13 @@ TestSuite['red light transparent'] = function () {
     button.innerHTML = fn;
     button.onclick = (function (fn) {
       return function () {
-        /* Clear the canvas and execute the test function */
+        /* Clear the canvas, animation callback and execute the test function */
         iso.canvas.clear();
-        fn();
+        clearInterval(animationTimer);
+        var f = fn();
+
+        // If the test function returns a function, animate this
+        animationTimer = setInterval(f, 1000/30);
       };
     })(TestSuite[fn]);
 
