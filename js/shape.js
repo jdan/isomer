@@ -108,13 +108,21 @@ Shape.prototype.orderedPaths = function () {
 
 /**
  * Utility function to create a 3D object by raising a 2D path
- * along the z-axis
+ * along the specified axis.
  */
-Shape.extrude = function (path, height) {
+Shape.extrude = function (path, height, axis) {
   height = (typeof height === 'number') ? height : 1;
 
-  var i, topPath = path.translate(0, 0, height);
+  var i, topPath;
   var shape = new Shape();
+
+  if(axis === 'x'){
+   topPath = path.translate(height, 0, 0);
+  } else if(axis === 'y'){
+   topPath = path.translate(0, height, 0);
+  } else {
+   topPath = path.translate(0, 0, height);
+  }
 
   /* Push the top and bottom faces, top face must be oriented correctly */
   shape.push(path.reverse());
@@ -216,11 +224,11 @@ Shape.Pyramid = function (origin, dx, dy, dz) {
 };
 
 
-Shape.Cylinder = function (origin, radius, vertices, height) {
+Shape.Cylinder = function (origin, radius, vertices, height, axis) {
   radius = (typeof radius === 'number') ? radius : 1;
 
-  var circle = Path.Circle(origin, radius, vertices);
-  var cylinder = Shape.extrude(circle, height);
+  var circle = Path.Circle(origin, radius, vertices, axis);
+  var cylinder = Shape.extrude(circle, height, axis);
 
   return cylinder;
 };

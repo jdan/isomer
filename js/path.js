@@ -138,15 +138,34 @@ Path.Rectangle = function (origin, width, height) {
 /**
  * A circle centered at origin with a given radius and number of vertices
  */
-Path.Circle = function (origin, radius, vertices) {
+Path.Circle = function (origin, radius, vertices, axis) {
   vertices = vertices || 20;
   var i, path = new Path();
 
+  var trig = [
+    function( ){return 0;},
+    function(i){return radius * Math.cos(i * 2 * Math.PI / vertices);},
+    function(i){return radius * Math.sin(i * 2 * Math.PI / vertices);}
+    ];
+
+/*Assign calculation method according to given axis.*/
+    if(axis === 'x'){
+      x = trig[0];
+      y = trig[1];
+      z = trig[2];
+/*Order changes for Y-axis or the lighting is backwards.*/
+    } else if(axis === 'y'){
+      x = trig[2];
+      y = trig[0];
+      z = trig[1];
+    } else {
+      x = trig[1];
+      y = trig[2];
+      z = trig[0];
+    }
+
   for (i = 0; i < vertices; i++) {
-    path.push(new Point(
-      radius * Math.cos(i * 2 * Math.PI / vertices),
-      radius * Math.sin(i * 2 * Math.PI / vertices),
-      0));
+    path.push(new Point(x(i),y(i),z(i)));
   }
 
   return path.translate(origin.x, origin.y, origin.z);
