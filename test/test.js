@@ -238,12 +238,14 @@ TestSuite['test rotation'] = function() {
     button.onclick = (function (fn) {
       return function () {
         /* Clear the canvas, animation callback and execute the test function */
-        iso.canvas.clear();
         clearInterval(animationTimer);
+        iso.canvas.clear();
         var f = fn();
 
         // If the test function returns a function, animate this
-        animationTimer = setInterval(f, 1000/30);
+        if (Object.prototype.toString.call(f) == '[object Function]') {
+          animationTimer = setInterval(f, 1000/30);
+        }
       };
     })(TestSuite[fn]);
 
