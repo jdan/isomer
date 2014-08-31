@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+  <title>Isomer Sketchpad</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="content">
+    <div id="output">
+      <canvas id="canvas"></canvas>
+    </div>
+    <div id="input">
+      <div id="editor">var Point  = Isomer.Point;
+var Path   = Isomer.Path;
+var Shape  = Isomer.Shape;
+var Vector = Isomer.Vector;
+var Color  = Isomer.Color;
+
+var iso = new Isomer(document.getElementById("canvas"));
+
+var red = new Color(160, 60, 50);
+var blue = new Color(50, 60, 160);
+
+iso.add(Shape.Prism(Point.ORIGIN, 3, 3, 1));
+iso.add(Shape.Pyramid(Point(0, 2, 1)), red);
+iso.add(Shape.Prism(Point(2, 0, 1)), blue);
+</div>
+    </div>
+  </div>
+
+  <script src="../js/isomer.min.js"></script>
+  <script src="vendor/ace.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Declare the ACE editor
+    var editor = ace.edit("editor");
+    editor.getSession().setMode("ace/mode/javascript");
+    editor.gotoLine(editor.session.getLength());
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // Explicitly declare the width and height of the canvas
+      var container = document.getElementById("output");
+      var canvas = document.getElementById("canvas");
+
+      var width = container.offsetWidth;
+      var height = container.offsetHeight;
+
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+
+      // 2x for retina displays
+      canvas.width = 2*width;
+      canvas.height = 2*height;
+
+      // Listen for changes in the editor and execute them
+      var scratch = new Scratchpad(editor, canvas);
+      scratch.run();
+    });
+  </script>
+</body>
+</html>

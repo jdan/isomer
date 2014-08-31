@@ -1,0 +1,24 @@
+body {
+  overflow: hidden;
+}
+
+#output {
+  position: absolute;
+  top: 0; bottom: 0;
+  /* TODO: ability to hide/expand the editor */
+  left: 0; right: 660px;
+}
+
+#input {
+  position: absolute;
+  top: 0; bottom: 0;
+  right: 0;
+
+  width: 660px;
+}
+
+#editor {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+}
