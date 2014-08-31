@@ -1,8 +1,8 @@
 ![isomer](https://i.cloudup.com/kQrnH2x5XE-3000x3000.png)
 
-### An isometric graphics library for HTML5 canvas
+An isometric graphics library for HTML5 canvas.
 
-View the [official project page](http://jdan.github.io/isomer/) or [try it out](http://codepen.io/jdan/pen/HmGCz/left/?editors=001).
+View the [official project page](http://jdan.github.io/isomer/) or [try it out](http://jdan.github.io/isomer/playground).
 
 ## About
 
