@@ -6,7 +6,7 @@
  * Released under the MIT license
  * http://jdan.github.io/isomer/license.txt
  *
- * Date: 2014-05-21
+ * Date: 2014-08-30
  */
 !function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.Isomer=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 /**
@@ -365,6 +365,31 @@ Path.prototype.translate = function () {
   }));
 };
 
+/**
+ * Returns a new path rotated along the X axis by a given origin
+ *
+ * Simply a forward to Point#rotateX
+ */
+Path.prototype.rotateX = function () {
+  var args = arguments;
+
+  return new Path(this.points.map(function (point) {
+    return point.rotateX.apply(point, args);
+  }));
+};
+
+/**
+ * Returns a new path rotated along the Y axis by a given origin
+ *
+ * Simply a forward to Point#rotateY
+ */
+Path.prototype.rotateY = function () {
+  var args = arguments;
+
+  return new Path(this.points.map(function (point) {
+    return point.rotateY.apply(point, args);
+  }));
+};
 
 /**
  * Returns a new path rotated along the Z axis by a given origin
@@ -520,6 +545,33 @@ Point.prototype.scale = function (origin, dx, dy, dz) {
   return p.translate(origin.x, origin.y, origin.z);
 };
 
+/**
+ * Rotate about origin on the X axis
+ */
+Point.prototype.rotateX = function (origin, angle) {
+  var p = this.translate(-origin.x, -origin.y, -origin.z);
+
+  var z = p.z * Math.cos(angle) - p.y * Math.sin(angle);
+  var y = p.z * Math.sin(angle) + p.y * Math.cos(angle);
+  p.z = z;
+  p.y = y;
+
+  return p.translate(origin.x, origin.y, origin.z);
+};
+
+/**
+ * Rotate about origin on the Y axis
+ */
+Point.prototype.rotateY = function (origin, angle) {
+  var p = this.translate(-origin.x, -origin.y, -origin.z);
+
+  var x = p.x * Math.cos(angle) - p.z * Math.sin(angle);
+  var z = p.x * Math.sin(angle) + p.z * Math.cos(angle);
+  p.x = x;
+  p.z = z;
+
+  return p.translate(origin.x, origin.y, origin.z);
+};
 
 /**
  * Rotate about origin on the Z axis
@@ -598,6 +650,31 @@ Shape.prototype.translate = function () {
   }));
 };
 
+/**
+ * Rotates a given shape along the X axis around a given origin
+ *
+ * Simply a forward to Path#rotateX
+ */
+Shape.prototype.rotateX = function () {
+  var args = arguments;
+
+  return new Shape(this.paths.map(function (path) {
+    return path.rotateX.apply(path, args);
+  }));
+};
+
+/**
+ * Rotates a given shape along the Y axis around a given origin
+ *
+ * Simply a forward to Path#rotateY
+ */
+Shape.prototype.rotateY = function () {
+  var args = arguments;
+
+  return new Shape(this.paths.map(function (path) {
+    return path.rotateY.apply(path, args);
+  }));
+};
 
 /**
  * Rotates a given shape along the Z axis around a given origin
@@ -611,7 +688,6 @@ Shape.prototype.rotateZ = function () {
     return path.rotateZ.apply(path, args);
   }));
 };
-
 
 /**
  * Scales a path about a given origin
