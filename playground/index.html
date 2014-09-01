@@ -36,6 +36,7 @@ iso.add(Shape.Prism(Point(2, 0, 1)), blue);
     // Declare the ACE editor
     var editor = ace.edit("editor");
     editor.getSession().setMode("ace/mode/javascript");
+    editor.getSession().setUseWorker(false);
 
     document.addEventListener("DOMContentLoaded", function () {
       // Explicitly declare the width and height of the canvas

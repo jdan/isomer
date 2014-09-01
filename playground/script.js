@@ -53,13 +53,11 @@ Scratchpad.prototype.run = function () {
   var timeout;
 
   loopProtect.hit = function (line) {
-    setTimeout(function () {
-      self.editor.session.setAnnotations([{
-        row: line - 1,
-        type: "error",
-        text: "Infinite loop detected"
-      }]);
-    }, 500); // Ace is doing something funky, wait 500ms
+    self.editor.session.setAnnotations([{
+      row: line - 1,
+      type: "error",
+      text: "Infinite loop detected"
+    }]);
   };
 
   // Eval once at the beginning
