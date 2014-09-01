@@ -12,15 +12,46 @@ Scratchpad.prototype.resetCanvas = function () {
 };
 
 Scratchpad.prototype.eval = function () {
-  eval(this.editor.getValue());
+  var code = this.editor.getValue();
+
+  /**
+   * https://github.com/jsbin/loop-protect/issues/5
+   * The following sequence:
+   *
+   *   while (1)
+   *
+   *   console.log
+   *
+   * translates to:
+   *
+   *   while (1)
+   *   console.log
+   *
+   * Which throws an infinite loop. Adding a semicolon to the end of the line
+   * fixes it.
+   *
+   * Temporarily, add a semi-colon to the end of every non-empty line.
+   */
+  var safe = loopProtect(code.replace(/(.+)/g, "$1;"));
+  eval(safe);
 };
 
 Scratchpad.prototype.run = function () {
   var self = this;
   var timeout;
 
+  loopProtect.hit = function (line) {
+    setTimeout(function () {
+      self.editor.session.setAnnotations([{
+        row: line - 1,
+        type: "error",
+        text: "Infinite loop detected"
+      }]);
+    }, 500); // Ace is doing something funky, wait 500ms
+  };
+
   // Eval once at the beginning
-  self.eval();
+  this.eval();
 
   this.editor.getSession().on('change', function (e) {
     // Prevent the editor from updating too much by only
