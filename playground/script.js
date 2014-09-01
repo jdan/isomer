@@ -30,9 +30,10 @@ Scratchpad.prototype.eval = function () {
    * Which throws an infinite loop. Adding a semicolon to the end of the line
    * fixes it.
    *
-   * Temporarily, add a semi-colon to the end of every non-empty line.
+   * Temporarily, add a semi-colon to the end of every line starting with
+   * `while`, `for`, or `do`.
    */
-  var safe = loopProtect(code.replace(/(.+)/g, '$1;'));
+  var safe = loopProtect(code.replace(/((while|for|do).+)/g, "$1;"));
   eval(safe);
 };
 
