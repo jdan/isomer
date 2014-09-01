@@ -36,7 +36,6 @@ iso.add(Shape.Prism(Point(2, 0, 1)), blue);
     // Declare the ACE editor
     var editor = ace.edit("editor");
     editor.getSession().setMode("ace/mode/javascript");
-    editor.gotoLine(editor.session.getLength());
 
     document.addEventListener("DOMContentLoaded", function () {
       // Explicitly declare the width and height of the canvas
@@ -53,9 +52,14 @@ iso.add(Shape.Prism(Point(2, 0, 1)), blue);
       canvas.width = 2*width;
       canvas.height = 2*height;
 
-      // Listen for changes in the editor and execute them
       var scratch = new Scratchpad(editor, canvas);
+      // Load from localStorage
+      scratch.load();
+
+      // Listen for changes in the editor and execute them
       scratch.run();
+
+      editor.gotoLine(editor.session.getLength());
     });
   </script>
 </body>

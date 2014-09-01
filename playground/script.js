@@ -32,8 +32,20 @@ Scratchpad.prototype.eval = function () {
    *
    * Temporarily, add a semi-colon to the end of every non-empty line.
    */
-  var safe = loopProtect(code.replace(/(.+)/g, "$1;"));
+  var safe = loopProtect(code.replace(/(.+)/g, '$1;'));
   eval(safe);
+};
+
+Scratchpad.prototype.save = function () {
+  if (localStorage) {
+    localStorage.setItem('scratch', this.editor.getValue());
+  }
+};
+
+Scratchpad.prototype.load = function () {
+  if (localStorage && localStorage.getItem('scratch')) {
+    this.editor.setValue(localStorage.getItem('scratch'));
+  }
 };
 
 Scratchpad.prototype.run = function () {
@@ -63,6 +75,7 @@ Scratchpad.prototype.run = function () {
     timeout = setTimeout(function () {
       self.resetCanvas();
       self.eval();
+      self.save();
     }, 200);
   });
 };
