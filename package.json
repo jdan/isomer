@@ -34,6 +34,7 @@
     "vinyl-source-stream": "^0.1.1"
   },
   "dependencies": {
+    "inherits": "^2.0.1",
     "three": "^0.68.0"
   }
 }
