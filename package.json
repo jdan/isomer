@@ -17,14 +17,14 @@
     "canvas",
     "3D"
   ],
-  "main": "index.js",
+  "main": "./js/isomer.js",
   "scripts": {
     "dist": "./node_modules/.bin/gulp",
-    "test": "open http://localhost:9966/test/ && ./node_modules/.bin/beefy index.js:dist/isomer.js --live -- --standalone Isomer"
+    "test": "open http://localhost:9966/test/ && beefy js/isomer.js:dist/isomer.js --live -- --noparse=three --standalone Isomer"
   },
   "devDependencies": {
     "beefy": "^1.1.0",
-    "browserify": "^3.46.0",
+    "browserify": "^5.11.1",
     "gulp": "^3.6.0",
     "gulp-buffer": "^0.0.2",
     "gulp-header": "^1.0.2",
@@ -32,5 +32,8 @@
     "gulp-uglify": "^0.2.1",
     "strftime": "^0.8.0",
     "vinyl-source-stream": "^0.1.1"
+  },
+  "dependencies": {
+    "three": "^0.68.0"
   }
 }

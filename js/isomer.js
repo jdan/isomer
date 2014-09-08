@@ -1,9 +1,10 @@
-var Canvas = require('./canvas');
-var Color = require('./color');
-var Path = require('./path');
+//var Canvas = require('./canvas');
+//var Color = require('./color');
+//var Path = require('./path');
 var Point = require('./point');
 var Shape = require('./shape');
-var Vector = require('./vector');
+//var Vector = require('./vector');
+var THREE = require('three');
 
 
 /**
@@ -11,34 +12,50 @@ var Vector = require('./vector');
  *
  * This file contains the Isomer base definition
  */
-function Isomer(canvasId, options) {
+function Isomer(canvas, options) {
   options = options || {};
 
-  this.canvas = new Canvas(canvasId);
-  this.angle = Math.PI / 6;
+  this.canvas = canvas;
 
-  this.scale = options.scale || 70;
+  this.width  = options.width  || this.canvas.offsetWidth;
+  this.height = options.height || this.canvas.offsetHeight;
+  this.zoom   = options.zoom   || 10;
 
-  this._calculateTransformation();
+  /* Declare the scene */
+  this.scene = new THREE.Scene();
 
-  this.originX = options.originX || this.canvas.width / 2;
-  this.originY = options.originY || this.canvas.height * 0.9;
+  /* Set up the orthographic (isometric) camera */
+  var aspect = this.width / this.height;
+  this.camera = new THREE.OrthographicCamera(
+      -this.zoom * aspect, this.zoom * aspect, this.zoom, -this.zoom, 1, 1000);
+  this.camera.position.set(-100, 100, -100);
+  this.camera.lookAt({x: 0, y: 10, z: 0});
 
-  /**
-   * Light source as defined as the angle from
-   * the object to the source.
-   *
-   * We'll define somewhat arbitrarily for now.
-   */
-  this.lightPosition = options.lightPosition || new Vector(2, -1, 3);
-  this.lightAngle = this.lightPosition.normalize();
+  /* Set the global light */
+  var light = new THREE.DirectionalLight(0xFFFFFF);
+  light.position.set(-2, 2.5, -1).normalize();
+  this.scene.add(light);
 
-  /**
-   * The maximum color difference from shading
-   */
-  this.colorDifference = 0.20;
-  this.lightColor = options.lightColor || new Color(255, 255, 255);
+  /* Declare a scene renderer */
+  this.renderer = new THREE.WebGLRenderer({
+    alpha: true,
+    antialias: true,
+    canvas: this.canvas,
+    devicePixelRatio: window.devicePixelRatio || 1
+  });
+  this.renderer.setClearColor(0x000000, 0);
+  this.renderer.setSize(this.width, this.height);
 }
+
+
+/* Namespace our primitives */
+//Isomer.Canvas = Canvas;
+//Isomer.Color = Color;
+//Isomer.Path = Path;
+Isomer.Point = Point;
+Isomer.Shape = Shape;
+//Isomer.Vector = Vector;
+
 
 /**
  * Sets the light position for drawing.
@@ -47,6 +64,7 @@ Isomer.prototype.setLightPosition = function (x, y, z) {
   this.lightPosition = new Vector(x, y, z);
   this.lightAngle = this.lightPosition.normalize();
 }
+
 
 Isomer.prototype._translatePoint = function (point) {
   /**
@@ -71,21 +89,34 @@ Isomer.prototype._translatePoint = function (point) {
  *
  * This method also accepts arrays
  */
-Isomer.prototype.add = function (item, baseColor) {
-  if (Object.prototype.toString.call(item) == '[object Array]') {
-    for (var i = 0; i < item.length; i++) {
-      this.add(item[i], baseColor);
-    }
-  } else if (item instanceof Path) {
-    this._addPath(item, baseColor);
-  } else if (item instanceof Shape) {
-    /* Fetch paths ordered by distance to prevent overlaps */
-    var paths = item.orderedPaths();
-    for (var i in paths) {
-      this._addPath(paths[i], baseColor);
-    }
-  }
+Isomer.prototype.add = function (point, geometry, color) {
+  var material = new THREE.MeshLambertMaterial({ color: color });
+  var mesh = new THREE.Mesh(geometry, material);
+  mesh.applyMatrix(new THREE.Matrix4().makeTranslation(point.x, point.y, point.z));
+
+  this.scene.add(mesh);
 };
+
+
+Isomer.prototype.render = function () {
+  this.renderer.render(this.scene, this.camera);
+};
+
+// Isomer.prototype.add = function (item, baseColor) {
+//   if (Object.prototype.toString.call(item) == '[object Array]') {
+//     for (var i = 0; i < item.length; i++) {
+//       this.add(item[i], baseColor);
+//     }
+//   } else if (item instanceof Path) {
+//     this._addPath(item, baseColor);
+//   } else if (item instanceof Shape) {
+//     /* Fetch paths ordered by distance to prevent overlaps */
+//     var paths = item.orderedPaths();
+//     for (var i in paths) {
+//       this._addPath(paths[i], baseColor);
+//     }
+//   }
+// };
 
 
 /**
@@ -111,6 +142,7 @@ Isomer.prototype._addPath = function (path, baseColor) {
   this.canvas.path(path.points.map(this._translatePoint.bind(this)), color);
 };
 
+
 /**
  * Precalculates transformation values based on the current angle and scale
  * which in theory reduces costly cos and sin calls
@@ -128,13 +160,7 @@ Isomer.prototype._calculateTransformation = function () {
   ];
 }
 
-/* Namespace our primitives */
-Isomer.Canvas = Canvas;
-Isomer.Color = Color;
-Isomer.Path = Path;
-Isomer.Point = Point;
-Isomer.Shape = Shape;
-Isomer.Vector = Vector;
+
 
 /* Expose Isomer API */
 module.exports = Isomer;

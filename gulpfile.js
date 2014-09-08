@@ -14,7 +14,8 @@ var date = strftime('%F');
 /* Main gulp task to minify and concat assets */
 gulp.task('dist', function () {
   var bundleStream = browserify('./index.js').bundle({
-    standalone: 'Isomer'
+    standalone: 'Isomer',
+    debug: false
   });
 
   var banner = fs.readFileSync('./js/banner/copyright.js');

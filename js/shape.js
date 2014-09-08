@@ -1,5 +1,6 @@
 var Path = require('./path');
 var Point = require('./point');
+var THREE = require('three');
 
 /**
  * Shape utility class
@@ -183,6 +184,13 @@ Shape.Prism = function (origin, dx, dy, dz) {
   prism.push(face3.translate(0, 0, dz));
 
   return prism;
+};
+
+
+Shape.Box = function (width, height, depth) {
+  var geometry = new THREE.BoxGeometry(width, height, depth);
+  geometry.applyMatrix(new THREE.Matrix4().makeTranslation(width/2, height/2, depth/2));
+  return geometry;
 };
 
 
