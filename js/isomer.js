@@ -53,19 +53,16 @@ function Isomer(canvas, options) {
 //Isomer.Path = Path;
 Isomer.Point = Point;
 Isomer.Shape = Shape;
-//Isomer.Vector = Vector;
 
 
 /**
- * Adds a shape or path to the scene
- *
- * This method also accepts arrays
+ * Adds a shape or face to the scene
  */
-Isomer.prototype.add = function (point, shape, color) {
+Isomer.prototype.add = function (point, item, color) {
   var material, mesh;
-  // TODO: add a face!
+  // TODO: add a group!
   material = new THREE.MeshLambertMaterial({ color: color });
-  mesh = new THREE.Mesh(shape.geometry, material);
+  mesh = new THREE.Mesh(item.geometry, material);
   mesh.applyMatrix(new THREE.Matrix4().makeTranslation(point.x, point.y, point.z));
 
   this.scene.add(mesh);

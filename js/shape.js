@@ -42,8 +42,8 @@ inherits(Shape, Geometry);
  */
 Shape.Box = function (width, height, depth) {
   var geometry = new THREE.BoxGeometry(width, height, depth);
-  geometry.applyMatrix(new THREE.Matrix4().makeTranslation(width/2, height/2, depth/2));
-  return new Shape(geometry);
+  var box = new Shape(geometry);
+  return box.translate(width/2, height/2, depth/2);
 };
 
 
