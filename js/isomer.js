@@ -1,6 +1,6 @@
 //var Color = require('./color');
-//var Path = require('./path');
 var Point = require('./point');
+var Path = require('./path');
 var Shape = require('./shape');
 //var Vector = require('./vector');
 var THREE = require('three');
@@ -30,10 +30,32 @@ function Isomer(canvas, options) {
   this.camera.position.set(-100, 100, -100);
   this.camera.lookAt({x: 0, y: 10, z: 0});
 
+  this.shadows = options.shadows;
+
   /* Set the global light */
   var light = new THREE.DirectionalLight(0xFFFFFF);
-  light.position.set(-2, 2.5, -1).normalize();
+
+  if (this.shadows) {
+    light.castShadow = true;
+    light.shadowMapWidth = 2048;
+    light.shadowMapHeight = 2048;
+    light.shadowCameraNear = -20;
+    light.shadowCameraFar = 20;
+    light.shadowCameraTop = 20;
+    light.shadowCameraBottom = -20;
+    light.shadowCameraLeft = -20;
+    light.shadowCameraRight = 20;
+  }
+
+  //light.position.set(-4, 11, -8).normalize();
+  light.position.set(2, 1.5, -2).normalize();
   this.scene.add(light);
+
+  // A second, dimmer light from the -x axis
+  var dimLight = new THREE.DirectionalLight(0xFFFFFF);
+  dimLight.intensity = 0.4;
+  dimLight.position.set(-1, 0, 0).normalize();
+  this.scene.add(dimLight);
 
   /* Declare a scene renderer */
   this.renderer = new THREE.WebGLRenderer({
@@ -42,6 +64,11 @@ function Isomer(canvas, options) {
     canvas: this.canvas,
     devicePixelRatio: window.devicePixelRatio || 1
   });
+
+  if (this.shadows) {
+    this.renderer.shadowMapEnabled = true;
+  }
+
   this.renderer.setClearColor(0x000000, 0);
   this.renderer.setSize(this.width, this.height);
 }
@@ -52,17 +79,27 @@ function Isomer(canvas, options) {
 //Isomer.Color = Color;
 //Isomer.Path = Path;
 Isomer.Point = Point;
+Isomer.Path = Path;
 Isomer.Shape = Shape;
 
 
 /**
  * Adds a shape or face to the scene
  */
-Isomer.prototype.add = function (point, item, color) {
+Isomer.prototype.add = function (item, point, color) {
+  // TODO: defaults!
   var material, mesh;
   // TODO: add a group!
-  material = new THREE.MeshLambertMaterial({ color: color });
+
+  material = new THREE.MeshLambertMaterial({ color: color, side: THREE.FrontSide });
   mesh = new THREE.Mesh(item.geometry, material);
+
+  if (this.shadows) {
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+  }
+
+  // Translate to the given origin specified by the user
   mesh.applyMatrix(new THREE.Matrix4().makeTranslation(point.x, point.y, point.z));
 
   this.scene.add(mesh);

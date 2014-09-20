@@ -1,34 +1,40 @@
-var iso = new Isomer(document.getElementById("canvas"));
+var iso = new Isomer(document.getElementById("canvas"), { shadows: true });
 var Point = Isomer.Point;
+var Path = Isomer.Path;
 var Shape = Isomer.Shape;
 
-function init() {
-  var i, j, height, color;
-  for (i = 0; i < 7; i++) {
-    for (j = 0; j < 7; j++) {
-      height = Math.floor(Math.sqrt(i*i + j*j)) + 1;
-      color = Math.floor(Math.random() * 256 * 256 * 256);
-      iso.add(Point(i, 0, j), Shape.Box(1, height, 1), color);
-    }
-  }
+function shoe() {
+  var points = [
+    Point(0, 0),
+    Point(0.3, 0),
+    Point(0.3, 2),
+    Point(3.3, 0),
+    Point(6.3, 0),
+    Point(6.3, 1),
+    Point(3.3, 3),
+    Point(3.3, 4),
+    Point(0, 4)
+  ];
 
-  iso.render();
+  return new Path(points);
 }
 
-var t = 0;
-var r = Math.sqrt(2) * 100;
-
-function animate() {
-  requestAnimationFrame(animate);
-  t += 0.01;
-  var x = r * Math.cos(t - 3*Math.PI/4);
-  var z = r * Math.sin(t - 3*Math.PI/4);
-  iso.camera.position.set(x, 100, z);
-  iso.camera.lookAt({x: 0, y: 10, z: 0});
-  iso.render();
+function L() {
+  return new Path([
+    Point.ORIGIN,
+    Point(1, 0),
+    Point(1, 2),
+    Point(2, 2),
+    Point(2, 3),
+    Point(0, 3)
+  ]);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  init();
-  //animate();
+  var shoe3D = Shape.Extrude(shoe(), 1).rotateY(Math.PI);
+  var L3D = Shape.Extrude(L(), 1);
+  iso.add(L3D, Point(5, 0, 1), 0xFFDD22);
+  iso.add(shoe3D, Point(6, 0, 5), 0x22DDFF);
+  iso.add(Shape.Box(100, 0.1, 100), Point(-50, -0.1, -50), 0xFFFFFF);
+  iso.render();
 });
