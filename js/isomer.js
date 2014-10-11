@@ -87,12 +87,18 @@ Isomer.Shape = Shape;
  * Adds a shape or face to the scene
  */
 Isomer.prototype.add = function (item, point, color) {
-  // TODO: defaults!
-  var material, mesh;
+  var material, mesh, geometry;
   // TODO: add a group!
 
+  var epsilon = 0.001;
+  if (item instanceof Path) {
+    geometry = (new Shape.Extrude(item, epsilon)).geometry;
+  } else {
+    geometry = item.geometry;
+  }
+
   material = new THREE.MeshLambertMaterial({ color: color, side: THREE.FrontSide });
-  mesh = new THREE.Mesh(item.geometry, material);
+  mesh = new THREE.Mesh(geometry, material);
 
   if (this.shadows) {
     mesh.castShadow = true;
