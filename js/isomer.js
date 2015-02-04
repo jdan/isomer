@@ -80,9 +80,11 @@ Isomer.prototype.add = function (item, baseColor) {
     this._addPath(item, baseColor);
   } else if (item instanceof Shape) {
     /* Fetch paths ordered by distance to prevent overlaps */
-    var paths = item.orderedPaths();
+    var paths = item.orderedPaths();v
     for (var i in paths) {
-      this._addPath(paths[i], baseColor);
+      if (paths.hasOwnProperty(i)) {
+        this._addPath(paths[i], baseColor);
+      }
     }
   }
 };
