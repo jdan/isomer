@@ -93,7 +93,7 @@ Isomer.prototype.add = function (item, baseColor, expertMode, name) {
       if(expertModeValid){
         this.paths[this.paths.length] = {path:paths[i], color:baseColor, shapeName:(name||'')};
       } else {
-	this._addPath(paths[i], baseColor);
+        this._addPath(paths[i], baseColor);
       }
     }
   }
@@ -133,48 +133,48 @@ Isomer.prototype.sortPaths = function () {
 
     };
   }
- this.paths.length = 0;
+  this.paths.length = 0;
 
  // topological sort
   
   var drawBefore = [];
   for (var i = 0 ; i < pathList.length ; i++){
-	drawBefore[i] = [];
+    drawBefore[i] = [];
   }
   for (var i = 0 ; i < pathList.length ; i++){
     for (var j = 0 ; j < i ; j++){
-	  if(this._hasIntersection(pathList[i].polygon, pathList[j].polygon)){
-	    var cmpPath = pathList[i].path.closerThan(pathList[j].path, observer);
-	    if(cmpPath < 0){
-	      drawBefore[i][drawBefore[i].length] = j;
-	    }
-	    if(cmpPath > 0){
-	      drawBefore[j][drawBefore[j].length] = i;
-	    }
-	  }
-	}
+      if(this._hasIntersection(pathList[i].polygon, pathList[j].polygon)){
+        var cmpPath = pathList[i].path.closerThan(pathList[j].path, observer);
+        if(cmpPath < 0){
+          drawBefore[i][drawBefore[i].length] = j;
+        }
+        if(cmpPath > 0){
+          drawBefore[j][drawBefore[j].length] = i;
+        }
+      }
+    }
   }
   var drawThisTurn = 1;
   var index = 0;
   while(drawThisTurn == 1){
-	index++;
-	drawThisTurn = 0;
-	for (var i = 0 ; i < pathList.length ; i++){
-	  if(pathList[i].drawn == 0){
-	    var canDraw = 1;
-		for (var j = 0 ; j < drawBefore[i].length ; j++){
-		  if(pathList[drawBefore[i][j]].drawn == 0){canDraw = 0;}
-		}
-		if(canDraw == 1){
-		   this.add(pathList[i].path, pathList[i].color, true, pathList[i].shapeName);
-		   drawThisTurn = 1;
-		   pathList[i].drawn = 1;
-		}
-	  }
-	}
+    index++;
+    drawThisTurn = 0;
+    for (var i = 0 ; i < pathList.length ; i++){
+      if(pathList[i].drawn == 0){
+        var canDraw = 1;
+        for (var j = 0 ; j < drawBefore[i].length ; j++){
+          if(pathList[drawBefore[i][j]].drawn == 0){canDraw = 0;}
+        }
+        if(canDraw == 1){
+          this.add(pathList[i].path, pathList[i].color, true, pathList[i].shapeName);
+          drawThisTurn = 1;
+          pathList[i].drawn = 1;
+        }
+      }
+    }
   }
   //purge 
-  //could be done more in a smarter order, that's why drawn is is an element of pathList[] and not a separate array
+  //could be done more in a smarter order, that's why drawn is an element of pathList[] and not a separate array
   for (var i = 0 ; i < pathList.length ; i++){
     if(pathList[i].drawn == 0){
       this.add(pathList[i].path, pathList[i].color, true, pathList[i].shapeName);
@@ -187,11 +187,11 @@ Isomer.prototype.sortPaths = function () {
 //@ http://jsfromhell.com/math/is-point-in-poly [rev. #0]
 //see also http://jsperf.com/ispointinpath-boundary-test-speed/2
 function isPointInPoly(poly, pt){
-    for(var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
-        ((poly[i].y <= pt.y && pt.y < poly[j].y) || (poly[j].y <= pt.y && pt.y < poly[i].y))
-        && (pt.x < (poly[j].x - poly[i].x) * (pt.y - poly[i].y) / (poly[j].y - poly[i].y) + poly[i].x)
-        && (c = !c);
-    return c;
+  for(var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
+    ((poly[i].y <= pt.y && pt.y < poly[j].y) || (poly[j].y <= pt.y && pt.y < poly[i].y))
+    && (pt.x < (poly[j].x - poly[i].x) * (pt.y - poly[i].y) / (poly[j].y - poly[i].y) + poly[i].x)
+    && (c = !c);
+  return c;
 }
 
 
@@ -213,68 +213,68 @@ Isomer.prototype._hasIntersection = function(pointsA, pointsB) {
   for(i = 0 ; i < pointsA.length ; i++){
     AminX = Math.min(AminX, pointsA[i].x);
     AminY = Math.min(AminY, pointsA[i].y);
-	AmaxX = Math.max(AmaxX, pointsA[i].x);
+    AmaxX = Math.max(AmaxX, pointsA[i].x);
     AmaxY = Math.max(AmaxY, pointsA[i].y);
   }
   for(i = 0 ; i < pointsB.length ; i++){
     BminX = Math.min(BminX, pointsB[i].x);
     BminY = Math.min(BminY, pointsB[i].y);
-	BmaxX = Math.max(BmaxX, pointsB[i].x);
+    BmaxX = Math.max(BmaxX, pointsB[i].x);
     BmaxY = Math.max(BmaxY, pointsB[i].y);
   }
   
   if(((AminX <= BminX && BminX <= AmaxX) || (BminX <= AminX && AminX <= BmaxX)) && 
      ((AminY <= BminY && BminY <= AmaxY) || (BminY <= AminY && AminY <= BmaxY))) {
     // now let's be more specific
-	var polyA = pointsA.slice();
-	var polyB = pointsB.slice();
-	polyA.push(pointsA[0]);
-	polyB.push(pointsB[0]);
-
-	// see if edges cross, or one contained in the other	
-	var deltaAX = [];
-	var deltaAY = [];
-	var deltaBX = [];
-	var deltaBY = [];
-	var rA = [];
-	var rB = [];
-	for(i = 0 ; i <= polyA.length - 2 ; i++){
-	  deltaAX[i] = polyA[i+1].x - polyA[i].x;
-	  deltaAY[i] = polyA[i+1].y - polyA[i].y;
-	  //equation written as deltaY.x - deltaX.y + r = 0
-	  rA[i] = deltaAX[i] * polyA[i].y - deltaAY[i] * polyA[i].x;
-	}
-	for(i = 0 ; i <= polyB.length - 2 ; i++){
-	  deltaBX[i] = polyB[i+1].x - polyB[i].x;
-	  deltaBY[i] = polyB[i+1].y - polyB[i].y;
-	  rB[i] = deltaBX[i] * polyB[i].y - deltaBY[i] * polyB[i].x;
-	}
-	
-	for(i = 0 ; i <= polyA.length - 2 ; i++){
-	  for(j = 0 ; j <= polyB.length - 2 ; j++){
-	    if(deltaAX[i] * deltaBY[j] != deltaAY[i] * deltaBX[j]){
-		  //case when vectors are colinear, or one polygon included in the other, is covered after
-		  //two segments cross each other if and only if the points of the first are on each side of the line defined by the second and vice-versa
-		  if((deltaAY[i] * polyB[j].x - deltaAX[i] * polyB[j].y + rA[i]) * (deltaAY[i] * polyB[j+1].x - deltaAX[i] * polyB[j+1].y + rA[i]) < -0.000000001 &&  
-		     (deltaBY[j] * polyA[i].x - deltaBX[j] * polyA[i].y + rB[j]) * (deltaBY[j] * polyA[i+1].x - deltaBX[j] * polyA[i+1].y + rB[j]) < -0.000000001){
-			   return true;
-		  }
-		}
-	  }
-	}
-	
-	for(i = 0 ; i <= polyA.length - 2 ; i++){
-	  if(isPointInPoly(polyB, {x:polyA[i].x, y:polyA[i].y})){
-	    return true;
-	  }
-	}
-	for(i = 0 ; i <= polyB.length - 2 ; i++){
-	  if(isPointInPoly(polyA, {x:polyB[i].x, y:polyB[i].y})){
-	    return true;
-	  }
-	}
-	
-	return false;
+    var polyA = pointsA.slice();
+    var polyB = pointsB.slice();
+    polyA.push(pointsA[0]);
+    polyB.push(pointsB[0]);
+  
+    // see if edges cross, or one contained in the other	
+    var deltaAX = [];
+    var deltaAY = [];
+    var deltaBX = [];
+    var deltaBY = [];
+    var rA = [];
+    var rB = [];
+    for(i = 0 ; i <= polyA.length - 2 ; i++){
+      deltaAX[i] = polyA[i+1].x - polyA[i].x;
+      deltaAY[i] = polyA[i+1].y - polyA[i].y;
+      //equation written as deltaY.x - deltaX.y + r = 0
+      rA[i] = deltaAX[i] * polyA[i].y - deltaAY[i] * polyA[i].x;
+    }
+    for(i = 0 ; i <= polyB.length - 2 ; i++){
+      deltaBX[i] = polyB[i+1].x - polyB[i].x;
+      deltaBY[i] = polyB[i+1].y - polyB[i].y;
+      rB[i] = deltaBX[i] * polyB[i].y - deltaBY[i] * polyB[i].x;
+    }
+  
+    for(i = 0 ; i <= polyA.length - 2 ; i++){
+      for(j = 0 ; j <= polyB.length - 2 ; j++){
+        if(deltaAX[i] * deltaBY[j] != deltaAY[i] * deltaBX[j]){
+          //case when vectors are colinear, or one polygon included in the other, is covered after
+          //two segments cross each other if and only if the points of the first are on each side of the line defined by the second and vice-versa
+          if((deltaAY[i] * polyB[j].x - deltaAX[i] * polyB[j].y + rA[i]) * (deltaAY[i] * polyB[j+1].x - deltaAX[i] * polyB[j+1].y + rA[i]) < -0.000000001 &&  
+             (deltaBY[j] * polyA[i].x - deltaBX[j] * polyA[i].y + rB[j]) * (deltaBY[j] * polyA[i+1].x - deltaBX[j] * polyA[i+1].y + rB[j]) < -0.000000001){
+            return true;
+          }
+        }
+      }
+    }
+  
+    for(i = 0 ; i <= polyA.length - 2 ; i++){
+      if(isPointInPoly(polyB, {x:polyA[i].x, y:polyA[i].y})){
+        return true;
+      }
+    }
+    for(i = 0 ; i <= polyB.length - 2 ; i++){
+      if(isPointInPoly(polyA, {x:polyB[i].x, y:polyB[i].y})){
+        return true;
+      }
+    }
+  
+    return false;
   } else {
     return false;
   }
