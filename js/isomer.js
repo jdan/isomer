@@ -40,7 +40,7 @@ function Isomer(canvasId, options) {
   /**
    * List of {path, color, shapeName} to draw
    */
-  this.paths = [];
+  this.scene = [];
 }
 
 /**
@@ -83,7 +83,7 @@ Isomer.prototype.add = function (item, baseColor, expertMode, name) {
     }
   } else if (item instanceof Path) {
     if(expertModeValid){
-      this.paths[this.paths.length] = {path:item, color:baseColor, shapeName:(name||'')};
+      this.scene[this.scene.length] = {path:item, color:baseColor, shapeName:(name||'')};
     } else {
       this._addPath(item, baseColor);
     }
@@ -91,7 +91,7 @@ Isomer.prototype.add = function (item, baseColor, expertMode, name) {
     var paths = item.orderedPaths();
     for (var i in paths) {
       if(expertModeValid){
-        this.paths[this.paths.length] = {path:paths[i], color:baseColor, shapeName:(name||'')};
+        this.scene[this.scene.length] = {path:paths[i], color:baseColor, shapeName:(name||'')};
       } else {
         this._addPath(paths[i], baseColor);
       }
@@ -100,7 +100,7 @@ Isomer.prototype.add = function (item, baseColor, expertMode, name) {
 };
 
 /**
- * Draws the content of this.paths
+ * Draws the content of this.scene
  * By default, does not sort the paths between shapes
  */
 Isomer.prototype.draw = function(sortPath){
@@ -108,22 +108,22 @@ Isomer.prototype.draw = function(sortPath){
   if(sortValid){
     this.sortPaths();
   }
-  for (var i in this.paths){
-    this._addPath(this.paths[i].path, this.paths[i].color);
+  for (var i in this.scene){
+    this._addPath(this.scene[i].path, this.scene[i].color);
   }
 }
 
 
 /**
- * Sorts the paths contained in this.paths,
+ * Sorts the paths contained in this.scene,
  * ordered so that distant faces are displayed first
  *  */
 Isomer.prototype.sortPaths = function () {
   var Point = Isomer.Point;
   var observer = new Point(-10, -10, 20);
   var pathList = [];
-  for (var i = 0; i < this.paths.length; i++) {
-    var currentPath = this.paths[i];
+  for (var i = 0; i < this.scene.length; i++) {
+    var currentPath = this.scene[i];
     pathList[i] = {
       path: currentPath.path,
       polygon: currentPath.path.points.map(this._translatePoint.bind(this)),
@@ -133,7 +133,7 @@ Isomer.prototype.sortPaths = function () {
 
     };
   }
-  this.paths.length = 0;
+  this.scene.length = 0;
 
  // topological sort
   
