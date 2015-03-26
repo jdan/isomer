@@ -29,6 +29,12 @@ Vector.prototype.magnitude = function () {
 
 Vector.prototype.normalize = function () {
   var magnitude = this.magnitude();
+  /**
+   * If the magnitude is 0 then return the zero vector instead of dividing by 0
+   */
+  if (magnitude === 0) {
+    return new Vector(0, 0, 0);
+  }
   return new Vector(this.i / magnitude, this.j / magnitude, this.k / magnitude);
 };
 
