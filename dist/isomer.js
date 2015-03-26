@@ -6,7 +6,7 @@
  * Released under the MIT license
  * http://jdan.github.io/isomer/license.txt
  *
- * Date: 2014-08-30
+ * Date: 2015-03-26
  */
 !function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.Isomer=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 /**
@@ -260,7 +260,9 @@ Isomer.prototype.add = function (item, baseColor) {
     /* Fetch paths ordered by distance to prevent overlaps */
     var paths = item.orderedPaths();
     for (var i in paths) {
-      this._addPath(paths[i], baseColor);
+      if (paths.hasOwnProperty(i)) {
+        this._addPath(paths[i], baseColor);
+      }
     }
   }
 };
@@ -284,7 +286,7 @@ Isomer.prototype._addPath = function (path, baseColor) {
    * on the dot product between the light source vector and normal.
    */
   var brightness = Vector.dotProduct(normal, this.lightAngle);
-  color = baseColor.lighten(brightness * this.colorDifference, this.lightColor);
+  var color = baseColor.lighten(brightness * this.colorDifference, this.lightColor);
 
   this.canvas.path(path.points.map(this._translatePoint.bind(this)), color);
 };
@@ -874,6 +876,12 @@ Vector.prototype.magnitude = function () {
 
 Vector.prototype.normalize = function () {
   var magnitude = this.magnitude();
+  /**
+   * If the magnitude is 0 then return the zero vector instead of dividing by 0
+   */
+  if (magnitude === 0) {
+    return new Vector(0, 0, 0);
+  }
   return new Vector(this.i / magnitude, this.j / magnitude, this.k / magnitude);
 };
 
