@@ -11,13 +11,24 @@
         "while",
         "catch"
     ],
-    "requireSpaceAfterKeywords": true,
+    "requireSpaceAfterKeywords": [
+        "if",
+        "else",
+        "for",
+        "while",
+        "do",
+        "switch",
+        "try",
+        "catch"
+    ],
     "requireSpaceBeforeObjectValues": true,
     "requireSpaceBetweenArguments": true,
     "requireSpacesInConditionalExpression": true,
     "requireSpacesInFunction": {
-        "beforeOpeningRoundBrace": true,
         "beforeOpeningCurlyBrace": true
+    },
+    "disallowSpacesInAnonymousFunctionExpression": {
+        "beforeOpeningRoundBrace": true
     },
     "requireSpacesInsideObjectBrackets": "all",
     "requireSpaceBeforeBinaryOperators": true,
