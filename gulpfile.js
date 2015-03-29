@@ -7,6 +7,7 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var source = require('vinyl-source-stream');
 var strftime = require('strftime');
+var jscs = require('gulp-jscs');
 
 var version = require('./package.json').version;
 var date = strftime('%F');
@@ -35,8 +36,14 @@ gulp.task('dist', function () {
     .pipe(uglify())
     .pipe(header(bannerMin, opts))
     .pipe(rename('isomer.min.js'))
-    .pipe(gulp.dest('./dist'))
+    .pipe(gulp.dest('./dist'));
 
 });
 
-gulp.task('default', ['dist']);
+gulp.task('lint', function () {
+  return gulp
+    .src('./js/**/color.js')
+    .pipe(jscs());
+});
+
+gulp.task('default', ['lint', 'dist']);
