@@ -106,6 +106,26 @@ listening on http://localhost:9966/
 200  704ms    48.5KB /dist/isomer.js -> ./node_modules/.bin/browserify ./index.js --standalone Isomer -d
 ```
 
+### Code style
+
+The code in Isomer conforms to some styling conventions. To run the linter, run `gulp lint`:
+
+```
+> gulp lint
+[19:09:04] Using gulpfile ~/playground/isomer/gulpfile.js
+[19:09:04] Starting 'lint'...
+[19:09:04] 'lint' errored after 160 ms
+[19:09:04] Error in plugin 'gulp-jscs'
+Message:
+    Missing space before opening round brace at isomer.js :
+    12 | * This file contains the Isomer base definition
+    13 | */
+    14 |function Isomer(canvasId, options) {
+-----------------------^
+    15 |  options = options || {};
+    16 |
+```
+
 ## With node-canvas
 
 Isomer also accepts the canvas provided by [node-canvas](https://github.com/learnboost/node-canvas),
