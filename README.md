@@ -112,18 +112,16 @@ The code in Isomer conforms to some styling conventions. To run the linter, run 
 
 ```
 > gulp lint
-[19:09:04] Using gulpfile ~/playground/isomer/gulpfile.js
-[19:09:04] Starting 'lint'...
-[19:09:04] 'lint' errored after 160 ms
-[19:09:04] Error in plugin 'gulp-jscs'
+[21:19:40] Using gulpfile ~/playground/isomer/gulpfile.js
+[21:19:40] Starting 'lint'...
+[21:19:40] 'lint' errored after 242 ms
+[21:19:40] Error in plugin 'gulp-jscs'
 Message:
-    Missing space before opening round brace at isomer.js :
-    12 | * This file contains the Isomer base definition
-    13 | */
-    14 |function Isomer(canvasId, options) {
------------------------^
-    15 |  options = options || {};
-    16 |
+    One space required before opening brace for block expressions at color.js :
+    13 |};
+    14 |
+    15 |Color.prototype.toHex = function(){
+------------------------------------------^
 ```
 
 ## With node-canvas
