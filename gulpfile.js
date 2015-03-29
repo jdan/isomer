@@ -42,7 +42,7 @@ gulp.task('dist', function () {
 
 gulp.task('lint', function () {
   return gulp
-    .src('./js/**/color.js')
+    .src('./js/**/*.js')
     .pipe(jscs());
 });
 
