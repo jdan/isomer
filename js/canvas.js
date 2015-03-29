@@ -1,4 +1,4 @@
-function Canvas (elem) {
+function Canvas(elem) {
   this.elem = elem;
   this.ctx = this.elem.getContext('2d');
 
@@ -6,11 +6,11 @@ function Canvas (elem) {
   this.height = elem.height;
 }
 
-Canvas.prototype.clear = function () {
+Canvas.prototype.clear = function() {
   this.ctx.clearRect(0, 0, this.width, this.height);
 };
 
-Canvas.prototype.path = function (points, color) {
+Canvas.prototype.path = function(points, color) {
   this.ctx.beginPath();
   this.ctx.moveTo(points[0].x, points[0].y);
 

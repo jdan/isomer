@@ -11,7 +11,7 @@ var Vector = require('./vector');
  *
  * This file contains the Isomer base definition
  */
-function Isomer (canvasId, options) {
+function Isomer(canvasId, options) {
   options = options || {};
 
   this.canvas = new Canvas(canvasId);
@@ -43,12 +43,12 @@ function Isomer (canvasId, options) {
 /**
  * Sets the light position for drawing.
  */
-Isomer.prototype.setLightPosition = function (x, y, z) {
+Isomer.prototype.setLightPosition = function(x, y, z) {
   this.lightPosition = new Vector(x, y, z);
   this.lightAngle = this.lightPosition.normalize();
 };
 
-Isomer.prototype._translatePoint = function (point) {
+Isomer.prototype._translatePoint = function(point) {
   /**
    * X rides along the angle extended from the origin
    * Y rides perpendicular to this angle (in isometric view: PI - angle)
@@ -71,7 +71,7 @@ Isomer.prototype._translatePoint = function (point) {
  *
  * This method also accepts arrays
  */
-Isomer.prototype.add = function (item, baseColor) {
+Isomer.prototype.add = function(item, baseColor) {
   if (Object.prototype.toString.call(item) == '[object Array]') {
     for (var i = 0; i < item.length; i++) {
       this.add(item[i], baseColor);
@@ -92,7 +92,7 @@ Isomer.prototype.add = function (item, baseColor) {
 /**
  * Adds a path to the scene
  */
-Isomer.prototype._addPath = function (path, baseColor) {
+Isomer.prototype._addPath = function(path, baseColor) {
   /* Default baseColor */
   baseColor = baseColor || new Color(120, 120, 120);
 
@@ -116,7 +116,7 @@ Isomer.prototype._addPath = function (path, baseColor) {
  * Precalculates transformation values based on the current angle and scale
  * which in theory reduces costly cos and sin calls
  */
-Isomer.prototype._calculateTransformation = function () {
+Isomer.prototype._calculateTransformation = function() {
   this.transformation = [
     [
       this.scale * Math.cos(this.angle),

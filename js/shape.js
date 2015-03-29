@@ -6,7 +6,7 @@ var Point = require('./point');
  *
  * An Isomer.Shape consists of a list of Isomer.Path's
  */
-function Shape (paths) {
+function Shape(paths) {
   if (Object.prototype.toString.call(paths) === '[object Array]') {
     this.paths = paths;
   } else {
@@ -18,7 +18,7 @@ function Shape (paths) {
 /**
  * Pushes a path onto the end of the Shape
  */
-Shape.prototype.push = function (path) {
+Shape.prototype.push = function(path) {
   this.paths.push(path);
 };
 
@@ -28,10 +28,10 @@ Shape.prototype.push = function (path) {
  *
  * Simply a forward to Path#translate
  */
-Shape.prototype.translate = function () {
+Shape.prototype.translate = function() {
   var args = arguments;
 
-  return new Shape(this.paths.map(function (path) {
+  return new Shape(this.paths.map(function(path) {
     return path.translate.apply(path, args);
   }));
 };
@@ -41,10 +41,10 @@ Shape.prototype.translate = function () {
  *
  * Simply a forward to Path#rotateX
  */
-Shape.prototype.rotateX = function () {
+Shape.prototype.rotateX = function() {
   var args = arguments;
 
-  return new Shape(this.paths.map(function (path) {
+  return new Shape(this.paths.map(function(path) {
     return path.rotateX.apply(path, args);
   }));
 };
@@ -54,10 +54,10 @@ Shape.prototype.rotateX = function () {
  *
  * Simply a forward to Path#rotateY
  */
-Shape.prototype.rotateY = function () {
+Shape.prototype.rotateY = function() {
   var args = arguments;
 
-  return new Shape(this.paths.map(function (path) {
+  return new Shape(this.paths.map(function(path) {
     return path.rotateY.apply(path, args);
   }));
 };
@@ -67,10 +67,10 @@ Shape.prototype.rotateY = function () {
  *
  * Simply a forward to Path#rotateZ
  */
-Shape.prototype.rotateZ = function () {
+Shape.prototype.rotateZ = function() {
   var args = arguments;
 
-  return new Shape(this.paths.map(function (path) {
+  return new Shape(this.paths.map(function(path) {
     return path.rotateZ.apply(path, args);
   }));
 };
@@ -80,10 +80,10 @@ Shape.prototype.rotateZ = function () {
  *
  * Simply a forward to Point#scale
  */
-Shape.prototype.scale = function () {
+Shape.prototype.scale = function() {
   var args = arguments;
 
-  return new Shape(this.paths.map(function (path) {
+  return new Shape(this.paths.map(function(path) {
     return path.scale.apply(path, args);
   }));
 };
@@ -93,14 +93,14 @@ Shape.prototype.scale = function () {
  * Produces a list of the shape's paths ordered by distance to
  * prevent overlaps when drawing
  */
-Shape.prototype.orderedPaths = function () {
+Shape.prototype.orderedPaths = function() {
   var paths = this.paths.slice();
 
   /**
    * Sort the list of faces by distance then map the entries, returning
    * only the path and not the added "further point" from earlier.
    */
-  return paths.sort(function (pathA, pathB) {
+  return paths.sort(function(pathA, pathB) {
     return pathB.depth() - pathA.depth();
   });
 };
@@ -110,7 +110,7 @@ Shape.prototype.orderedPaths = function () {
  * Utility function to create a 3D object by raising a 2D path
  * along the z-axis
  */
-Shape.extrude = function (path, height) {
+Shape.extrude = function(path, height) {
   height = (typeof height === 'number') ? height : 1;
 
   var i, topPath = path.translate(0, 0, height);
@@ -141,7 +141,7 @@ Shape.extrude = function (path, height) {
 /**
  * A prism located at origin with dimensions dx, dy, dz
  */
-Shape.Prism = function (origin, dx, dy, dz) {
+Shape.Prism = function(origin, dx, dy, dz) {
   dx = (typeof dx === 'number') ? dx : 1;
   dy = (typeof dy === 'number') ? dy : 1;
   dz = (typeof dz === 'number') ? dz : 1;
@@ -186,7 +186,7 @@ Shape.Prism = function (origin, dx, dy, dz) {
 };
 
 
-Shape.Pyramid = function (origin, dx, dy, dz) {
+Shape.Pyramid = function(origin, dx, dy, dz) {
   dx = (typeof dx === 'number') ? dx : 1;
   dy = (typeof dy === 'number') ? dy : 1;
   dz = (typeof dz === 'number') ? dz : 1;
@@ -216,7 +216,7 @@ Shape.Pyramid = function (origin, dx, dy, dz) {
 };
 
 
-Shape.Cylinder = function (origin, radius, vertices, height) {
+Shape.Cylinder = function(origin, radius, vertices, height) {
   radius = (typeof radius === 'number') ? radius : 1;
 
   var circle = Path.Circle(origin, radius, vertices);

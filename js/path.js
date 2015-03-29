@@ -5,7 +5,7 @@ var Point = require('./point');
  *
  * An Isomer.Path consists of a list of Isomer.Point's
  */
-function Path (points) {
+function Path(points) {
   if (Object.prototype.toString.call(points) === '[object Array]') {
     this.points = points;
   } else {
@@ -17,7 +17,7 @@ function Path (points) {
 /**
  * Pushes a point onto the end of the path
  */
-Path.prototype.push = function (point) {
+Path.prototype.push = function(point) {
   this.points.push(point);
 };
 
@@ -25,7 +25,7 @@ Path.prototype.push = function (point) {
 /**
  * Returns a new path with the points in reverse order
  */
-Path.prototype.reverse = function () {
+Path.prototype.reverse = function() {
   var points = Array.prototype.slice.call(this.points);
 
   return new Path(points.reverse());
@@ -37,10 +37,10 @@ Path.prototype.reverse = function () {
  *
  * Simply a forward to Point#translate
  */
-Path.prototype.translate = function () {
+Path.prototype.translate = function() {
   var args = arguments;
 
-  return new Path(this.points.map(function (point) {
+  return new Path(this.points.map(function(point) {
     return point.translate.apply(point, args);
   }));
 };
@@ -50,10 +50,10 @@ Path.prototype.translate = function () {
  *
  * Simply a forward to Point#rotateX
  */
-Path.prototype.rotateX = function () {
+Path.prototype.rotateX = function() {
   var args = arguments;
 
-  return new Path(this.points.map(function (point) {
+  return new Path(this.points.map(function(point) {
     return point.rotateX.apply(point, args);
   }));
 };
@@ -63,10 +63,10 @@ Path.prototype.rotateX = function () {
  *
  * Simply a forward to Point#rotateY
  */
-Path.prototype.rotateY = function () {
+Path.prototype.rotateY = function() {
   var args = arguments;
 
-  return new Path(this.points.map(function (point) {
+  return new Path(this.points.map(function(point) {
     return point.rotateY.apply(point, args);
   }));
 };
@@ -76,10 +76,10 @@ Path.prototype.rotateY = function () {
  *
  * Simply a forward to Point#rotateZ
  */
-Path.prototype.rotateZ = function () {
+Path.prototype.rotateZ = function() {
   var args = arguments;
 
-  return new Path(this.points.map(function (point) {
+  return new Path(this.points.map(function(point) {
     return point.rotateZ.apply(point, args);
   }));
 };
@@ -90,10 +90,10 @@ Path.prototype.rotateZ = function () {
  *
  * Simply a forward to Point#scale
  */
-Path.prototype.scale = function () {
+Path.prototype.scale = function() {
   var args = arguments;
 
-  return new Path(this.points.map(function (point) {
+  return new Path(this.points.map(function(point) {
     return point.scale.apply(point, args);
   }));
 };
@@ -103,7 +103,7 @@ Path.prototype.scale = function () {
  * The estimated depth of a path as defined by the average depth
  * of its points
  */
-Path.prototype.depth = function () {
+Path.prototype.depth = function() {
   var i, total = 0;
   for (i = 0; i < this.points.length; i++) {
     total += this.points[i].depth();
@@ -120,7 +120,7 @@ Path.prototype.depth = function () {
 /**
  * A rectangle with the bottom-left corner in the origin
  */
-Path.Rectangle = function (origin, width, height) {
+Path.Rectangle = function(origin, width, height) {
   if (width === undefined) width = 1;
   if (height === undefined) height = 1;
 
@@ -138,7 +138,7 @@ Path.Rectangle = function (origin, width, height) {
 /**
  * A circle centered at origin with a given radius and number of vertices
  */
-Path.Circle = function (origin, radius, vertices) {
+Path.Circle = function(origin, radius, vertices) {
   vertices = vertices || 20;
   var i, path = new Path();
 
@@ -159,7 +159,7 @@ Path.Circle = function (origin, radius, vertices) {
  *
  * Buggy - concave polygons are difficult to draw with our method
  */
-Path.Star = function (origin, outerRadius, innerRadius, points) {
+Path.Star = function(origin, outerRadius, innerRadius, points) {
   var i, r, path = new Path();
 
   for (i = 0; i < points * 2; i++) {
