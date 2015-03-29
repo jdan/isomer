@@ -3,7 +3,7 @@
  *
  * Also holds HSL values
  */
-function Color(r, g, b, a) {
+function Color (r, g, b, a) {
   this.r = parseInt(r || 0);
   this.g = parseInt(g || 0);
   this.b = parseInt(b || 0);
@@ -96,9 +96,9 @@ Color.prototype.loadRGB = function () {
   } else {
     var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
     var p = 2 * l - q;
-    r = this._hue2rgb(p, q, h + 1/3);
+    r = this._hue2rgb(p, q, h + 1 / 3);
     g = this._hue2rgb(p, q, h);
-    b = this._hue2rgb(p, q, h - 1/3);
+    b = this._hue2rgb(p, q, h - 1 / 3);
   }
 
   this.r = parseInt(r * 255);
@@ -112,12 +112,12 @@ Color.prototype.loadRGB = function () {
  * Taken from:
  * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
  */
-Color.prototype._hue2rgb = function (p, q, t){
-  if(t < 0) t += 1;
-  if(t > 1) t -= 1;
-  if(t < 1/6) return p + (q - p) * 6 * t;
-  if(t < 1/2) return q;
-  if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+Color.prototype._hue2rgb = function (p, q, t) {
+  if (t < 0) t += 1;
+  if (t > 1) t -= 1;
+  if (t < 1 / 6) return p + (q - p) * 6 * t;
+  if (t < 1 / 2) return q;
+  if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
   return p;
 };
 

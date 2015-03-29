@@ -11,7 +11,7 @@ var Vector = require('./vector');
  *
  * This file contains the Isomer base definition
  */
-function Isomer(canvasId, options) {
+function Isomer (canvasId, options) {
   options = options || {};
 
   this.canvas = new Canvas(canvasId);
@@ -46,7 +46,7 @@ function Isomer(canvasId, options) {
 Isomer.prototype.setLightPosition = function (x, y, z) {
   this.lightPosition = new Vector(x, y, z);
   this.lightAngle = this.lightPosition.normalize();
-}
+};
 
 Isomer.prototype._translatePoint = function (point) {
   /**
@@ -127,7 +127,7 @@ Isomer.prototype._calculateTransformation = function () {
       this.scale * Math.sin(Math.PI - this.angle)
     ]
   ];
-}
+};
 
 /* Namespace our primitives */
 Isomer.Canvas = Canvas;

@@ -1,4 +1,4 @@
-function Canvas(elem) {
+function Canvas (elem) {
   this.elem = elem;
   this.ctx = this.elem.getContext('2d');
 
@@ -21,7 +21,7 @@ Canvas.prototype.path = function (points, color) {
   this.ctx.closePath();
 
   /* Set the strokeStyle and fillStyle */
-  this.ctx.save()
+  this.ctx.save();
 
   this.ctx.globalAlpha = color.a;
   this.ctx.fillStyle = this.ctx.strokeStyle = color.toHex();

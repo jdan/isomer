@@ -5,7 +5,7 @@ var Point = require('./point');
  *
  * An Isomer.Path consists of a list of Isomer.Point's
  */
-function Path(points) {
+function Path (points) {
   if (Object.prototype.toString.call(points) === '[object Array]') {
     this.points = points;
   } else {

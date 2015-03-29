@@ -1,4 +1,4 @@
-function Vector(i, j, k) {
+function Vector (i, j, k) {
   this.i = (typeof i === 'number') ? i : 0;
   this.j = (typeof j === 'number') ? j : 0;
   this.k = (typeof k === 'number') ? k : 0;
@@ -24,7 +24,7 @@ Vector.dotProduct = function (v1, v2) {
 };
 
 Vector.prototype.magnitude = function () {
-  return Math.sqrt(this.i*this.i + this.j*this.j + this.k*this.k);
+  return Math.sqrt(this.i * this.i + this.j * this.j + this.k * this.k);
 };
 
 Vector.prototype.normalize = function () {

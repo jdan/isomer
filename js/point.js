@@ -1,4 +1,4 @@
-function Point(x, y, z) {
+function Point (x, y, z) {
   if (this instanceof Point) {
     this.x = (typeof x === 'number') ? x : 0;
     this.y = (typeof y === 'number') ? y : 0;
@@ -92,7 +92,7 @@ Point.prototype.rotateZ = function (origin, angle) {
  */
 Point.prototype.depth = function () {
   /* z is weighted slightly to accomodate |_ arrangements */
-    return this.x + this.y - 2*this.z;
+  return this.x + this.y - 2 * this.z;
 };
 
 
@@ -104,7 +104,7 @@ Point.distance = function (p1, p2) {
   var dy = p2.y - p1.y;
   var dz = p2.z - p1.z;
 
-  return Math.sqrt(dx*dx + dy*dy + dz*dz);
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
 };
 
 

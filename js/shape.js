@@ -6,7 +6,7 @@ var Point = require('./point');
  *
  * An Isomer.Shape consists of a list of Isomer.Path's
  */
-function Shape(paths) {
+function Shape (paths) {
   if (Object.prototype.toString.call(paths) === '[object Array]') {
     this.paths = paths;
   } else {
@@ -201,7 +201,7 @@ Shape.Pyramid = function (origin, dx, dy, dz) {
   ]);
   /* Push the face, and its opposite face, by rotating around the Z-axis */
   pyramid.push(face1);
-  pyramid.push(face1.rotateZ(origin.translate(dx/2, dy/2), Math.PI));
+  pyramid.push(face1.rotateZ(origin.translate(dx / 2, dy / 2), Math.PI));
 
   /* Path parallel to the y-axis */
   var face2 = new Path([
@@ -210,7 +210,7 @@ Shape.Pyramid = function (origin, dx, dy, dz) {
     new Point(origin.x, origin.y + dy, origin.z)
   ]);
   pyramid.push(face2);
-  pyramid.push(face2.rotateZ(origin.translate(dx/2, dy/2), Math.PI));
+  pyramid.push(face2.rotateZ(origin.translate(dx / 2, dy / 2), Math.PI));
 
   return pyramid;
 };
