@@ -12,7 +12,7 @@ function Color(r, g, b, a) {
   this.loadHSL();
 };
 
-Color.prototype.toHex = function () {
+Color.prototype.toHex = function() {
   // Pad with 0s
   var hex = (this.r * 256 * 256 + this.g * 256 + this.b).toString(16);
 
@@ -28,7 +28,7 @@ Color.prototype.toHex = function () {
  * Returns a lightened color based on a given percentage and an optional
  * light color
  */
-Color.prototype.lighten = function (percentage, lightColor) {
+Color.prototype.lighten = function(percentage, lightColor) {
   lightColor = lightColor || new Color(255, 255, 255);
 
   var newColor = new Color(
@@ -50,7 +50,7 @@ Color.prototype.lighten = function (percentage, lightColor) {
  * Converted from:
  * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
  */
-Color.prototype.loadHSL = function () {
+Color.prototype.loadHSL = function() {
   var r = this.r / 255;
   var g = this.g / 255;
   var b = this.b / 255;
@@ -85,7 +85,7 @@ Color.prototype.loadHSL = function () {
  * Converted from:
  * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
  */
-Color.prototype.loadRGB = function () {
+Color.prototype.loadRGB = function() {
   var r, g, b;
   var h = this.h;
   var s = this.s;
@@ -96,9 +96,9 @@ Color.prototype.loadRGB = function () {
   } else {
     var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
     var p = 2 * l - q;
-    r = this._hue2rgb(p, q, h + 1/3);
+    r = this._hue2rgb(p, q, h + 1 / 3);
     g = this._hue2rgb(p, q, h);
-    b = this._hue2rgb(p, q, h - 1/3);
+    b = this._hue2rgb(p, q, h - 1 / 3);
   }
 
   this.r = parseInt(r * 255);
@@ -112,12 +112,12 @@ Color.prototype.loadRGB = function () {
  * Taken from:
  * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
  */
-Color.prototype._hue2rgb = function (p, q, t){
-  if(t < 0) t += 1;
-  if(t > 1) t -= 1;
-  if(t < 1/6) return p + (q - p) * 6 * t;
-  if(t < 1/2) return q;
-  if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+Color.prototype._hue2rgb = function(p, q, t) {
+  if (t < 0) t += 1;
+  if (t > 1) t -= 1;
+  if (t < 1 / 6) return p + (q - p) * 6 * t;
+  if (t < 1 / 2) return q;
+  if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
   return p;
 };
 

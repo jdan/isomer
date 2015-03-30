@@ -15,7 +15,7 @@ Point.ORIGIN = new Point(0, 0, 0);
 /**
  * Translate a point from a given dx, dy, and dz
  */
-Point.prototype.translate = function (dx, dy, dz) {
+Point.prototype.translate = function(dx, dy, dz) {
   return new Point(
     this.x + dx,
     this.y + dy,
@@ -26,7 +26,7 @@ Point.prototype.translate = function (dx, dy, dz) {
 /**
  * Scale a point about a given origin
  */
-Point.prototype.scale = function (origin, dx, dy, dz) {
+Point.prototype.scale = function(origin, dx, dy, dz) {
   var p = this.translate(-origin.x, -origin.y, -origin.z);
 
   if (dy === undefined && dz === undefined) {
@@ -47,7 +47,7 @@ Point.prototype.scale = function (origin, dx, dy, dz) {
 /**
  * Rotate about origin on the X axis
  */
-Point.prototype.rotateX = function (origin, angle) {
+Point.prototype.rotateX = function(origin, angle) {
   var p = this.translate(-origin.x, -origin.y, -origin.z);
 
   var z = p.z * Math.cos(angle) - p.y * Math.sin(angle);
@@ -61,7 +61,7 @@ Point.prototype.rotateX = function (origin, angle) {
 /**
  * Rotate about origin on the Y axis
  */
-Point.prototype.rotateY = function (origin, angle) {
+Point.prototype.rotateY = function(origin, angle) {
   var p = this.translate(-origin.x, -origin.y, -origin.z);
 
   var x = p.x * Math.cos(angle) - p.z * Math.sin(angle);
@@ -75,7 +75,7 @@ Point.prototype.rotateY = function (origin, angle) {
 /**
  * Rotate about origin on the Z axis
  */
-Point.prototype.rotateZ = function (origin, angle) {
+Point.prototype.rotateZ = function(origin, angle) {
   var p = this.translate(-origin.x, -origin.y, -origin.z);
 
   var x = p.x * Math.cos(angle) - p.y * Math.sin(angle);
@@ -90,21 +90,21 @@ Point.prototype.rotateZ = function (origin, angle) {
 /**
  * The depth of a point in the isometric plane
  */
-Point.prototype.depth = function () {
+Point.prototype.depth = function() {
   /* z is weighted slightly to accomodate |_ arrangements */
-    return this.x + this.y - 2*this.z;
+  return this.x + this.y - 2 * this.z;
 };
 
 
 /**
  * Distance between two points
  */
-Point.distance = function (p1, p2) {
+Point.distance = function(p1, p2) {
   var dx = p2.x - p1.x;
   var dy = p2.y - p1.y;
   var dz = p2.z - p1.z;
 
-  return Math.sqrt(dx*dx + dy*dy + dz*dz);
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
 };
 
 

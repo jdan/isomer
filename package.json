@@ -28,6 +28,7 @@
     "gulp": "^3.6.0",
     "gulp-buffer": "^0.0.2",
     "gulp-header": "^1.0.2",
+    "gulp-jscs": "^1.4.0",
     "gulp-rename": "^1.2.0",
     "gulp-uglify": "^0.2.1",
     "strftime": "^0.8.0",
