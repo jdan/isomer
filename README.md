@@ -67,21 +67,27 @@ Then run `npm run dist`:
 ```
 $ npm run dist    # or, alternatively, `gulp dist`
 
-> isomer@0.2.4 dist /Users/jordan/Projects/isomer
+> isomer@0.2.5 dist /Users/jordan/Projects/isomer
 > gulp
 
 [gulp] Using gulpfile ~/Projects/isomer/gulpfile.js
 [gulp] Starting 'dist'...
-[gulp] Finished 'dist' after 8.35 ms
+[gulp] Version: webpack 1.7.3
+           Asset     Size  Chunks             Chunk Names
+./dist/isomer.js  23.1 kB       0  [emitted]  isomer
+[gulp] Version: webpack 1.7.3
+               Asset     Size  Chunks             Chunk Names
+./dist/isomer.min.js  9.33 kB       0  [emitted]  isomer
+[gulp] Finished 'dist' after 911 ms
 [gulp] Starting 'default'...
-[gulp] Finished 'default' after 6.52 μs
+[gulp] Finished 'default' after 6.2 μs
 ```
 
 To generate `isomer.js` and `isomer.min.js` in the `dist/` directory.
 
 ## Develop
 
-Isomer is developed using [Browserify](http://browserify.org/). Install
+Isomer is developed using [Webpack](http://http://webpack.github.io//). Install
 dependencies and build the project like so:
 
 ```
@@ -89,39 +95,33 @@ $ npm install
 $ npm run dist
 ```
 
-[test/index.html](https://github.com/jdan/isomer/blob/master/test/index.html) contains a basic testing page that draws various shapes. This page will load the unminified bundle.
+[test/index.html](https://github.com/jdan/isomer/blob/master/test/index.html) contains a basic testing page that draws various shapes. This page will load a unminified bundle with source maps.
 
-The `test` script (accessible via `npm test`) uses [beefy](https://github.com/chrisdickinson/beefy) to automatically rebuild Isomer on any file changes. This script also opens the testing page (located at `http://localhost:9966/test/`) in your default browser. The testing page includes a live reload script to refresh when Isomer is rebuilt.
+The `test` script (accessible via `npm test`) uses [webpack-dev-server](http://webpack.github.io/docs/webpack-dev-server.html) to automatically rebuild Isomer on any file changes. This script also opens the testing page (located at `http://localhost:2992/webpack-dev-server/`) in your default browser. The testing page includes a live reload script to refresh when Isomer is rebuilt and notify if the code is not conform the styling conventions for Isomer.
 
 ```
 $ npm test
 
-> isomer@0.2.4 test /Users/jordan/Projects/isomer
-> open http://localhost:9966/test/ && ./node_modules/.bin/beefy index.js:dist/isomer.js --live -- --standalone Isomer
+> isomer@0.2.5 test /Users/jordan/Projects/isomer
+> gulp test
 
-listening on http://localhost:9966/
-200   30ms    1.18KB /test/
-200    8ms      508B /test/style.css
-200    1ms    5.48KB /test/test.js
-200  704ms    48.5KB /dist/isomer.js -> ./node_modules/.bin/browserify ./index.js --standalone Isomer -d
-```
-
-### Code style
-
-The code in Isomer conforms to some styling conventions. To run the linter, run `gulp lint`:
-
-```
-> gulp lint
-[21:19:40] Using gulpfile ~/playground/isomer/gulpfile.js
-[21:19:40] Starting 'lint'...
-[21:19:40] 'lint' errored after 242 ms
-[21:19:40] Error in plugin 'gulp-jscs'
-Message:
-    One space required before opening brace for block expressions at color.js :
-    13 |};
-    14 |
-    15 |Color.prototype.toHex = function(){
-------------------------------------------^
+[Isomer] listening on http://localhost:2992/
+webpack: wait until bundle finished: /webpack-dev-server/
+Hash: ************
+Version: webpack 1.8.2
+Time: 432ms
+    Asset     Size  Chunks             Chunk Names
+isomer.js  59.5 kB       0  [emitted]  isomer
+chunk    {0} isomer.js (isomer) 20.1 kB [rendered]
+    [0] ./index.js 83 bytes {0} [built]
+    [1] ./js/isomer.js 3.86 kB {0} [built]
+    [2] ./js/canvas.js 729 bytes {0} [built]
+    [3] ./js/color.js 2.68 kB {0} [built]
+    [4] ./js/path.js 3.77 kB {0} [built]
+    [5] ./js/point.js 2.44 kB {0} [built]
+    [6] ./js/shape.js 5.47 kB {0} [built]
+    [7] ./js/vector.js 1.05 kB {0} [built]
+webpack: bundle is now VALID.
 ```
 
 ## With node-canvas

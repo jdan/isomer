@@ -19,7 +19,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "dist": "gulp dist",
+    "dist": "gulp",
     "test": "gulp test"
   },
   "devDependencies": {
@@ -31,6 +31,7 @@
     "gulp-webpack": "^1.3.2",
     "jscs": "^1.12.0",
     "jscs-loader": "0.0.5",
+    "open": "0.0.5",
     "strftime": "^0.9.0",
     "webpack": "^1.8.2",
     "webpack-dev-server": "^1.8.0"
