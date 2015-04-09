@@ -24,7 +24,6 @@ module.exports = function(options) {
     );
   }
 
-
   return {
     entry: {
       isomer: './index.js'
@@ -38,11 +37,11 @@ module.exports = function(options) {
     },
 
     module: {
-        preLoaders: [{
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: 'jscs-loader'
-        }]
+      preLoaders: [{
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'jscs-loader'
+      }]
     },
 
     plugins: plugins,
