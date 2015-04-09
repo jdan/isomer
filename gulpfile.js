@@ -1,23 +1,21 @@
-var browserify = require('browserify');
 var fs = require('fs');
+var strftime = require('strftime');
+var es = require('event-stream');
+
 var gulp = require('gulp');
 var buffer = require('gulp-buffer');
 var header = require('gulp-header');
-var rename = require('gulp-rename');
-var uglify = require('gulp-uglify');
-var source = require('vinyl-source-stream');
-var strftime = require('strftime');
-var jscs = require('gulp-jscs');
+var gutil = require('gulp-util');
+var webpack = require('webpack');
+var gulpWebpack = require('gulp-webpack');
+var webpackDevServer = require('webpack-dev-server');
 
+var webpackConfig = require('./webpack.config.base.js');
 var version = require('./package.json').version;
 var date = strftime('%F');
+var port = 2992;
 
-/* Main gulp task to minify and concat assets */
-gulp.task('dist', function () {
-  var bundleStream = browserify('./index.js').bundle({
-    standalone: 'Isomer'
-  });
-
+gulp.task('dist', function() {
   var banner = fs.readFileSync('./js/banner/copyright.js');
   var bannerMin = fs.readFileSync('./js/banner/copyright.min.js');
   var opts = {
@@ -25,25 +23,33 @@ gulp.task('dist', function () {
     version: version
   };
 
-  bundleStream
-    /* isomer.js */
-    .pipe(source('isomer.js'))
+  var uncompressed = gulp.src('./index.js')
+    .pipe(gulpWebpack(webpackConfig()))
     .pipe(buffer())
     .pipe(header(banner, opts))
-    .pipe(gulp.dest('./dist'))
+    .pipe(gulp.dest('./'));
 
-    /* isomer.min.js */
-    .pipe(uglify())
+  var minified = gulp.src('./index.js')
+    .pipe(gulpWebpack(webpackConfig({minify: true})))
+    .pipe(buffer())
     .pipe(header(bannerMin, opts))
-    .pipe(rename('isomer.min.js'))
-    .pipe(gulp.dest('./dist'));
+    .pipe(gulp.dest('./'));
 
+  return es.concat(uncompressed, minified);
 });
 
-gulp.task('lint', function () {
-  return gulp
-    .src('./js/**/*.js')
-    .pipe(jscs());
+gulp.task('test', function() {
+  var devWebpackConfig = webpackConfig({dev: true});
+
+  new webpackDevServer(webpack(devWebpackConfig), {
+    contentBase: 'test/',
+    stats: {
+      color: true
+    }
+  }).listen(port, 'localhost', function(err) {
+    if(err) throw new gutil.PluginError("Isomer", err);
+    gutil.log('[Isomer]', 'http://localhost:'+ port +'/webpack-dev-server/');
+  });
 });
 
-gulp.task('default', ['lint', 'dist']);
+gulp.task('default', ['test'])
