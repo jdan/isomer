@@ -28,6 +28,8 @@ Canvas.prototype.path = function(points, color) {
   this.ctx.stroke();
   this.ctx.fill();
   this.ctx.restore();
+
+  return points;
 };
 
 module.exports = Canvas;
