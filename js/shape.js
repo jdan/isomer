@@ -225,5 +225,27 @@ Shape.Cylinder = function(origin, radius, vertices, height) {
   return cylinder;
 };
 
+Shape.Sphere = function(origin, radius, vertices, height) {
+    radius = (typeof radius === 'number') ? radius : 1;
+    var sphere;
+    var sqrt2 = Math.sqrt(2);
+    var sqrt6 = Math.sqrt(6);
+    var p1 = Point(0.0,0.0,1.0,1.0);
+    var p2 = Point(0.0,2.0*sqrt2/3.0,-1.0/3.0,1.0);
+    var p3 = Point(-sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
+    var p4 = Point(sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
+
+    var face1 = new Path([p0, p1, p2]);
+    sphere.push(face1);
+    var face2 = new Path([p3, p2, p1]);
+    sphere.push(face2);
+    var face3 = new Path([p0, p3, p1]);
+    sphere.push(face3);
+    var face4 = new Path([p0, p2, p3]);
+    sphere.push(face4);
+
+    return sphere;
+
+};
 
 module.exports = Shape;
