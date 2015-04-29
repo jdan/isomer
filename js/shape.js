@@ -235,6 +235,23 @@ Shape.Sphere = function(origin, radius, vertices, height) {
     var p2 = Point(0.0,2.0*sqrt2/3.0,-1.0/3.0,1.0);
     var p3 = Point(-sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
     var p4 = Point(sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
+  
+    divideTriangle = function(a, b, c, count, sphere) {
+	if(count > 0) {
+	    var p1 = Point.add(a,b);
+	    var p2 = Point.add(a,c);
+	    var p3 = Point.add(b,c);
+	    
+	    divideTriangle(a, p1, p2, count-1, sphere);
+	    divideTriangle(c, p2, p3, count-1, sphere);
+	    divideTriangle(b, p3, p1, count-1, sphere);
+	    divideTriangle(p1, p3, p2, count-1, sphere);
+	}
+	else {
+	    var face = new Path([a, b, c]);
+	    sphere.push(face);
+	}
+    };
     
     divideTriangle(p1, p2, p3, numDivisions, sphere);
     divideTriangle(p4, p3, p2, numDivisions, sphere);
@@ -243,23 +260,6 @@ Shape.Sphere = function(origin, radius, vertices, height) {
     
     return sphere;
 
-};
-
-divideTriangle = function(a, b, c, count, sphere) {
-    if(count > 0) {
-        var p1 = Point.add(a,b);
-        var p2 = Point.add(a,c);
-        var p3 = Point.add(b,c);
-        
-        divideTriangle(a, p1, p2, count-1, sphere);
-        divideTriangle(c, p2, p3, count-1, sphere);
-        divideTriangle(b, p3, p1, count-1, sphere);
-        divideTriangle(p1, p3, p2, count-1, sphere);
-    }
-    else {
-        var face = new Path([a, b, c]);
-	sphere.push(face);
-    }
 };
 
 
