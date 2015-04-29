@@ -224,10 +224,10 @@ Shape.Cylinder = function(origin, radius, vertices, height) {
 
   return cylinder;
 };
-/*
+
 Shape.Sphere = function(origin, radius, vertices, height) {
     radius = (typeof radius === 'number') ? radius : 1;
-    var sphere;
+    var sphere = new Shape();
     var numDivisions = 2;
     var sqrt2 = Math.sqrt(2);
     var sqrt6 = Math.sqrt(6);
@@ -236,21 +236,10 @@ Shape.Sphere = function(origin, radius, vertices, height) {
     var p3 = Point(-sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
     var p4 = Point(sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
     
-    divideTriangle(p1, p2, p3, numDivisions);
-    divideTriangle(p4, p3, p2, numDivisions);
-    divideTriangle(p1, p4, p2, numDivisions);
-    divideTriangle(p1, p3, p4, numDivisions);
-
-    
-    var face1 = new Path([p0, p1, p2]);
-    sphere.push(face1);
-    var face2 = new Path([p3, p2, p1]);
-    sphere.push(face2);
-    var face3 = new Path([p0, p3, p1]);
-    sphere.push(face3);
-    var face4 = new Path([p0, p2, p3]);
-    sphere.push(face4);
-    
+    divideTriangle(p1, p2, p3, numDivisions, sphere);
+    divideTriangle(p4, p3, p2, numDivisions, sphere);
+    divideTriangle(p1, p4, p2, numDivisions, sphere);
+    divideTriangle(p1, p3, p4, numDivisions, sphere);    
     
     return sphere;
 
@@ -262,16 +251,16 @@ divideTriangle = function(a, b, c, count, sphere) {
         var p2 = Point.add(a,c);
         var p3 = Point.add(b,c);
         
-        divideTriangle(a, p1, p2, count-1);
-        divideTriangle(c, p2, p3, count-1);
-        divideTriangle(b, p3, p1, count-1);
-        divideTriangle(p1, p3, p2, count-1);
+        divideTriangle(a, p1, p2, count-1, sphere);
+        divideTriangle(c, p2, p3, count-1, sphere);
+        divideTriangle(b, p3, p1, count-1, sphere);
+        divideTriangle(p1, p3, p2, count-1, sphere);
     }
     else {
         var face = new Path([a, b, c]);
 	sphere.push(face);
     }
 };
-*/
+
 
 module.exports = Shape;
