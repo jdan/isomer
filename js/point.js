@@ -110,7 +110,6 @@ Point.distance = function(p1, p2) {
 /**
  * Add two points together
  */
-/*
 Point.add = function(p1, p2) {
     var dx = p2.x + p1.x;
     var dy = p2.y + p1.y;
@@ -118,6 +117,6 @@ Point.add = function(p1, p2) {
 
     return Point(dx, dy, dz);
 };
-*/
+
 
 module.exports = Point;
