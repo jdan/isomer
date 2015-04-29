@@ -238,14 +238,14 @@ Shape.Sphere = function(origin, radius, vertices, height) {
   
     divideTriangle = function(a, b, c, count, sphere) {
 	if(count > 0) {
-	    var p1 = Point.add(a,b);
-	    var p2 = Point.add(a,c);
-	    var p3 = Point.add(b,c);
+	    var p1d = Point.add(a,b);
+	    var p2d = Point.add(a,c);
+	    var p3d = Point.add(b,c);
 	    
-	    divideTriangle(a, p1, p2, count-1, sphere);
-	    divideTriangle(c, p2, p3, count-1, sphere);
-	    divideTriangle(b, p3, p1, count-1, sphere);
-	    divideTriangle(p1, p3, p2, count-1, sphere);
+	    divideTriangle(a, p1d, p2d, count-1, sphere);
+	    divideTriangle(c, p2d, p3d, count-1, sphere);
+	    divideTriangle(b, p3d, p1d, count-1, sphere);
+	    divideTriangle(p1d, p3d, p2d, count-1, sphere);
 	}
 	else {
 	    var face = new Path([a, b, c]);
