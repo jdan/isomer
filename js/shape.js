@@ -1,5 +1,6 @@
 var Path = require('./path');
 var Point = require('./point');
+var Vector = require('./vector');
 
 /**
  * Shape utility class
@@ -234,37 +235,40 @@ Shape.Sphere = function(origin, xradius, yradius, detail) {
     xradius = (typeof xradius === 'number') ? xradius : 1;
     yradius = (typeof yradius === 'number') ? yradius : 1;
     detail = (typeof detail === 'number') ? detail : 3;
+    
     var sphere = new Shape();
     var numDivisions = detail;
     var sqrt2 = Math.sqrt(2);
     var sqrt6 = Math.sqrt(6);
-    var p1 = Point(0.0,0.0,1.0,1.0);
-    var p2 = Point(0.0,2.0*sqrt2/3.0,-1.0/3.0,1.0);
-    var p3 = Point(-sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
-    var p4 = Point(sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
+    var v1 = new Vector(0.0,0.0,1.0,1.0);
+    var v2 = new Vector(0.0,2.0*sqrt2/3.0,-1.0/3.0,1.0);
+    var v3 = new Vector(-sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
+    var v4 = new Vector(sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
 
     divideTriangle = function(a, b, c, count, sphere) {
 	if(count > 0) {
-	    var p1d = Point.unit(Point.add(a,b));
-	    var p2d = Point.unit(Point.add(a,c));
-	    var p3d = Point.unit(Point.add(b,c));
+	    var v1d = (Vector.add(a,b)).normalize();
+	    var v2d = (Vector.add(a,c)).normalize();
+	    var v3d = (Vector.add(b,c)).normalize();
 	    
-	    divideTriangle(a, p1d, p2d, count-1, sphere);
-	    divideTriangle(c, p2d, p3d, count-1, sphere);
-	    divideTriangle(b, p3d, p1d, count-1, sphere);
-	    divideTriangle(p1d, p3d, p2d, count-1, sphere);
+	    divideTriangle(a, v1d, v2d, count-1, sphere);
+	    divideTriangle(c, v2d, v3d, count-1, sphere);
+	    divideTriangle(b, v3d, v1d, count-1, sphere);
+	    divideTriangle(v1d, v3d, v2d, count-1, sphere);
 	}
 	else {
-	    var face = new Path([a, b, c]);
+	    var face = new Path([Vector.toPoint(a),
+				 Vector.toPoint(b),
+				 Vector.toPoint(c)]);
 	    sphere.push(face);
 	    return sphere;
 	}
     };
     
-    divideTriangle(p1, p2, p3, numDivisions, sphere);
-    divideTriangle(p4, p3, p2, numDivisions, sphere);
-    divideTriangle(p1, p4, p2, numDivisions, sphere);
-    divideTriangle(p1, p3, p4, numDivisions, sphere);    
+    divideTriangle(v1, v2, v3, numDivisions, sphere);
+    divideTriangle(v4, v3, v2, numDivisions, sphere);
+    divideTriangle(v1, v4, v2, numDivisions, sphere);
+    divideTriangle(v1, v3, v4, numDivisions, sphere);    
     
     return sphere;
 };
