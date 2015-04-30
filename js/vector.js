@@ -40,9 +40,10 @@ Vector.add = function(v1, v2) {
 /**
  * multiply a vector by a scalar
  */
-Vector.mult = functions(vec, s) {
+Vector.mult = function(vec, s) {
     return new Vector(vec.i * s, vec.j * s, vec.k * s);
 };
+   
 
 Vector.prototype.magnitude = function() {
   return Math.sqrt(this.i * this.i + this.j * this.j + this.k * this.k);
