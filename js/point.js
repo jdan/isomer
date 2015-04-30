@@ -111,11 +111,22 @@ Point.distance = function(p1, p2) {
  * Add two points together
  */
 Point.add = function(p1, p2) {
-    var dx = p2.x + p1.x;
-    var dy = p2.y + p1.y;
-    var dz = p2.z + p1.z;
+    var ax = p2.x + p1.x;
+    var ay = p2.y + p1.y;
+    var az = p2.z + p1.z;
 
-    return Point(dx, dy, dz);
+    return Point(ax, ay, az);
+};
+
+/**
+ * get a unit point
+ */
+Point.unit = function(p1) {
+    var len = p1.x + p1.y + p1.z;
+    var ux = p1.x / len;
+    var uy = p1.y / len;
+    var uz = p1.z / len;
+    return Point(ux, uy, uz);
 };
 
 
