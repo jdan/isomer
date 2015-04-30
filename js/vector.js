@@ -28,7 +28,14 @@ Vector.dotProduct = function(v1, v2) {
  */
 Vector.toPoint = function(vec) {
     return new Point(vec.i, vec.j, vec.k);
-}
+};
+
+/**
+ * add two vectors together
+ */
+Vector.add = function(v1, v2) {
+    return new Vector(v1.i+v2.i, v1.j+v2.j, v1.k+v2.k);
+};
 
 Vector.prototype.magnitude = function() {
   return Math.sqrt(this.i * this.i + this.j * this.j + this.k * this.k);
