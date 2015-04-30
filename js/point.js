@@ -119,13 +119,13 @@ Point.add = function(p1, p2) {
 };
 
 /**
- * get a unit point
+ * get a unit vector as a point
  */
-Point.unit = function(p1) {
-    var len = p1.x*p1.x + p1.y*p1.y + p1.z*p1.z;
-    var ux = p1.x / Math.sqrt(len);
-    var uy = p1.y / Math.sqrt(len);
-    var uz = p1.z / Math.sqrt(len);
+Point.unit = function(p) {
+    var len = p.x*p.x + p.y*p.y + p.z*p.z;
+    var ux = p.x / Math.sqrt(len);
+    var uy = p.y / Math.sqrt(len);
+    var uz = p.z / Math.sqrt(len);
     return Point(ux, uy, uz);
 };
 
