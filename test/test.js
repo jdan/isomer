@@ -7,6 +7,7 @@ var Point = Isomer.Point;
 var Path = Isomer.Path;
 var Shape = Isomer.Shape;
 var Color = Isomer.Color;
+var Vector = Isomer.Vector;
 
 function TestSuite() {}
 
@@ -220,6 +221,13 @@ TestSuite['test rotation'] = function() {
     }
     angle += 2 * Math.PI / 60;
   }
+};
+
+TestSuite['vectorToPoint'] = function() {
+    var c = new Color(195, 195, 0);
+    var vec = new Vector(1,1,2);
+    iso.add(Shape.Prism(Point.ORIGIN, 3, 3, 1));
+    iso.add(Shape.Prism(Vector.toPoint(vec)), new Color(195, 195, 0));
 };
 
 TestSuite['draw sphere'] = function() { 
