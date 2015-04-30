@@ -225,10 +225,12 @@ Shape.Cylinder = function(origin, radius, vertices, height) {
   return cylinder;
 };
 
-Shape.Sphere = function(origin, radius, vertices, height) {
-    radius = (typeof radius === 'number') ? radius : 1;
+Shape.Sphere = function(origin, xradius, yradius, detail) {
+    xradius = (typeof xradius === 'number') ? xradius : 1;
+    yradius = (typeof yradius === 'number') ? yradius : 1;
+    detail = (typeof detail === 'number') ? detail : 1;
     var sphere = new Shape();
-    var numDivisions = 3;
+    var numDivisions = detail;
     var sqrt2 = Math.sqrt(2);
     var sqrt6 = Math.sqrt(6);
     var p1 = Point(0.0,0.0,1.0,1.0);
@@ -260,7 +262,6 @@ Shape.Sphere = function(origin, radius, vertices, height) {
     divideTriangle(p1, p3, p4, numDivisions, sphere);    
     
     return sphere;
-
 };
 
 
