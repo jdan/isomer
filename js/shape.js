@@ -228,19 +228,19 @@ Shape.Cylinder = function(origin, radius, vertices, height) {
 Shape.Sphere = function(origin, radius, vertices, height) {
     radius = (typeof radius === 'number') ? radius : 1;
     var sphere = new Shape();
-    var numDivisions = 2;
+    var numDivisions = 3;
     var sqrt2 = Math.sqrt(2);
     var sqrt6 = Math.sqrt(6);
     var p1 = Point(0.0,0.0,1.0,1.0);
     var p2 = Point(0.0,2.0*sqrt2/3.0,-1.0/3.0,1.0);
     var p3 = Point(-sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
     var p4 = Point(sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
-  
+    
     divideTriangle = function(a, b, c, count, sphere) {
 	if(count > 0) {
-	    var p1d = Point.add(a,b);
-	    var p2d = Point.add(a,c);
-	    var p3d = Point.add(b,c);
+	    var p1d = Point.unit(Point.add(a,b));
+	    var p2d = Point.unit(Point.add(a,c));
+	    var p3d = Point.unit(Point.add(b,c));
 	    
 	    divideTriangle(a, p1d, p2d, count-1, sphere);
 	    divideTriangle(c, p2d, p3d, count-1, sphere);
@@ -250,6 +250,7 @@ Shape.Sphere = function(origin, radius, vertices, height) {
 	else {
 	    var face = new Path([a, b, c]);
 	    sphere.push(face);
+	    return sphere;
 	}
     };
     
