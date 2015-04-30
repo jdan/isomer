@@ -37,6 +37,13 @@ Vector.add = function(v1, v2) {
     return new Vector(v1.i+v2.i, v1.j+v2.j, v1.k+v2.k);
 };
 
+/**
+ * multiply a vector by a scalar
+ */
+Vector.mult = functions(vec, s) {
+    return new Vector(vec.i * s, vec.j * s, vec.k * s);
+};
+
 Vector.prototype.magnitude = function() {
   return Math.sqrt(this.i * this.i + this.j * this.j + this.k * this.k);
 };
