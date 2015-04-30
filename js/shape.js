@@ -232,9 +232,10 @@ Shape.Cylinder = function(origin, radius, vertices, height) {
  * increasing the number of division increases detail but also computation
  */
 Shape.Sphere = function(origin, xradius, yradius, detail) {
+    
     xradius = (typeof xradius === 'number') ? xradius : 1;
     yradius = (typeof yradius === 'number') ? yradius : 1;
-    detail = (typeof detail === 'number') ? detail : 3;
+    detail = (typeof detail === 'number') ? detail : 4;
     
     var sphere = new Shape();
     var numDivisions = detail;
