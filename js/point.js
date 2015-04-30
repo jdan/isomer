@@ -122,12 +122,11 @@ Point.add = function(p1, p2) {
  * get a unit point
  */
 Point.unit = function(p1) {
-    var len = p1.x + p1.y + p1.z;
-    var ux = p1.x / len;
-    var uy = p1.y / len;
-    var uz = p1.z / len;
+    var len = p1.x*p1.x + p1.y*p1.y + p1.z*p1.z;
+    var ux = p1.x / Math.sqrt(len);
+    var uy = p1.y / Math.sqrt(len);
+    var uz = p1.z / Math.sqrt(len);
     return Point(ux, uy, uz);
 };
-
 
 module.exports = Point;
