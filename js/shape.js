@@ -225,10 +225,15 @@ Shape.Cylinder = function(origin, radius, vertices, height) {
   return cylinder;
 };
 
+/**
+ * draw a sphere with recursive division
+ * set detail to change the number of division
+ * increasing the number of division increases detail but also computation
+ */
 Shape.Sphere = function(origin, xradius, yradius, detail) {
     xradius = (typeof xradius === 'number') ? xradius : 1;
     yradius = (typeof yradius === 'number') ? yradius : 1;
-    detail = (typeof detail === 'number') ? detail : 1;
+    detail = (typeof detail === 'number') ? detail : 3;
     var sphere = new Shape();
     var numDivisions = detail;
     var sqrt2 = Math.sqrt(2);
@@ -237,7 +242,7 @@ Shape.Sphere = function(origin, xradius, yradius, detail) {
     var p2 = Point(0.0,2.0*sqrt2/3.0,-1.0/3.0,1.0);
     var p3 = Point(-sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
     var p4 = Point(sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
-    
+
     divideTriangle = function(a, b, c, count, sphere) {
 	if(count > 0) {
 	    var p1d = Point.unit(Point.add(a,b));
