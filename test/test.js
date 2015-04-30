@@ -222,6 +222,12 @@ TestSuite['test rotation'] = function() {
   }
 };
 
+TestSuite['draw sphere'] = function() { 
+    var sphere = Shape.Sphere();
+    iso.add(sphere, new Color(0, 0, 195));
+};
+
+
 /**
  * Add testing buttons
  */
