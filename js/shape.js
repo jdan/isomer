@@ -232,7 +232,7 @@ Shape.Cylinder = function(origin, radius, vertices, height) {
  * increasing the number of division increases detail but also computation
  */
 Shape.Sphere = function(origin, xradius, yradius, detail) {
-    origin = (typeof origin === 'undefined') ? origin : new Point();
+    origin = (typeof origin === 'undefined') ? Point.ORIGN : origin;
     xradius = (typeof xradius === 'number') ? xradius : 1;
     yradius = (typeof yradius === 'number') ? yradius : 1;
     detail = (typeof detail === 'number') ? detail : 4;
