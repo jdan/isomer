@@ -237,7 +237,7 @@ Shape.Sphere = function(origin, xradius, yradius, detail) {
     yradius = (typeof yradius === 'number') ? yradius : 1;
     detail = (typeof detail === 'number') ? detail : 4;
     
-    //var offset = Vector.fromTwoPoints(origin, Point.ORIGIN);
+    var offset = Vector.fromTwoPoints(origin, Point.ORIGIN);
     var sphere = new Shape();
     var numDivisions = detail;
     var sqrt2 = Math.sqrt(2);
@@ -259,9 +259,9 @@ Shape.Sphere = function(origin, xradius, yradius, detail) {
 	    divideTriangle(v1d, v3d, v2d, count-1, sphere);
 	}
 	else {
-	    var face = new Path([Vector.toPoint(a),
-				 Vector.toPoint(b),
-				 Vector.toPoint(c)]);
+	    var face = new Path([Vector.toPoint(Vector.add(a, offset)),
+				 Vector.toPoint(Vector.add(b, offset)),
+				 Vector.toPoint(Vector.add(c, offset))]);
 	    sphere.push(face);
 	    return sphere;
 	}
