@@ -231,8 +231,8 @@ TestSuite['vectorToPoint'] = function() {
 };
 
 TestSuite['draw sphere'] = function() { 
-    var sphere = Shape.Sphere();
-    iso.add(sphere, new Color(0, 0, 195));
+    iso.add(Shape.Sphere(), new Color(0, 0, 195));
+    iso.add(Shape.Sphere(new Point(1,0,0)), new Color(195, 0, 0));
 };
 
 
