@@ -237,15 +237,15 @@ Shape.Sphere = function(origin, xradius, yradius, detail) {
     yradius = (typeof yradius === 'number') ? yradius : 1;
     detail = (typeof detail === 'number') ? detail : 4;
     
-    var offset = Vector.fromTwoPoints(origin, Point.ORIGIN);
+    //var offset = Vector.fromTwoPoints(origin, Point.ORIGIN);
     var sphere = new Shape();
     var numDivisions = detail;
     var sqrt2 = Math.sqrt(2);
     var sqrt6 = Math.sqrt(6);
-    var v1 = Vector.add(new Vector(0.0,0.0,1.0,1.0), offset);
-    var v2 = Vector.add(new Vector(0.0,2.0*sqrt2/3.0,-1.0/3.0,1.0), offset);
-    var v3 = Vector.add(new Vector(-sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0), offset);
-    var v4 = Vector.add(new Vector(sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0), offset);
+    var v1 = new Vector(0.0,0.0,1.0,1.0);
+    var v2 = new Vector(0.0,2.0*sqrt2/3.0,-1.0/3.0,1.0);
+    var v3 = new Vector(-sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
+    var v4 = new Vector(sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
 
     divideTriangle = function(a, b, c, count, sphere) {
 	if(count > 0) {
