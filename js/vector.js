@@ -8,8 +8,8 @@ function Vector (i, j, k) {
  * Alternate constructor
  */
 Vector.fromTwoPoints = function(p1, p2) {
-    p1 = (typeof p1 === 'undefined') ? p1 : Point.ORIGIN;
-    p2 = (typeof p1 === 'undefined') ? p1 : Point.ORIGIN;
+    p1 = (typeof p1 === 'undefined') ? Point.ORIGIN : p1;
+    p2 = (typeof p1 === 'undefined') ? Point.ORIGIN : p2;
     return new Vector(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
 };
 
