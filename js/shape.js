@@ -232,11 +232,12 @@ Shape.Cylinder = function(origin, radius, vertices, height) {
  * increasing the number of division increases detail but also computation
  */
 Shape.Sphere = function(origin, xradius, yradius, detail) {
-    
+    origin = (typeof origin === 'undefined') ? origin : new Point();
     xradius = (typeof xradius === 'number') ? xradius : 1;
     yradius = (typeof yradius === 'number') ? yradius : 1;
     detail = (typeof detail === 'number') ? detail : 4;
     
+    //var offset = Vector.fromTwoPoints(origin, Point.ORIGIN);
     var sphere = new Shape();
     var numDivisions = detail;
     var sqrt2 = Math.sqrt(2);

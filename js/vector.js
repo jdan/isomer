@@ -8,7 +8,9 @@ function Vector (i, j, k) {
  * Alternate constructor
  */
 Vector.fromTwoPoints = function(p1, p2) {
-  return new Vector(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
+    p1 = (typeof p1 === 'undefined') ? p1 : Point.ORIGIN;
+    p2 = (typeof p1 === 'undefined') ? p1 : Point.ORIGIN;
+    return new Vector(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
 };
 
 Vector.crossProduct = function(v1, v2) {
