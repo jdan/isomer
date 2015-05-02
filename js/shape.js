@@ -229,12 +229,10 @@ Shape.Cylinder = function(origin, radius, vertices, height) {
 /**
  * draw a sphere with recursive division
  * set detail to change the number of division
- * increasing the number of division increases detail but also computation
  */
-Shape.Sphere = function(origin, xradius, yradius, detail) {
+Shape.Sphere = function(origin, radius, detail) {
     origin = (typeof origin === 'undefined') ? Point.ORIGIN : origin;
-    xradius = (typeof xradius === 'number') ? xradius : 1;
-    yradius = (typeof yradius === 'number') ? yradius : 1;
+    radius = (typeof radius === 'number') ? radius : 0.5;
     detail = (typeof detail === 'number') ? detail : 4;
     
     var offset = Vector.fromTwoPoints(Point.ORIGIN, origin);
@@ -259,9 +257,9 @@ Shape.Sphere = function(origin, xradius, yradius, detail) {
 	    divideTriangle(v1d, v3d, v2d, count-1, sphere);
 	}
 	else {
-	    var face = new Path([Vector.toPoint(Vector.add(a, offset)),
-				 Vector.toPoint(Vector.add(b, offset)),
-				 Vector.toPoint(Vector.add(c, offset))]);
+	    var face = new Path([Vector.toPoint(Vector.mult(Vector.add(a, offset),radius)),
+				 Vector.toPoint(Vector.mult(Vector.add(b, offset),radius)),
+				 Vector.toPoint(Vector.mult(Vector.add(c, offset),radius))]);
 	    sphere.push(face);
 	    return sphere;
 	}
