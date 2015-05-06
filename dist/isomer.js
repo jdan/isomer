@@ -6,7 +6,7 @@
  * Released under the MIT license
  * http://jdan.github.io/isomer/license.txt
  *
- * Date: 2015-04-09
+ * Date: 2015-05-06
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -67,7 +67,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Entry point for the Isomer API
 	 */
-	module.exports = __webpack_require__(5);
+	module.exports = __webpack_require__(6);
 
 
 /***/ },
@@ -182,7 +182,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return Math.sqrt(dx * dx + dy * dy + dz * dz);
 	};
-
 
 	module.exports = Point;
 
@@ -376,6 +375,77 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
+	function Vector (i, j, k) {
+	  this.i = (typeof i === 'number') ? i : 0;
+	  this.j = (typeof j === 'number') ? j : 0;
+	  this.k = (typeof k === 'number') ? k : 0;
+	}
+
+	/**
+	 * Alternate constructor
+	 */
+	Vector.fromTwoPoints = function(p1, p2) {
+	    p1 = (typeof p1 === 'undefined') ? Point.ORIGIN : p1;
+	    p2 = (typeof p1 === 'undefined') ? Point.ORIGIN : p2;
+	    return new Vector(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
+	};
+
+	Vector.crossProduct = function(v1, v2) {
+	  var i = v1.j * v2.k - v2.j * v1.k;
+	  var j = -1 * (v1.i * v2.k - v2.i * v1.k);
+	  var k = v1.i * v2.j - v2.i * v1.j;
+
+	  return new Vector(i, j, k);
+	};
+
+	Vector.dotProduct = function(v1, v2) {
+	  return v1.i * v2.i + v1.j * v2.j + v1.k * v2.k;
+	};
+
+	/**
+	 * turn a vector into a point
+	 */
+	Vector.toPoint = function(vec) {
+	    return new Point(vec.i, vec.j, vec.k);
+	};
+
+	/**
+	 * add two vectors together
+	 */
+	Vector.add = function(v1, v2) {
+	    return new Vector(v1.i+v2.i, v1.j+v2.j, v1.k+v2.k);
+	};
+
+	/**
+	 * multiply a vector by a scalar
+	 */
+	Vector.mult = function(vec, s) {
+	    return new Vector(vec.i * s, vec.j * s, vec.k * s);
+	};
+	   
+
+	Vector.prototype.magnitude = function() {
+	  return Math.sqrt(this.i * this.i + this.j * this.j + this.k * this.k);
+	};
+
+	Vector.prototype.normalize = function() {
+	  var magnitude = this.magnitude();
+	  /**
+	   * If the magnitude is 0 then return the zero vector instead of dividing by 0
+	   */
+	  if (magnitude === 0) {
+	    return new Vector(0, 0, 0);
+	  }
+	  return new Vector(this.i / magnitude, this.j / magnitude, this.k / magnitude);
+	};
+
+	module.exports = Vector;
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
 	function Canvas(elem) {
 	  this.elem = elem;
 	  this.ctx = this.elem.getContext('2d');
@@ -412,7 +482,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -542,15 +612,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Canvas = __webpack_require__(3);
-	var Color = __webpack_require__(4);
+	var Canvas = __webpack_require__(4);
+	var Color = __webpack_require__(5);
 	var Path = __webpack_require__(2);
 	var Point = __webpack_require__(1);
-	var Shape = __webpack_require__(6);
-	var Vector = __webpack_require__(7);
+	var Shape = __webpack_require__(7);
+	var Vector = __webpack_require__(3);
 
 
 	/**
@@ -689,11 +759,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Path = __webpack_require__(2);
 	var Point = __webpack_require__(1);
+	var Vector = __webpack_require__(3);
 
 	/**
 	 * Shape utility class
@@ -919,55 +990,55 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return cylinder;
 	};
 
+	/**
+	 * draw a sphere with recursive division
+	 * set detail to change the number of division
+	 */
+	Shape.Sphere = function(origin, radius, detail) {
+	    origin = (typeof origin === 'undefined') ? Point.ORIGIN : origin;
+	    radius = (typeof radius === 'number') ? radius : 0.5;
+	    detail = (typeof detail === 'number') ? detail : 4;
+	    
+	    var offset = Vector.fromTwoPoints(Point.ORIGIN, origin);
+	    var sphere = new Shape();
+	    var numDivisions = detail;
+	    var sqrt2 = Math.sqrt(2);
+	    var sqrt6 = Math.sqrt(6);
+	    var v1 = new Vector(0.0,0.0,1.0,1.0);
+	    var v2 = new Vector(0.0,2.0*sqrt2/3.0,-1.0/3.0,1.0);
+	    var v3 = new Vector(-sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
+	    var v4 = new Vector(sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
+
+	    divideTriangle = function(a, b, c, count, sphere) {
+		if(count > 0) {
+		    var v1d = (Vector.add(a,b)).normalize();
+		    var v2d = (Vector.add(a,c)).normalize();
+		    var v3d = (Vector.add(b,c)).normalize();
+		    
+		    divideTriangle(a, v1d, v2d, count-1, sphere);
+		    divideTriangle(c, v2d, v3d, count-1, sphere);
+		    divideTriangle(b, v3d, v1d, count-1, sphere);
+		    divideTriangle(v1d, v3d, v2d, count-1, sphere);
+		}
+		else {
+		    var face = new Path([Vector.toPoint(Vector.add(Vector.mult(a,radius), offset)),
+					 Vector.toPoint(Vector.add(Vector.mult(b,radius), offset)),
+					 Vector.toPoint(Vector.add(Vector.mult(c,radius), offset))]);
+		    sphere.push(face);
+		    return sphere;
+		}
+	    };
+	    
+	    divideTriangle(v1, v2, v3, numDivisions, sphere);
+	    divideTriangle(v4, v3, v2, numDivisions, sphere);
+	    divideTriangle(v1, v4, v2, numDivisions, sphere);
+	    divideTriangle(v1, v3, v4, numDivisions, sphere);    
+	    
+	    return sphere;
+	};
+
 
 	module.exports = Shape;
-
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	function Vector (i, j, k) {
-	  this.i = (typeof i === 'number') ? i : 0;
-	  this.j = (typeof j === 'number') ? j : 0;
-	  this.k = (typeof k === 'number') ? k : 0;
-	}
-
-	/**
-	 * Alternate constructor
-	 */
-	Vector.fromTwoPoints = function(p1, p2) {
-	  return new Vector(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
-	};
-
-	Vector.crossProduct = function(v1, v2) {
-	  var i = v1.j * v2.k - v2.j * v1.k;
-	  var j = -1 * (v1.i * v2.k - v2.i * v1.k);
-	  var k = v1.i * v2.j - v2.i * v1.j;
-
-	  return new Vector(i, j, k);
-	};
-
-	Vector.dotProduct = function(v1, v2) {
-	  return v1.i * v2.i + v1.j * v2.j + v1.k * v2.k;
-	};
-
-	Vector.prototype.magnitude = function() {
-	  return Math.sqrt(this.i * this.i + this.j * this.j + this.k * this.k);
-	};
-
-	Vector.prototype.normalize = function() {
-	  var magnitude = this.magnitude();
-	  /**
-	   * If the magnitude is 0 then return the zero vector instead of dividing by 0
-	   */
-	  if (magnitude === 0) {
-	    return new Vector(0, 0, 0);
-	  }
-	  return new Vector(this.i / magnitude, this.j / magnitude, this.k / magnitude);
-	};
-
-	module.exports = Vector;
 
 
 /***/ }
