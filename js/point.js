@@ -107,26 +107,4 @@ Point.distance = function(p1, p2) {
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
 };
 
-/**
- * Add two points together
- */
-Point.add = function(p1, p2) {
-    var ax = p2.x + p1.x;
-    var ay = p2.y + p1.y;
-    var az = p2.z + p1.z;
-
-    return Point(ax, ay, az);
-};
-
-/**
- * get a unit vector as a point
- */
-Point.unit = function(p) {
-    var len = p.x*p.x + p.y*p.y + p.z*p.z;
-    var ux = p.x / Math.sqrt(len);
-    var uy = p.y / Math.sqrt(len);
-    var uz = p.z / Math.sqrt(len);
-    return Point(ux, uy, uz);
-};
-
 module.exports = Point;
