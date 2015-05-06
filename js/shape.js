@@ -235,7 +235,7 @@ Shape.Sphere = function(origin, radius, detail) {
     radius = (typeof radius === 'number') ? radius : 0.5;
     detail = (typeof detail === 'number') ? detail : 4;
     
-    var offset = Vector.fromTwoPoints(Point.ORIGIN, origin);
+    var offset = Vector.fromTwoPoints(new Point(-1.5, -1.5, -1.5), origin);
     var sphere = new Shape();
     var numDivisions = detail;
     var sqrt2 = Math.sqrt(2);
