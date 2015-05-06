@@ -232,9 +232,10 @@ TestSuite['vectorToPoint'] = function() {
 
 TestSuite['draw sphere'] = function() {
     iso.add(Shape.Prism(Point.ORIGIN, 4, 4, 1));
-    //iso.add(Shape.Sphere(new Point(2.5,1.5,1.5)), new Color(0, 0, 195));
     iso.add(Shape.Prism(new Point(0,0,0)), new Color(195, 195, 0));
-    iso.add(Shape.Sphere(new Point(0.5,0.5,0.5)), new Color(195, 0, 0));
+    iso.add(Shape.Sphere(new Point(0.5,0.5,1.5)), new Color(195, 0, 0));
+    iso.add(Shape.Prism(new Point(2, 2, 1), 2, 2, 1), new Color(0, 195, 0));
+    iso.add(Shape.Sphere(new Point(3,3,3), 1), new Color(0, 195, 195));
 };
 
 
