@@ -8,7 +8,9 @@ function Vector (i, j, k) {
  * Alternate constructor
  */
 Vector.fromTwoPoints = function(p1, p2) {
-  return new Vector(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
+    p1 = (typeof p1 === 'undefined') ? Point.ORIGIN : p1;
+    p2 = (typeof p1 === 'undefined') ? Point.ORIGIN : p2;
+    return new Vector(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
 };
 
 Vector.crossProduct = function(v1, v2) {
@@ -22,6 +24,28 @@ Vector.crossProduct = function(v1, v2) {
 Vector.dotProduct = function(v1, v2) {
   return v1.i * v2.i + v1.j * v2.j + v1.k * v2.k;
 };
+
+/**
+ * turn a vector into a point
+ */
+Vector.toPoint = function(vec) {
+    return new Point(vec.i, vec.j, vec.k);
+};
+
+/**
+ * add two vectors together
+ */
+Vector.add = function(v1, v2) {
+    return new Vector(v1.i+v2.i, v1.j+v2.j, v1.k+v2.k);
+};
+
+/**
+ * multiply a vector by a scalar
+ */
+Vector.mult = function(vec, s) {
+    return new Vector(vec.i * s, vec.j * s, vec.k * s);
+};
+   
 
 Vector.prototype.magnitude = function() {
   return Math.sqrt(this.i * this.i + this.j * this.j + this.k * this.k);

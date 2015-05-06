@@ -1,5 +1,6 @@
 var Path = require('./path');
 var Point = require('./point');
+var Vector = require('./vector');
 
 /**
  * Shape utility class
@@ -223,6 +224,53 @@ Shape.Cylinder = function(origin, radius, vertices, height) {
   var cylinder = Shape.extrude(circle, height);
 
   return cylinder;
+};
+
+/**
+ * draw a sphere with recursive division
+ * set detail to change the number of division
+ */
+Shape.Sphere = function(origin, radius, detail) {
+    origin = (typeof origin === 'undefined') ? Point.ORIGIN : origin;
+    radius = (typeof radius === 'number') ? radius : 0.5;
+    detail = (typeof detail === 'number') ? detail : 4;
+    
+    var offset = Vector.fromTwoPoints(Point.ORIGIN, origin);
+    var sphere = new Shape();
+    var numDivisions = detail;
+    var sqrt2 = Math.sqrt(2);
+    var sqrt6 = Math.sqrt(6);
+    var v1 = new Vector(0.0,0.0,1.0,1.0);
+    var v2 = new Vector(0.0,2.0*sqrt2/3.0,-1.0/3.0,1.0);
+    var v3 = new Vector(-sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
+    var v4 = new Vector(sqrt6/3.0,-sqrt2/3.0,-1.0/3.0,1.0);
+
+    divideTriangle = function(a, b, c, count, sphere) {
+	if(count > 0) {
+	    var v1d = (Vector.add(a,b)).normalize();
+	    var v2d = (Vector.add(a,c)).normalize();
+	    var v3d = (Vector.add(b,c)).normalize();
+	    
+	    divideTriangle(a, v1d, v2d, count-1, sphere);
+	    divideTriangle(c, v2d, v3d, count-1, sphere);
+	    divideTriangle(b, v3d, v1d, count-1, sphere);
+	    divideTriangle(v1d, v3d, v2d, count-1, sphere);
+	}
+	else {
+	    var face = new Path([Vector.toPoint(Vector.add(Vector.mult(a,radius), offset)),
+				 Vector.toPoint(Vector.add(Vector.mult(b,radius), offset)),
+				 Vector.toPoint(Vector.add(Vector.mult(c,radius), offset))]);
+	    sphere.push(face);
+	    return sphere;
+	}
+    };
+    
+    divideTriangle(v1, v2, v3, numDivisions, sphere);
+    divideTriangle(v4, v3, v2, numDivisions, sphere);
+    divideTriangle(v1, v4, v2, numDivisions, sphere);
+    divideTriangle(v1, v3, v4, numDivisions, sphere);    
+    
+    return sphere;
 };
 
 
