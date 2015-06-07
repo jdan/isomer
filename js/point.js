@@ -16,6 +16,11 @@ Point.ORIGIN = new Point(0, 0, 0);
  * Translate a point from a given dx, dy, and dz
  */
 Point.prototype.translate = function(dx, dy, dz) {
+
+  dx = (typeof dx === 'number') ? dx : 0;
+  dy = (typeof dy === 'number') ? dy : 0;
+  dz = (typeof dz === 'number') ? dz : 0;
+
   return new Point(
     this.x + dx,
     this.y + dy,
