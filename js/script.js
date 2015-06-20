@@ -111,7 +111,7 @@ var Example = {};
 
 /* Rotation angle for our centerpiece */
 var angle = 0;
-Example.brand = function () {
+Example.brand = function brand() {
   var iso = new Isomer(document.getElementById("logo"), {
     originX: 470,
     originY: 950
@@ -149,8 +149,13 @@ Example.brand = function () {
   iso.add(Octahedron(new Point(3, 2, 3.2))
     .rotateZ(new Point(3.5, 2.5, 0), angle)
     , new Color(0, 180, 180));
-  angle += 2 * Math.PI / 60;
+  angle += Math.PI / 90;
+
+  requestAnimationFrame(brand);
 }
+
+/* Animate brand */
+requestAnimationFrame(Example.brand);
 
 Example.basic = function () {
   var iso = new Isomer(document.getElementById("basic-example"));
@@ -283,6 +288,3 @@ Example.rotateExample = function () {
     Example[i]();
   }
 })();
-
-/* Animate brand */
-setInterval(Example.brand, 1000 / 30);
