@@ -87,7 +87,7 @@ To generate `isomer.js` and `isomer.min.js` in the `dist/` directory.
 
 ## Develop
 
-Isomer is developed using [Webpack](http://http://webpack.github.io//). Install
+Isomer is developed using [Webpack](http://webpack.github.io/). Install
 dependencies and build the project like so:
 
 ```
