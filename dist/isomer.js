@@ -1,12 +1,12 @@
 /*!
- * Isomer v0.2.5
+ * Isomer v0.2.6
  * http://jdan.github.io/isomer/
  *
  * Copyright 2014 Jordan Scales
  * Released under the MIT license
  * http://jdan.github.io/isomer/license.txt
  *
- * Date: 2015-04-09
+ * Date: 2016-05-07
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -92,6 +92,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Translate a point from a given dx, dy, and dz
 	 */
 	Point.prototype.translate = function(dx, dy, dz) {
+
+	  dx = (typeof dx === 'number') ? dx : 0;
+	  dy = (typeof dy === 'number') ? dy : 0;
+	  dz = (typeof dz === 'number') ? dz : 0;
+
 	  return new Point(
 	    this.x + dx,
 	    this.y + dy,
