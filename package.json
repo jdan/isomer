@@ -23,6 +23,9 @@
     "test": "gulp test"
   },
   "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
     "event-stream": "^3.3.0",
     "gulp": "^3.8.11",
     "gulp-buffer": "0.0.2",

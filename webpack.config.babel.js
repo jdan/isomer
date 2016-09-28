@@ -40,7 +40,7 @@ module.exports = function(options) {
       preLoaders: [{
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'jscs-loader'
+        loader: 'babel-loader'
       }]
     },
 

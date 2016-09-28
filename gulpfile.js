@@ -14,7 +14,7 @@ var webpackDevServer = require('webpack-dev-server');
 var date = strftime('%F');
 var port = 2992;
 var version = require('./package.json').version;
-var webpackConfig = require('./webpack.config.base.js');
+var webpackConfig = require('./webpack.config.babel.js');
 
 gulp.task('dist', function() {
   var banner = fs.readFileSync('./js/banner/copyright.js');
