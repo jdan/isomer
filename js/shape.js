@@ -108,12 +108,23 @@ Shape.prototype.orderedPaths = function() {
 
 /**
  * Utility function to create a 3D object by raising a 2D path
- * along the z-axis
+ * along an axis. Default: z-axis
  */
 Shape.extrude = function(path, height) {
+  if (typeof(dim)=='undefined' || dim == '') dim = 'z';
   height = (typeof height === 'number') ? height : 1;
 
-  var i, topPath = path.translate(0, 0, height);
+  switch(dim){
+    case 'z':
+      var i, topPath = path.translate(0, 0, height);
+      break;
+    case 'y':
+      var i, topPath = path.translate(0, height, 0 );
+      break;
+    case 'x':
+      var i, topPath = path.translate(height, 0, 0);
+      break;
+  }
   var shape = new Shape();
 
   /* Push the top and bottom faces, top face must be oriented correctly */
