@@ -24,7 +24,7 @@ iso.add(Shape.Prism(Point(2, 0, 1)), blue);
 
 ## Getting Started
 
-First, grab a copy of Isomer [here](https://github.com/jdan/isomer/releases/latest). You can also [pay for it](https://gumroad.com/l/Xzlg). Then, include the script wherever you see fit:
+First, grab a copy of Isomer [here](https://github.com/jdan/isomer/releases/latest). Then, include the script wherever you see fit:
 
 ```html
 <script src="/path/to/isomer.min.js"></script>
