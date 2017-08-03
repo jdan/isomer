@@ -72,20 +72,24 @@ Isomer.prototype._translatePoint = function(point) {
  * This method also accepts arrays
  */
 Isomer.prototype.add = function(item, baseColor) {
+  var canvasPaths = [];
+
   if (Object.prototype.toString.call(item) == '[object Array]') {
     for (var i = 0; i < item.length; i++) {
-      this.add(item[i], baseColor);
+      canvasPaths.concat(this.add(item[i], baseColor));
     }
   } else if (item instanceof Path) {
-    this._addPath(item, baseColor);
+    return [this._addPath(item, baseColor)];
   } else if (item instanceof Shape) {
     /* Fetch paths ordered by distance to prevent overlaps */
     var paths = item.orderedPaths();
 
     for (var j = 0; j < paths.length; j++) {
-      this._addPath(paths[j], baseColor);
+      canvasPaths.push(this._addPath(paths[j], baseColor));
     }
   }
+
+  return canvasPaths;
 };
 
 
@@ -109,7 +113,7 @@ Isomer.prototype._addPath = function(path, baseColor) {
   var brightness = Vector.dotProduct(normal, this.lightAngle);
   var color = baseColor.lighten(brightness * this.colorDifference, this.lightColor);
 
-  this.canvas.path(path.points.map(this._translatePoint.bind(this)), color);
+  return this.canvas.path(path.points.map(this._translatePoint.bind(this)), color);
 };
 
 /**
