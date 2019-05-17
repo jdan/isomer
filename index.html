@@ -200,6 +200,20 @@ iso.add(Shape.Prism(Point.ORIGIN, 2, 1, 3));
       <p>
         And you're ready to start drawing!
       </p>
+
+      <p>
+        You may also configure Isomer with an options object as the second argument:
+      </p>
+
+      <div class="code full rounded">
+        <pre><code class="prettyprint lang-js">var iso = new Isomer(document.getElementById("art"), {
+  scale: 100,                           <span class="comment">// Scale or zoom level</span>
+  originX: 300,                         <span class="comment">// Origin X coordinate</span>
+  originY: 400,                         <span class="comment">// Origin Y coordinate</span>
+  lightPosition: new Vector(2, -1, 3),  <span class="comment">// Angle of lightsource</span>
+  lightColor: new Color(55, 255, 255),  <span class="comment">// Color of lightsource</span>
+});</code></pre>
+      </div>
     </div>
   </section>
 
@@ -228,7 +242,7 @@ iso.add(Shape.Prism(Point.ORIGIN, 2, 1, 3));
           <pre><code class="prettyprint lang-js">var Shape = Isomer.Shape;
 var Point = Isomer.Point;
 
-/* add() also accepts arrays */
+<span class="comment">/* add() also accepts arrays */</span>
 iso.add([
   Shape.Prism(Point.ORIGIN, 4, 4, 2),
   Shape.Prism(new Point(-1, 1, 0), 1, 2, 1),
@@ -273,8 +287,8 @@ iso.add([
       <p>
         Isomer makes it easy to add colors to your shapes: simply specify a
         color as the second argument to <code>add()</code>. Colors are built
-        using three arguments: a red, green, and blue component respectively –
-        the RGB representation of the color.
+        using four arguments: a red, green, and blue component respectively – 
+        the RGB representation of the color, and the optional alpha transparency.
       </p>
 
       <div class="example">
@@ -283,14 +297,14 @@ iso.add([
 var Point = Isomer.Point;
 var Color = Isomer.Color;
 var red = new Color(160, 60, 50);
-var blue = new Color(50, 60, 160);
+var water = new Color(50, 60, 160, 0.5);
 
 iso.add(Shape.Prism(Point.ORIGIN, 3, 3, 1));
 
-/* You can leave out the `new` keyword
-   for most Isomer classes */
+<span class="comment">/* You can leave out the `new` keyword
+   for most Isomer classes */</span>
 iso.add(Shape.Pyramid(Point(0, 2, 1)), red);
-iso.add(Shape.Prism(Point(2, 0, 1)), blue);
+iso.add(Shape.Prism(Point(2, 0, 1)), water);
           </code></pre>
         </div>
         <canvas width="680" height="500" id="color-example" class="rounded"></canvas>
@@ -390,8 +404,8 @@ var red = new Isomer.Color(160, 50, 60);
 var cube = Shape.Prism(Point.ORIGIN);
 
 iso.add(cube);
-/* These methods do not modify the
-   original shape/path/point */
+<span class="comment">/* These methods do not modify the
+   original shape/path/point */</span>
 iso.add(cube.translate(0, 0, 1.1), blue);
 iso.add(cube.translate(0, 0, 2.2), red);
 
@@ -424,9 +438,9 @@ var blue = new Isomer.Color(50, 60, 160);
 var cube = Shape.Prism(Point.ORIGIN);
 iso.add(cube.scale(Point.ORIGIN, 3, 3, 0.5));
 iso.add(cube
-  /* Grow outward from the origin */
+  <span class="comment">/* Grow outward from the origin */</span>
   .scale(Point.ORIGIN, 3, 3, 0.5)
-  /* We can chain these transformations */
+  <span class="comment">/* We can chain these transformations */</span>
   .translate(0, 0, 0.6)
 , blue);
           </code></pre>
@@ -456,7 +470,7 @@ var blue = new Isomer.Color(50, 60, 160);
 var cube = Shape.Prism(Point.ORIGIN, 3, 3, 1);
 iso.add(cube);
 iso.add(cube
-  /* (1.5, 1.5) is the center of the prism */
+  <span class="comment">/* (1.5, 1.5) is the center of the prism */</span>
   .rotateZ(Point(1.5, 1.5, 0), Math.PI / 12)
   .translate(0, 0, 1.1)
 , blue);
