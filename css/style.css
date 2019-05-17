@@ -169,6 +169,10 @@ code {
   border-radius: 3px;
 }
 
+.comment {
+  opacity: .5;
+}
+
 .rounded {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
